@@ -20,8 +20,8 @@ build-eclipse/
 /javadoc
 .gradle
 /.gradle/
-/src-gen
-/test-gen
+#/src-gen
+#/test-gen
 
 # IntelliJ
 .idea/

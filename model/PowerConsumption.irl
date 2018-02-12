@@ -1,0 +1,7 @@
+package titan.ccp.models.records
+
+entity PowerConsumptionRecord {
+   byte[8] identifier
+   long timestamp
+   int powerConsumptionInWh // Watt * hour
+}
