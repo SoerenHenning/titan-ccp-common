@@ -1,43 +1,50 @@
 package titan.ccp.models.records;
 
 import java.nio.BufferOverflowException;
-import java.nio.BufferUnderflowException;
-import java.nio.ByteBuffer;
 
+import kieker.common.exception.RecordInstantiationException;
 import kieker.common.record.AbstractMonitoringRecord;
 import kieker.common.record.IMonitoringRecord;
+import kieker.common.record.io.IValueDeserializer;
+import kieker.common.record.io.IValueSerializer;
 import kieker.common.util.registry.IRegistry;
 
 
 /**
  * @author Sören Henning
+ * API compatibility: Kieker 1.13.0
  * 
- * @since 
+ * @since 1.13
  */
 public class PowerConsumptionRecord extends AbstractMonitoringRecord implements IMonitoringRecord.Factory, IMonitoringRecord.BinaryFactory {
 	private static final long serialVersionUID = -2123141684241450260L;
 
-		/** Descriptive definition of the serialization size of the record. */
-		public static final int SIZE = TYPE_SIZE_BYTE // PowerConsumptionRecord.identifier
-				 + TYPE_SIZE_LONG // PowerConsumptionRecord.timestamp
-				 + TYPE_SIZE_INT // PowerConsumptionRecord.powerConsumptionInWh
-		;
+	/** Descriptive definition of the serialization size of the record. */
+	public static final int SIZE = TYPE_SIZE_BYTE // PowerConsumptionRecord.identifier
+			 + TYPE_SIZE_LONG // PowerConsumptionRecord.timestamp
+			 + TYPE_SIZE_INT // PowerConsumptionRecord.powerConsumptionInWh
+	;
 	
-		public static final Class<?>[] TYPES = {
-			byte[].class, // PowerConsumptionRecord.identifier
-			long.class, // PowerConsumptionRecord.timestamp
-			int.class, // PowerConsumptionRecord.powerConsumptionInWh
-		};
+	public static final Class<?>[] TYPES = {
+		byte[].class, // PowerConsumptionRecord.identifier
+		long.class, // PowerConsumptionRecord.timestamp
+		int.class, // PowerConsumptionRecord.powerConsumptionInWh
+	};
 	
-	/** user-defined constants */
-
-	/** default constants */
-
-	/** property declarations */
+	
+	
+	/** property name array. */
+	private static final String[] PROPERTY_NAMES = {
+		"identifier",
+		"timestamp",
+		"powerConsumptionInWh",
+	};
+	
+	/** property declarations. */
 	private final byte[] identifier;
 	private final long timestamp;
 	private final int powerConsumptionInWh;
-
+	
 	/**
 	 * Creates a new instance of this class using the given parameters.
 	 * 
@@ -60,7 +67,10 @@ public class PowerConsumptionRecord extends AbstractMonitoringRecord implements 
 	 * 
 	 * @param values
 	 *            The values for the record.
+	 *
+	 * @deprecated since 1.13. Use {@link #PowerConsumptionRecord(IValueDeserializer)} instead.
 	 */
+	@Deprecated
 	public PowerConsumptionRecord(final Object[] values) { // NOPMD (direct store of values)
 		AbstractMonitoringRecord.checkArray(values, TYPES);
 		this.identifier = (byte[]) values[0];
@@ -75,7 +85,10 @@ public class PowerConsumptionRecord extends AbstractMonitoringRecord implements 
 	 *            The values for the record.
 	 * @param valueTypes
 	 *            The types of the elements in the first array.
+	 *
+	 * @deprecated since 1.13. Use {@link #PowerConsumptionRecord(IValueDeserializer)} instead.
 	 */
+	@Deprecated
 	protected PowerConsumptionRecord(final Object[] values, final Class<?>[] valueTypes) { // NOPMD (values stored directly)
 		AbstractMonitoringRecord.checkArray(values, valueTypes);
 		this.identifier = (byte[]) values[0];
@@ -83,29 +96,29 @@ public class PowerConsumptionRecord extends AbstractMonitoringRecord implements 
 		this.powerConsumptionInWh = (Integer) values[2];
 	}
 
+	
 	/**
-	 * This constructor converts the given array into a record.
-	 * 
-	 * @param buffer
-	 *            The bytes for the record.
-	 * 
-	 * @throws BufferUnderflowException
-	 *             if buffer not sufficient
+	 * @param deserializer
+	 *            The deserializer to use
+	 * @throws RecordInstantiationException 
 	 */
-	public PowerConsumptionRecord(final ByteBuffer buffer, final IRegistry<String> stringRegistry) throws BufferUnderflowException {
+	public PowerConsumptionRecord(final IValueDeserializer deserializer) throws RecordInstantiationException {
 		// load array sizes
 		this.identifier = new byte[8];
 		for (int i0=0;i0<8;i0++)
-			this.identifier[i0] = buffer.get();
+			this.identifier[i0] = deserializer.getByte();
 		
-		this.timestamp = buffer.getLong();
-		this.powerConsumptionInWh = buffer.getInt();
+		this.timestamp = deserializer.getLong();
+		this.powerConsumptionInWh = deserializer.getInt();
 	}
-
+	
 	/**
 	 * {@inheritDoc}
+	 *
+	 * @deprecated since 1.13. Use {@link #serialize(IValueSerializer)} with an array serializer instead.
 	 */
 	@Override
+	@Deprecated
 	public Object[] toArray() {
 		return new Object[] {
 			this.getIdentifier(),
@@ -113,33 +126,39 @@ public class PowerConsumptionRecord extends AbstractMonitoringRecord implements 
 			this.getPowerConsumptionInWh()
 		};
 	}
-	
 	/**
 	 * {@inheritDoc}
 	 */
 	@Override
 	public void registerStrings(final IRegistry<String> stringRegistry) {	// NOPMD (generated code)
 	}
-	
 	/**
 	 * {@inheritDoc}
 	 */
 	@Override
-	public void writeBytes(final ByteBuffer buffer, final IRegistry<String> stringRegistry) throws BufferOverflowException {
+	public void serialize(final IValueSerializer serializer) throws BufferOverflowException {
+		//super.serialize(serializer);
 		// store array sizes
 		for (int i0=0;i0<8;i0++)
-			buffer.put((byte)this.getIdentifier()[i0]);
+			serializer.putByte(this.getIdentifier()[i0]);
 		
-		buffer.putLong(this.getTimestamp());
-		buffer.putInt(this.getPowerConsumptionInWh());
+		serializer.putLong(this.getTimestamp());
+		serializer.putInt(this.getPowerConsumptionInWh());
 	}
-	
 	/**
 	 * {@inheritDoc}
 	 */
 	@Override
 	public Class<?>[] getValueTypes() {
 		return TYPES; // NOPMD
+	}
+	
+	/**
+	 * {@inheritDoc}
+	 */
+	@Override
+	public String[] getValueNames() {
+		return PROPERTY_NAMES; // NOPMD
 	}
 	
 	/**
@@ -158,17 +177,6 @@ public class PowerConsumptionRecord extends AbstractMonitoringRecord implements 
 	@Override
 	@Deprecated
 	public void initFromArray(final Object[] values) {
-		throw new UnsupportedOperationException();
-	}
-	
-	/**
-	 * {@inheritDoc}
-	 * 
-	 * @deprecated This record uses the {@link kieker.common.record.IMonitoringRecord.BinaryFactory} mechanism. Hence, this method is not implemented.
-	 */
-	@Override
-	@Deprecated
-	public void initFromBytes(final ByteBuffer buffer, final IRegistry<String> stringRegistry) throws BufferUnderflowException {
 		throw new UnsupportedOperationException();
 	}
 	
@@ -194,13 +202,16 @@ public class PowerConsumptionRecord extends AbstractMonitoringRecord implements 
 	
 	public final byte[] getIdentifier() {
 		return this.identifier;
-	}	
+	}
+	
 	
 	public final long getTimestamp() {
 		return this.timestamp;
-	}	
+	}
+	
 	
 	public final int getPowerConsumptionInWh() {
 		return this.powerConsumptionInWh;
-	}	
+	}
+	
 }

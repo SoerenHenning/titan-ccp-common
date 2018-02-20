@@ -1,16 +1,11 @@
 package titan.ccp.models.records.junit;
-
-import java.nio.ByteBuffer;
-
+		
 import org.junit.Assert;
 import org.junit.Test;
 
 import titan.ccp.models.records.PowerConsumptionRecord;
-import kieker.common.util.registry.IRegistry;
-import kieker.common.util.registry.Registry;
 
 import kieker.test.common.junit.AbstractGeneratedKiekerTest;
-import kieker.test.common.util.record.BookstoreOperationExecutionRecordFactory;
 		
 /**
  * Creates {@link OperationExecutionRecord}s via the available constructors and
@@ -18,7 +13,7 @@ import kieker.test.common.util.record.BookstoreOperationExecutionRecordFactory;
  * 
  * @author Sören Henning
  * 
- * @since 
+ * @since 1.13
  */
 public class TestGeneratedPowerConsumptionRecord extends AbstractGeneratedKiekerTest {
 
@@ -27,11 +22,11 @@ public class TestGeneratedPowerConsumptionRecord extends AbstractGeneratedKieker
 	}
 
 	/**
-	 * Tests {@link PowerConsumptionRecord#TestPowerConsumptionRecord(String, String, long, long, long, String, int, int)}.
+	 * Tests {@link PowerConsumptionRecord#TestPowerConsumptionRecord(byte, long, int)}.
 	 */
 	@Test
 	public void testToArray() { // NOPMD (assert missing)
-	for (int i=0;i<ARRAY_LENGTH;i++) {
+		for (int i=0;i<ARRAY_LENGTH;i++) {
 			// initialize
 			PowerConsumptionRecord record = new PowerConsumptionRecord(BYTE_VALUES.get(i % BYTE_VALUES.size()), LONG_VALUES.get(i % LONG_VALUES.size()), INT_VALUES.get(i % INT_VALUES.size()));
 			
@@ -69,7 +64,7 @@ public class TestGeneratedPowerConsumptionRecord extends AbstractGeneratedKieker
 	}
 	
 	/**
-	 * Tests {@link PowerConsumptionRecord#TestPowerConsumptionRecord(String, String, long, long, long, String, int, int)}.
+	 * Tests {@link PowerConsumptionRecord#TestPowerConsumptionRecord(byte, long, int)}.
 	 */
 	@Test
 	public void testBuffer() { // NOPMD (assert missing)
@@ -85,7 +80,7 @@ public class TestGeneratedPowerConsumptionRecord extends AbstractGeneratedKieker
 	}
 	
 	/**
-	 * Tests {@link PowerConsumptionRecord#TestPowerConsumptionRecord(String, String, long, long, long, String, int, int)}.
+	 * Tests {@link PowerConsumptionRecord#TestPowerConsumptionRecord(byte, long, int)}.
 	 */
 	@Test
 	public void testParameterConstruction() { // NOPMD (assert missing)
@@ -108,13 +103,13 @@ public class TestGeneratedPowerConsumptionRecord extends AbstractGeneratedKieker
 		PowerConsumptionRecord copiedRecord = new PowerConsumptionRecord(BYTE_VALUES.get(i % BYTE_VALUES.size()), LONG_VALUES.get(i % LONG_VALUES.size()), INT_VALUES.get(i % INT_VALUES.size()));
 		
 		Assert.assertEquals(oneRecord, copiedRecord);
-	}
+	}	
 	
 	@Test
 	public void testUnequality() {
 		int i = 0;
 		PowerConsumptionRecord oneRecord = new PowerConsumptionRecord(BYTE_VALUES.get(i % BYTE_VALUES.size()), LONG_VALUES.get(i % LONG_VALUES.size()), INT_VALUES.get(i % INT_VALUES.size()));
-		i = 1;
+		i = 2;
 		PowerConsumptionRecord anotherRecord = new PowerConsumptionRecord(BYTE_VALUES.get(i % BYTE_VALUES.size()), LONG_VALUES.get(i % LONG_VALUES.size()), INT_VALUES.get(i % INT_VALUES.size()));
 		
 		Assert.assertNotEquals(oneRecord, anotherRecord);
