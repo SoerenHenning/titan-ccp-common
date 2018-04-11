@@ -27,3 +27,4 @@ build-eclipse/
 .idea/
 *.iml
 *.iws
+/target/

@@ -23,3 +23,11 @@ entity AAEntryCall {
    string operationSignature = "<no operation>"
    string componentSignature = "<no component>"
 }
+
+entity SecondEntryCall {
+   string session = "<no session>"
+   long entryTime
+   long exitTime
+   string operationSignature = "<no operation>"
+   string componentSignature = "<no component>"
+}

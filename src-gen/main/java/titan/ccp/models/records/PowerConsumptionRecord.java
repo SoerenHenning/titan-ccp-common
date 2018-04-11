@@ -7,23 +7,19 @@ import kieker.common.record.AbstractMonitoringRecord;
 import kieker.common.record.IMonitoringRecord;
 import kieker.common.record.io.IValueDeserializer;
 import kieker.common.record.io.IValueSerializer;
-import kieker.common.util.registry.IRegistry;
 
 
 /**
- * @author Sören Henning
- * API compatibility: Kieker 1.13.0
+ * @author Generic Kieker
+ * API compatibility: Kieker 1.14.0
  * 
- * @since 1.13
+ * @since 1.14
  */
-public class PowerConsumptionRecord extends AbstractMonitoringRecord implements IMonitoringRecord.Factory, IMonitoringRecord.BinaryFactory {
-	private static final long serialVersionUID = -2123141684241450260L;
-
+public class PowerConsumptionRecord extends AbstractMonitoringRecord implements IMonitoringRecord.Factory, IMonitoringRecord.BinaryFactory {			
 	/** Descriptive definition of the serialization size of the record. */
 	public static final int SIZE = TYPE_SIZE_BYTE // PowerConsumptionRecord.identifier
 			 + TYPE_SIZE_LONG // PowerConsumptionRecord.timestamp
-			 + TYPE_SIZE_INT // PowerConsumptionRecord.powerConsumptionInWh
-	;
+			 + TYPE_SIZE_INT; // PowerConsumptionRecord.powerConsumptionInWh
 	
 	public static final Class<?>[] TYPES = {
 		byte[].class, // PowerConsumptionRecord.identifier
@@ -31,7 +27,7 @@ public class PowerConsumptionRecord extends AbstractMonitoringRecord implements 
 		int.class, // PowerConsumptionRecord.powerConsumptionInWh
 	};
 	
-	
+	private static final long serialVersionUID = -2123141684241450260L;
 	
 	/** property name array. */
 	private static final String[] PROPERTY_NAMES = {
@@ -101,6 +97,7 @@ public class PowerConsumptionRecord extends AbstractMonitoringRecord implements 
 	 * @param deserializer
 	 *            The deserializer to use
 	 * @throws RecordInstantiationException 
+	 *            when the record could not be deserialized
 	 */
 	public PowerConsumptionRecord(final IValueDeserializer deserializer) throws RecordInstantiationException {
 		// load array sizes
@@ -123,14 +120,8 @@ public class PowerConsumptionRecord extends AbstractMonitoringRecord implements 
 		return new Object[] {
 			this.getIdentifier(),
 			this.getTimestamp(),
-			this.getPowerConsumptionInWh()
+			this.getPowerConsumptionInWh(),
 		};
-	}
-	/**
-	 * {@inheritDoc}
-	 */
-	@Override
-	public void registerStrings(final IRegistry<String> stringRegistry) {	// NOPMD (generated code)
 	}
 	/**
 	 * {@inheritDoc}
@@ -145,6 +136,7 @@ public class PowerConsumptionRecord extends AbstractMonitoringRecord implements 
 		serializer.putLong(this.getTimestamp());
 		serializer.putInt(this.getPowerConsumptionInWh());
 	}
+	
 	/**
 	 * {@inheritDoc}
 	 */
@@ -185,18 +177,33 @@ public class PowerConsumptionRecord extends AbstractMonitoringRecord implements 
 	 */
 	@Override
 	public boolean equals(final Object obj) {
-		if (obj == null) return false;
-		if (obj == this) return true;
-		if (obj.getClass() != this.getClass()) return false;
+		if (obj == null) {
+			return false;
+		}
+		if (obj == this) {
+			return true;
+		}
+		if (obj.getClass() != this.getClass()) {
+			return false;
+		}
 		
 		final PowerConsumptionRecord castedRecord = (PowerConsumptionRecord) obj;
-		if (this.getLoggingTimestamp() != castedRecord.getLoggingTimestamp()) return false;
+		if (this.getLoggingTimestamp() != castedRecord.getLoggingTimestamp()) {
+			return false;
+		}
 		// get array length
 		for (int i0=0;i0<8;i0++)
-			if (this.getIdentifier()[i0] != castedRecord.getIdentifier()[i0]) return false;
+			if (this.getIdentifier()[i0] != castedRecord.getIdentifier()[i0]) {
+				return false;
+			}
 		
-		if (this.getTimestamp() != castedRecord.getTimestamp()) return false;
-		if (this.getPowerConsumptionInWh() != castedRecord.getPowerConsumptionInWh()) return false;
+		if (this.getTimestamp() != castedRecord.getTimestamp()) {
+			return false;
+		}
+		if (this.getPowerConsumptionInWh() != castedRecord.getPowerConsumptionInWh()) {
+			return false;
+		}
+		
 		return true;
 	}
 	
