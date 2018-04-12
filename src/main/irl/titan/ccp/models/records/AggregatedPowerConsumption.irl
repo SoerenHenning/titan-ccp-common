@@ -1,0 +1,11 @@
+package titan.ccp.models.records
+
+entity AggregatedPowerConsumptionRecord {
+   string identifier
+   long timestamp
+   int min // Watt * hour
+   int max // Watt * hour
+   long count // Watt * hour
+   long sum // Watt * hour
+   double average // Watt * hour
+}
