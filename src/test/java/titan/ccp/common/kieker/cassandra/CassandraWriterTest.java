@@ -1,18 +1,14 @@
-package titan.cpp;
+package titan.ccp.common.kieker.cassandra;
 
-
-import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.*;
 
 import java.util.List;
-import java.util.Map;
 
-import org.apache.cassandra.service.EmbeddedCassandraService;
 import org.cassandraunit.utils.EmbeddedCassandraServerHelper;
 import org.junit.After;
 import org.junit.AfterClass;
 import org.junit.Before;
 import org.junit.BeforeClass;
-import org.junit.Ignore;
 import org.junit.Test;
 
 import com.datastax.driver.core.Cluster;
@@ -29,10 +25,8 @@ import com.datastax.driver.core.schemabuilder.KeyspaceOptions;
 import com.datastax.driver.core.schemabuilder.SchemaBuilder;
 import com.google.common.collect.ImmutableMap;
 
+public class CassandraWriterTest {
 
-
-public class TestCassandraTest {
-	
 	private static final String KEYSPACE = "test";
 
 	private static Cluster cluster;
@@ -42,7 +36,7 @@ public class TestCassandraTest {
 	public static void setUpClass() throws Exception {
 		EmbeddedCassandraServerHelper.startEmbeddedCassandra();
 		
-		TestCassandraTest.cluster = Cluster.builder()
+		CassandraWriterTest.cluster = Cluster.builder()
 				.addContactPoint(EmbeddedCassandraServerHelper.getHost())
 				.withPort(EmbeddedCassandraServerHelper.getNativeTransportPort())
 				.build();
@@ -66,12 +60,8 @@ public class TestCassandraTest {
 
 	@After
 	public void tearDown() throws Exception {
-		//EmbeddedCassandraServerHelper.cleanEmbeddedCassandra();
-		
 		this.session.close();
 		this.session = null;
-		//this.cluster.close();
-		//this.cluster = null;
 		
 		final Session session = EmbeddedCassandraServerHelper.getSession();
 		final DropKeyspace dropKeyspace = SchemaBuilder.dropKeyspace(KEYSPACE).ifExists();
@@ -99,6 +89,9 @@ public class TestCassandraTest {
 	}
 	
 
+	/**
+	 * We are testing this two times to ensure that single tests do not influence each other.
+	 */
 	@Test
 	public void testCassandraRunningSecondTime() {
 		final String tableName = "testtable";
@@ -118,5 +111,7 @@ public class TestCassandraTest {
 		assertEquals(1, rows.size());
 		assertEquals(keyValue, rows.get(0).getInt(keyName));
 	}
+	
+	
 
 }
