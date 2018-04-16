@@ -9,6 +9,7 @@ import org.junit.After;
 import org.junit.AfterClass;
 import org.junit.Before;
 import org.junit.BeforeClass;
+import org.junit.Ignore;
 import org.junit.Test;
 
 import com.datastax.driver.core.Cluster;
@@ -24,6 +25,8 @@ import com.datastax.driver.core.schemabuilder.DropKeyspace;
 import com.datastax.driver.core.schemabuilder.KeyspaceOptions;
 import com.datastax.driver.core.schemabuilder.SchemaBuilder;
 import com.google.common.collect.ImmutableMap;
+
+import kieker.common.record.flow.trace.operation.BeforeOperationEvent;
 
 public class CassandraWriterTest {
 
@@ -65,7 +68,7 @@ public class CassandraWriterTest {
 		
 		final Session session = EmbeddedCassandraServerHelper.getSession();
 		final DropKeyspace dropKeyspace = SchemaBuilder.dropKeyspace(KEYSPACE).ifExists();
-		session.execute(dropKeyspace);
+		session.execute(dropKeyspace.setReadTimeoutMillis(120_000));
 	}
 
 	@Test
@@ -112,6 +115,140 @@ public class CassandraWriterTest {
 		assertEquals(keyValue, rows.get(0).getInt(keyName));
 	}
 	
+	@Test
+	public void testWithoutRecordtypeAndTimestamp() {
+		BeforeOperationEvent record = new BeforeOperationEvent(12345, 123, 1, "foo()", "project.package.Class");
+		
+		ExplicitPrimaryKeySelectionStrategy primaryKeySelectionStrategy = new ExplicitPrimaryKeySelectionStrategy();
+		primaryKeySelectionStrategy.registerPartitionKeys("BeforeOperationEvent", "timestamp");
+		
+		CassandraWriter cassandraWriter = CassandraWriter
+				.builder(session)
+				.tableNameMapper(PredefinedTableNameMappers.SIMPLE_CLASS_NAME)
+				.excludeRecordType()
+				.excludeLoggingTimestamp()
+				.primaryKeySelectionStrategy(primaryKeySelectionStrategy)
+				.build();
+		
+		cassandraWriter.write(record);
+		
+		final Select select = QueryBuilder
+				.select("timestamp", "traceId", "orderIndex", "operationSignature", "classSignature")
+				.from("BeforeOperationEvent");
+		final ResultSet resultSet = this.session.execute(select);
+		final List<Row> rows = resultSet.all();
+		
+		assertEquals(1, rows.size());
+		
+		final Row row = rows.get(0);
+		
+		assertEquals(record.getTimestamp(), row.getLong("timestamp"));
+		assertEquals(record.getTraceId(), row.getLong("traceId"));
+		assertEquals(record.getOrderIndex(), row.getInt("orderIndex"));
+		assertEquals(record.getOperationSignature(), row.getString("operationSignature"));
+		assertEquals(record.getClassSignature(), row.getString("classSignature"));
+		
+	}
 	
+	@Test
+	public void testWithRecordtypeAndWithoutTimestamp() {
+		BeforeOperationEvent record = new BeforeOperationEvent(12345, 123, 1, "foo()", "project.package.Class");
+		
+		ExplicitPrimaryKeySelectionStrategy primaryKeySelectionStrategy = new ExplicitPrimaryKeySelectionStrategy();
+		primaryKeySelectionStrategy.registerPartitionKeys("BeforeOperationEvent", "timestamp");
+		
+		CassandraWriter cassandraWriter = CassandraWriter
+				.builder(session)
+				.tableNameMapper(PredefinedTableNameMappers.SIMPLE_CLASS_NAME)
+				.includeRecordType()
+				.excludeLoggingTimestamp()
+				.primaryKeySelectionStrategy(primaryKeySelectionStrategy)
+				.build();
+		
+		cassandraWriter.write(record);
+		
+		final Select select = QueryBuilder
+				.select("recordType","timestamp", "traceId", "orderIndex", "operationSignature", "classSignature")
+				.from("BeforeOperationEvent");
+		final ResultSet resultSet = this.session.execute(select);
+		final List<Row> rows = resultSet.all();
+		
+		assertEquals(1, rows.size());
+		
+		final Row row = rows.get(0);
+		
+		assertEquals(record.getClass().getName(), row.getString("recordType"));
+		assertEquals(record.getTimestamp(), row.getLong("timestamp"));
+		assertEquals(record.getTraceId(), row.getLong("traceId"));
+		assertEquals(record.getOrderIndex(), row.getInt("orderIndex"));
+		assertEquals(record.getOperationSignature(), row.getString("operationSignature"));
+		assertEquals(record.getClassSignature(), row.getString("classSignature"));
+		
+	}
+	
+	@Test
+	public void testWithoutRecordtypeAndWithTimestamp() {
+		BeforeOperationEvent record = new BeforeOperationEvent(12345, 123, 1, "foo()", "project.package.Class");
+		
+		CassandraWriter cassandraWriter = CassandraWriter
+				.builder(session)
+				.tableNameMapper(PredefinedTableNameMappers.SIMPLE_CLASS_NAME)
+				.excludeRecordType()
+				.includeLoggingTimestamp()
+				.build();
+		
+		cassandraWriter.write(record);
+		
+		final Select select = QueryBuilder
+				.select("loggingTimestamp", "timestamp", "traceId", "orderIndex", "operationSignature", "classSignature")
+				.from("BeforeOperationEvent");
+		final ResultSet resultSet = this.session.execute(select);
+		final List<Row> rows = resultSet.all();
+		
+		assertEquals(1, rows.size());
+		
+		final Row row = rows.get(0);
+		
+		assertEquals(record.getLoggingTimestamp(), row.getLong("loggingTimestamp"));
+		assertEquals(record.getTimestamp(), row.getLong("timestamp"));
+		assertEquals(record.getTraceId(), row.getLong("traceId"));
+		assertEquals(record.getOrderIndex(), row.getInt("orderIndex"));
+		assertEquals(record.getOperationSignature(), row.getString("operationSignature"));
+		assertEquals(record.getClassSignature(), row.getString("classSignature"));
+		
+	}
+	
+	@Test
+	public void testWithRecordtypeAndTimestamp() {
+		BeforeOperationEvent record = new BeforeOperationEvent(12345, 123, 1, "foo()", "project.package.Class");
+		
+		CassandraWriter cassandraWriter = CassandraWriter
+				.builder(session)
+				.tableNameMapper(PredefinedTableNameMappers.SIMPLE_CLASS_NAME)
+				.includeRecordType()
+				.includeLoggingTimestamp()
+				.build();
+		
+		cassandraWriter.write(record);
+		
+		final Select select = QueryBuilder
+				.select("recordType","loggingTimestamp","timestamp", "traceId", "orderIndex", "operationSignature", "classSignature")
+				.from("BeforeOperationEvent");
+		final ResultSet resultSet = this.session.execute(select);
+		final List<Row> rows = resultSet.all();
+		
+		assertEquals(1, rows.size());
+		
+		final Row row = rows.get(0);
+		
+		assertEquals(record.getClass().getName(), row.getString("recordType"));
+		assertEquals(record.getLoggingTimestamp(), row.getLong("loggingTimestamp"));
+		assertEquals(record.getTimestamp(), row.getLong("timestamp"));
+		assertEquals(record.getTraceId(), row.getLong("traceId"));
+		assertEquals(record.getOrderIndex(), row.getInt("orderIndex"));
+		assertEquals(record.getOperationSignature(), row.getString("operationSignature"));
+		assertEquals(record.getClassSignature(), row.getString("classSignature"));
+		
+	}
 
 }

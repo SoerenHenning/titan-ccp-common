@@ -32,29 +32,47 @@ public class CassandraWriter {
 	private static final Class<?> LOGGING_TIMESTAMP_TYPE = long.class;
 
 	private final Session session;
+	
+	private final Function<IMonitoringRecord, String> tableNameMapper;
+	
+	private final PrimaryKeySelectionStrategy primaryKeySelectionStrategy;
+	
+	private final boolean includeRecordType;
+
+	private final boolean includeLoggingTimestamp;
 
 	private final boolean executeAsync;
 
-	private final TableMapper tableMapper = new TableMapper();
-
 	private final Set<String> existingTables = new HashSet<>();
 
-	public CassandraWriter(final Session session) {
-		// TODO Auto-generated constructor stub
-		// final String host = "";
-		// final int port = 0;
-		// final String keyspace = "";
-		//
-		// final Cluster cluster =
-		// Cluster.builder().addContactPoint(host).withPort(port).build();
-		// this.session = cluster.connect(keyspace);
+//	public CassandraWriter(final Session session) {
+//		// TODO Auto-generated constructor stub
+//		// final String host = "";
+//		// final int port = 0;
+//		// final String keyspace = "";
+//		//
+//		// final Cluster cluster =
+//		// Cluster.builder().addContactPoint(host).withPort(port).build();
+//		// this.session = cluster.connect(keyspace);
+//		this.session = session;
+//
+//	}
+//	
+	public CassandraWriter(Session session, Function<IMonitoringRecord, String> tableNameMapper,
+			PrimaryKeySelectionStrategy primaryKeySelectionStrategy, boolean includeRecordType,
+			boolean includeLoggingTimestamp, boolean executeAsync) {
 		this.session = session;
-
-		this.executeAsync = false; // TODO Temp
+		this.tableNameMapper = tableNameMapper;
+		this.primaryKeySelectionStrategy = primaryKeySelectionStrategy;
+		this.includeRecordType = includeRecordType;
+		this.includeLoggingTimestamp = includeLoggingTimestamp;
+		this.executeAsync = executeAsync;
 	}
 
+
+
 	public void write(final IMonitoringRecord record) {
-		final String tableName = this.tableMapper.tableNameMapper.apply(record);
+		final String tableName = this.tableNameMapper.apply(record);
 
 		this.createTableIfNotExists(tableName, record);
 
@@ -72,8 +90,8 @@ public class CassandraWriter {
 		final List<String> includedFields = this.getFields(record);
 		final List<Class<?>> includedFieldTypes = this.getFieldTypes(record);
 
-		final Set<String> partitionKey = this.tableMapper.primaryKeySelectionStrategy.selectPartitionKeys(tableName, includedFields);
-		final Set<String> clusteringColumns = this.tableMapper.primaryKeySelectionStrategy.selectClusteringColumns(tableName, includedFields);
+		final Set<String> partitionKey = this.primaryKeySelectionStrategy.selectPartitionKeys(tableName, includedFields);
+		final Set<String> clusteringColumns = this.primaryKeySelectionStrategy.selectClusteringColumns(tableName, includedFields);
 
 		final Create createStatement = SchemaBuilder.createTable(tableName).ifNotExists();
 
@@ -97,10 +115,10 @@ public class CassandraWriter {
 		record.serialize(new ArrayValueSerializer(values));
 
 		final Insert insertStatement = QueryBuilder.insertInto(table);
-		if (this.tableMapper.includeRecordType) {
+		if (this.includeRecordType) {
 			insertStatement.value(RECORD_TYPE_NAME, record.getClass().getName());
 		}
-		if (this.tableMapper.includeLoggingTimestamp) {
+		if (this.includeLoggingTimestamp) {
 			insertStatement.value(LOGGING_TIMESTAMP_NAME, record.getLoggingTimestamp());
 		}
 		insertStatement.values(valueNames, values);
@@ -112,10 +130,10 @@ public class CassandraWriter {
 		final String[] valueNames = record.getValueNames();
 
 		final List<String> fields = new ArrayList<>(valueNames.length + 2);
-		if (this.tableMapper.includeRecordType) {
+		if (this.includeRecordType) {
 			fields.add(RECORD_TYPE_NAME);
 		}
-		if (this.tableMapper.includeLoggingTimestamp) {
+		if (this.includeLoggingTimestamp) {
 			fields.add(LOGGING_TIMESTAMP_NAME);
 		}
 		Collections.addAll(fields, valueNames);
@@ -126,10 +144,10 @@ public class CassandraWriter {
 		final Class<?>[] valueTypes = record.getValueTypes();
 
 		final List<Class<?>> fieldTypes = new ArrayList<>(valueTypes.length + 2);
-		if (this.tableMapper.includeRecordType) {
+		if (this.includeRecordType) {
 			fieldTypes.add(RECORD_TYPE_TYPE);
 		}
-		if (this.tableMapper.includeLoggingTimestamp) {
+		if (this.includeLoggingTimestamp) {
 			fieldTypes.add(LOGGING_TIMESTAMP_TYPE);
 		}
 		Collections.addAll(fieldTypes, valueTypes);
@@ -144,23 +162,68 @@ public class CassandraWriter {
 		}
 
 	}
+	
+	public static Builder builder(Session session) {
+		return new Builder(session);
+	}
+	
+	public static class Builder {
 
-	// Default behavior of PK selector: options:
-	// - Use loggingTimestamp
-	// - Use all fields
+		private final Session session;
+		
+		private Function<IMonitoringRecord, String> tableNameMapper = PredefinedTableNameMappers.CLASS_NAME;
+		
+		private PrimaryKeySelectionStrategy primaryKeySelectionStrategy = new TakeLoggingTimestampStrategy();
+		
+		private boolean includeRecordType = false;
 
-	public static class TableMapper {
+		private boolean includeLoggingTimestamp = true;
 
-		public Function<IMonitoringRecord, String> tableNameMapper = t -> t.getClass().getName();
+		private boolean executeAsync = false;
 
-		public PrimaryKeySelectionStrategy primaryKeySelectionStrategy = null; // TODO
-
-		public boolean includeRecordType = false;
-
-		public boolean includeLoggingTimestamp = true;
-
-		public boolean myIncludeLoggingTimestamp = false;
-
+		public Builder(Session session) {
+			this.session = session;
+		}
+		
+		public Builder tableNameMapper(Function<IMonitoringRecord, String> tableNameMapper) {
+			this.tableNameMapper = tableNameMapper;
+			return this;
+		}
+		
+		public Builder primaryKeySelectionStrategy(PrimaryKeySelectionStrategy strategy) {
+			this.primaryKeySelectionStrategy = strategy;
+			return this;
+		}
+		
+		public Builder includeRecordType() {
+			this.includeRecordType = true;
+			return this;
+		}
+		
+		public Builder excludeRecordType() {
+			this.includeRecordType = false;
+			return this;
+		}
+		
+		public Builder includeLoggingTimestamp() {
+			this.includeLoggingTimestamp = true;
+			return this;
+		}
+		
+		public Builder excludeLoggingTimestamp() {
+			this.includeLoggingTimestamp = false;
+			return this;
+		}
+		
+		public Builder async() {
+			this.executeAsync = true;
+			return this;
+		}
+		
+		public CassandraWriter build() {
+			return new CassandraWriter(session, tableNameMapper, primaryKeySelectionStrategy, includeRecordType, includeLoggingTimestamp, executeAsync);
+		}
+		
 	}
 	
 	private static final class RecordField {

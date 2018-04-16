@@ -16,6 +16,10 @@ public class ExplicitPrimaryKeySelectionStrategy implements PrimaryKeySelectionS
 
 	private final PrimaryKeySelectionStrategy fallbackStrategy;
 
+	public ExplicitPrimaryKeySelectionStrategy() {
+		this.fallbackStrategy = new TakeLoggingTimestampStrategy();
+	}
+	
 	public ExplicitPrimaryKeySelectionStrategy(final PrimaryKeySelectionStrategy fallbackStrategy) {
 		this.fallbackStrategy = fallbackStrategy;
 	}
