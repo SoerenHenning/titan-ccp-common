@@ -86,12 +86,14 @@ public class SessionBuilder {
 
 	private Session connectToCluster(final Cluster cluster) {
 		if (this.keyspace == null) {
+			final Session session = cluster.connect();
 			LOGGER.info("Succesfully connected to '{}:{}' without keyspace.", this.contactPoint, this.port);
-			return cluster.connect();
+			return session;
 		} else {
+			final Session session = cluster.connect(this.keyspace);
 			LOGGER.info("Succesfully connected to '{}:{}' with keyspace '{}'.", this.contactPoint, this.port,
 					this.keyspace);
-			return cluster.connect(this.keyspace);
+			return session;
 		}
 	}
 
