@@ -68,7 +68,7 @@ public class CassandraWriterTest {
 		
 		final Session session = EmbeddedCassandraServerHelper.getSession();
 		final DropKeyspace dropKeyspace = SchemaBuilder.dropKeyspace(KEYSPACE).ifExists();
-		session.execute(dropKeyspace.setReadTimeoutMillis(120_000));
+		session.execute(dropKeyspace);
 	}
 
 	@Test
@@ -132,9 +132,7 @@ public class CassandraWriterTest {
 		
 		cassandraWriter.write(record);
 		
-		final Select select = QueryBuilder
-				.select("timestamp", "traceId", "orderIndex", "operationSignature", "classSignature")
-				.from("BeforeOperationEvent");
+		final Select select = QueryBuilder.select().all().from("BeforeOperationEvent");
 		final ResultSet resultSet = this.session.execute(select);
 		final List<Row> rows = resultSet.all();
 		
@@ -167,9 +165,7 @@ public class CassandraWriterTest {
 		
 		cassandraWriter.write(record);
 		
-		final Select select = QueryBuilder
-				.select("recordType","timestamp", "traceId", "orderIndex", "operationSignature", "classSignature")
-				.from("BeforeOperationEvent");
+		final Select select = QueryBuilder.select().all().from("BeforeOperationEvent");
 		final ResultSet resultSet = this.session.execute(select);
 		final List<Row> rows = resultSet.all();
 		
@@ -199,9 +195,7 @@ public class CassandraWriterTest {
 		
 		cassandraWriter.write(record);
 		
-		final Select select = QueryBuilder
-				.select("loggingTimestamp", "timestamp", "traceId", "orderIndex", "operationSignature", "classSignature")
-				.from("BeforeOperationEvent");
+		final Select select = QueryBuilder.select().all().from("BeforeOperationEvent");
 		final ResultSet resultSet = this.session.execute(select);
 		final List<Row> rows = resultSet.all();
 		
@@ -231,9 +225,7 @@ public class CassandraWriterTest {
 		
 		cassandraWriter.write(record);
 		
-		final Select select = QueryBuilder
-				.select("recordType","loggingTimestamp","timestamp", "traceId", "orderIndex", "operationSignature", "classSignature")
-				.from("BeforeOperationEvent");
+		final Select select = QueryBuilder.select().all().from("BeforeOperationEvent");
 		final ResultSet resultSet = this.session.execute(select);
 		final List<Row> rows = resultSet.all();
 		
