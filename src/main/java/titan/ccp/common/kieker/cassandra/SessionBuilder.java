@@ -67,11 +67,7 @@ public class SessionBuilder {
 					LOGGER.info("Retry in {} milliseconds", WAITING_SLEEP_MILLIS);
 					cluster.close();
 					cluster = this.buildCluster();
-					try {
-						Thread.sleep(WAITING_SLEEP_MILLIS);
-					} catch (final InterruptedException e) {
-						throw new IllegalStateException(e);
-					}
+					this.sleep();
 				} else {
 					LOGGER.error("Connection to could not be established and timeout exceeded.", this.contactPoint,
 							this.port);
@@ -107,6 +103,14 @@ public class SessionBuilder {
 			session.execute(statement);
 			session.close();
 			LOGGER.info("Keyspace '{}' created.", this.keyspace);
+		}
+	}
+
+	private void sleep() {
+		try {
+			Thread.sleep(WAITING_SLEEP_MILLIS);
+		} catch (final InterruptedException e) {
+			throw new IllegalStateException(e);
 		}
 	}
 
