@@ -19,7 +19,7 @@ public class ExplicitPrimaryKeySelectionStrategy implements PrimaryKeySelectionS
 	public ExplicitPrimaryKeySelectionStrategy() {
 		this.fallbackStrategy = new TakeLoggingTimestampStrategy();
 	}
-	
+
 	public ExplicitPrimaryKeySelectionStrategy(final PrimaryKeySelectionStrategy fallbackStrategy) {
 		this.fallbackStrategy = fallbackStrategy;
 	}
@@ -45,7 +45,7 @@ public class ExplicitPrimaryKeySelectionStrategy implements PrimaryKeySelectionS
 	}
 
 	public void registerPartitionKeys(final String tableName, final String... partitionKeys) {
-		//this.partitionKeys.put(tableName, Set.of(partitionKeys)); // Java 9
+		// this.partitionKeys.put(tableName, Set.of(partitionKeys)); // Java 9
 		this.partitionKeys.put(tableName, ImmutableSet.copyOf(partitionKeys));
 	}
 
@@ -60,7 +60,8 @@ public class ExplicitPrimaryKeySelectionStrategy implements PrimaryKeySelectionS
 	}
 
 	public void registerClusteringColumns(final String tableName, final Collection<String> clusteringColumns) {
-		// this.clusteringColumns.put(tableName, Set.copyOf(clusteringColumns)); // Java 10
+		// this.clusteringColumns.put(tableName, Set.copyOf(clusteringColumns)); // Java
+		// 10
 		this.clusteringColumns.put(tableName, ImmutableSet.copyOf(clusteringColumns));
 	}
 

@@ -13,7 +13,7 @@ public class TakeLoggingTimestampStrategy implements PrimaryKeySelectionStrategy
 	@Override
 	public Set<String> selectPartitionKeys(final String tableName, final List<String> possibleColumns) {
 		if (possibleColumns.contains(LOGGING_TIMESTAMP_COLUMN)) {
-			return ImmutableSet.of(LOGGING_TIMESTAMP_COLUMN);			
+			return ImmutableSet.of(LOGGING_TIMESTAMP_COLUMN);
 		} else {
 			throw new IllegalArgumentException("There is no column 'loggingTimestamp'");
 		}

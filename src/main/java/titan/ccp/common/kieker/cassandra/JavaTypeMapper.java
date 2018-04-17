@@ -46,7 +46,8 @@ public final class JavaTypeMapper {
 		} else if (type == String.class) {
 			return DataType.text();
 		} else {
-			return null; // TODO throw execption
+			throw new IllegalArgumentException(
+					"Unable to map Java type '" + type.getName() + "' to a Cassandra data type.");
 		}
 	}
 
