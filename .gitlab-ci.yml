@@ -13,20 +13,20 @@ build:
   tags:
     - dockerex
   script:
-    - mvn MAVEN_CLI_OPTS compile
+    - mvn $MAVEN_CLI_OPTS compile
 
 test:
   stage: test
   tags:
     - dockerex
   script:
-    - mvn MAVEN_CLI_OPTS test
+    - mvn $MAVEN_CLI_OPTS test
 
 deploy:
   stage: deploy
   tags:
     - dockerex
   script:
-    - mvn MAVEN_CLI_OPTS deploy -DperformRelease=true
+    - mvn $MAVEN_CLI_OPTS deploy -DperformRelease=true
   only:
     - master
