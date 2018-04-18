@@ -1,0 +1,32 @@
+image: maven:latest
+
+variables:
+  MAVEN_CLI_OPTS: "-s deploy/settings.xml --batch-mode"
+
+cache:
+  paths:
+    - .m2/repository/
+    - target/
+
+build:
+  stage: build
+  tags:
+    - dockerex
+  script:
+    - mvn MAVEN_CLI_OPTS compile
+
+test:
+  stage: test
+  tags:
+    - dockerex
+  script:
+    - mvn MAVEN_CLI_OPTS test
+
+deploy:
+  stage: deploy
+  tags:
+    - dockerex
+  script:
+    - mvn MAVEN_CLI_OPTS deploy -DperformRelease=true
+  only:
+    - master
