@@ -28,6 +28,6 @@ deploy:
   tags:
     - dockerex
   script:
-    - mvn $MAVEN_CLI_OPTS deploy -DperformRelease=true
+    - mvn $MAVEN_CLI_OPTS deploy -DskipTests=true -DperformRelease=true
   only:
     - master
