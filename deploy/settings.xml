@@ -1,7 +1,7 @@
 <settings>
 <servers>
     <server>
-      <id>ossrh</id>
+      <id>ossrh-titan</id>
       <username>${env.OSSRH_JIRA_USERNAME}</username>
       <password>${env.OSSRH_JIRA_PASSWORD}</password>
     </server>
@@ -9,7 +9,7 @@
   
   <profiles>
     <profile>
-      <id>ossrh</id>
+      <id>ossrh-titan</id>
       <activation>
         <activeByDefault>true</activeByDefault>
       </activation>
