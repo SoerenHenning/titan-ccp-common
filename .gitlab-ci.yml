@@ -14,7 +14,9 @@ build:
   tags:
     - dockerex
   script:
+    - ls .m2/repository/
     - mvn $MAVEN_CLI_OPTS compile
+    - ls .m2/repository/
 
 test:
   stage: test
