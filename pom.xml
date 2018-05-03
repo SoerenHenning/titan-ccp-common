@@ -40,6 +40,17 @@
 			<version>3.4.0</version>
 		</dependency>
 		<dependency>
+		    <groupId>org.apache.commons</groupId>
+		    <artifactId>commons-configuration2</artifactId>
+		    <version>2.0</version>
+		</dependency>
+		<!-- necessary for commons-configuration2 -->
+		<dependency>
+			<groupId>commons-beanutils</groupId>
+			<artifactId>commons-beanutils</artifactId>
+			<version>1.9.2</version>
+		</dependency>
+		<dependency>
 		  <groupId>com.google.guava</groupId>
 		  <artifactId>guava</artifactId>
 		  <version>24.1-jre</version>
@@ -62,6 +73,12 @@
 			<version>1.7.25</version>
 			<scope>test</scope>
 		</dependency>-->
+		<dependency>
+			<groupId>com.github.stefanbirkner</groupId>
+			<artifactId>system-rules</artifactId>
+			<version>1.17.0</version>
+			<scope>test</scope>
+		</dependency>
 		<dependency>
 			<groupId>org.cassandraunit</groupId>
 			<artifactId>cassandra-unit-shaded</artifactId>
