@@ -1,4 +1,4 @@
-image: maven:latest
+image: maven:3-jdk-10-slim
 
 variables:
   MAVEN_CLI_OPTS: "-s deploy/settings.xml --batch-mode --errors --fail-at-end --show-version "
