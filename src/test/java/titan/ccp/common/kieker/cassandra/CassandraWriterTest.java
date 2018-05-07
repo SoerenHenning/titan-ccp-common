@@ -9,6 +9,7 @@ import org.junit.After;
 import org.junit.AfterClass;
 import org.junit.Before;
 import org.junit.BeforeClass;
+import org.junit.Ignore;
 import org.junit.Test;
 
 import com.datastax.driver.core.Cluster;
@@ -27,6 +28,7 @@ import com.google.common.collect.ImmutableMap;
 
 import kieker.common.record.flow.trace.operation.BeforeOperationEvent;
 
+@Ignore // CassandraUnit does not work with Java 10
 public class CassandraWriterTest {
 
 	private static final String KEYSPACE = "test";
