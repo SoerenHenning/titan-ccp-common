@@ -7,4 +7,9 @@ public class MutableMachineSensor extends AbstractSensor implements MachineSenso
 		super(parent, identifier);
 	}
 
+	@Override
+	public String toString() {
+		return this.getIdentifier();
+	}
+
 }

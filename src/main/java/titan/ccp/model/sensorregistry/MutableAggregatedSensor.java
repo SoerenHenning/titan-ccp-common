@@ -40,4 +40,9 @@ public class MutableAggregatedSensor extends AbstractSensor implements Aggregate
 		return machineSensor;
 	}
 
+	@Override
+	public String toString() {
+		return this.getIdentifier() + " (" + this.children.size() + " children)";
+	}
+
 }

@@ -111,6 +111,11 @@ public final class ImmutableSensorRegistry implements SensorRegistry {
 			return this.children;
 		}
 
+		@Override
+		public String toString() {
+			return this.getIdentifier() + " (" + this.children.size() + " children)";
+		}
+
 	}
 
 	// TODO visibility
@@ -118,6 +123,11 @@ public final class ImmutableSensorRegistry implements SensorRegistry {
 
 		private ImmutableMachineSensor(final AggregatedSensor newParent, final MachineSensor SensorToCopy) {
 			super(newParent, SensorToCopy);
+		}
+
+		@Override
+		public String toString() {
+			return this.getIdentifier();
 		}
 
 	}
