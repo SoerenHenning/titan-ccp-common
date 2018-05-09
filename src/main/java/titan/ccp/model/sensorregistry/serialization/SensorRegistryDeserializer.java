@@ -80,6 +80,7 @@ public final class SensorRegistryDeserializer implements JsonDeserializer<Sensor
 			}
 		}
 		return null;
+		// TODO throw exception
 	}
 
 	// returns null if JsonObject does not have children or children is not an array
@@ -92,6 +93,7 @@ public final class SensorRegistryDeserializer implements JsonDeserializer<Sensor
 			}
 		}
 		return null;
+		// TODO throw exception
 	}
 
 	private static class SensorParseResult {
