@@ -12,7 +12,7 @@ public class CassandraDeserializer extends AbstractValueDeserializer implements 
 
 	private int lastIndex = 0;
 
-	CassandraDeserializer(final Row row) {
+	public CassandraDeserializer(final Row row) {
 		this.row = row;
 	}
 
