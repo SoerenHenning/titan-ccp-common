@@ -45,7 +45,8 @@ public class CassandraDeserializerTest extends AbstractCassandraTest {
 		final List<Row> records = resultSet.all();
 		assertEquals(1, records.size());
 		final BeforeOperationEventFactory factory = new BeforeOperationEventFactory();
-		final BeforeOperationEvent beforeOperationEvent = factory.create(new CassandraDeserializer(records.get(0)));
+		final String[] beforeOperationEventColumnNames = new BeforeOperationEvent(0, 0, 0, "", "").getValueNames();
+		final BeforeOperationEvent beforeOperationEvent = factory.create(new CassandraDeserializer(records.get(0), beforeOperationEventColumnNames));
 		assertEquals(1525433696, beforeOperationEvent.getTimestamp());
 		assertEquals(7, beforeOperationEvent.getTraceId());
 		assertEquals(42, beforeOperationEvent.getOrderIndex());

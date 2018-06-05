@@ -20,27 +20,26 @@ public class CassandraDeserializer extends AbstractValueDeserializer implements 
 	private final Row row;
 
 	private int lastIndex = -1;
+	private final String[] columnNames;
 
-	public CassandraDeserializer(final Row row) {
+	public CassandraDeserializer(final Row row, final String[] columnNames) {
 		this.row = row;
+		this.columnNames = columnNames;
 	}
 
 	@Override
 	public boolean getBoolean() {
-		this.lastIndex++;
-		return this.row.getBool(this.lastIndex);
+		return this.row.getBool(this.getCurrentColumnName());
 	}
 
 	@Override
 	public byte getByte() {
-		this.lastIndex++;
-		return this.row.getByte(this.lastIndex);
+		return this.row.getByte(this.getCurrentColumnName());
 	}
 
 	@Override
 	public char getChar() {
-		this.lastIndex++;
-		final char[] chars = this.row.getString(this.lastIndex).toCharArray();
+		final char[] chars = this.row.getString(this.getCurrentColumnName()).toCharArray();
 		if (chars.length == 0) {
 			throw new IllegalStateException();
 		}
@@ -49,52 +48,49 @@ public class CassandraDeserializer extends AbstractValueDeserializer implements 
 
 	@Override
 	public short getShort() {
-		this.lastIndex++;
-		return this.row.getShort(this.lastIndex);
+		return this.row.getShort(this.getCurrentColumnName());
 	}
 
 	@Override
 	public int getInt() {
-		this.lastIndex++;
-		return this.row.getInt(this.lastIndex);
+		return this.row.getInt(this.getCurrentColumnName());
 	}
 
 	@Override
 	public long getLong() {
-		this.lastIndex++;
-		return this.row.getLong(this.lastIndex);
+		return this.row.getLong(this.getCurrentColumnName());
 	}
 
 	@Override
 	public float getFloat() {
-		this.lastIndex++;
-		return this.row.getFloat(this.lastIndex);
+		return this.row.getFloat(this.getCurrentColumnName());
 	}
 
 	@Override
 	public double getDouble() {
-		this.lastIndex++;
-		return this.row.getDouble(this.lastIndex);
+		return this.row.getDouble(this.getCurrentColumnName());
 	}
 
 	@Override
 	public String getString() {
-		this.lastIndex++;
-		return this.row.getString(this.lastIndex);
+		return this.row.getString(this.getCurrentColumnName());
 	}
 
 	@Override
 	public <T extends Enum<T>> T getEnumeration(final Class<T> clazz) throws RecordInstantiationException {
-		this.lastIndex++;
 		// Depend on array serialization strategy
-		return super.enumerationValueOf(clazz, this.row.getInt(this.lastIndex));
+		return super.enumerationValueOf(clazz, this.row.getInt(this.getCurrentColumnName()));
 	}
 
 	@Override
 	public byte[] getBytes(final byte[] target) {
-		this.lastIndex++;
-		this.row.getBytes(this.lastIndex).get(target);
+		this.row.getBytes(this.getCurrentColumnName()).get(target);
 		return target;
+	}
+
+	private String getCurrentColumnName() {
+		this.lastIndex++;
+		return this.columnNames[this.lastIndex];
 	}
 
 }
