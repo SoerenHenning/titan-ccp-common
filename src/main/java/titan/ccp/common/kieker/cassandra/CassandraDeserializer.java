@@ -10,10 +10,6 @@ import kieker.common.record.io.IValueDeserializer;
 /**
  * A Kieker deserializer that creates a Kieker {@link IMonitoringRecord} from a
  * {@link Row} obtained from a Cassandra database.
- *
- * This class relies on the order of fields in a {@link Row}. Therefore, a
- * preceding {@code SELECT} statement needs to specify the columns and its order
- * explicitly.
  */
 public class CassandraDeserializer extends AbstractValueDeserializer implements IValueDeserializer {
 
