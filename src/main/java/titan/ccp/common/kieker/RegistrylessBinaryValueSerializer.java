@@ -30,7 +30,7 @@ public class RegistrylessBinaryValueSerializer implements IValueSerializer {
 
 	private final ByteBuffer buffer;
 
-	protected RegistrylessBinaryValueSerializer(final ByteBuffer buffer) {
+	public RegistrylessBinaryValueSerializer(final ByteBuffer buffer) {
 		this.buffer = buffer;
 	}
 

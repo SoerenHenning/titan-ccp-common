@@ -16,7 +16,7 @@ public class RegistrylessBinaryValueDeserializer extends AbstractValueDeserializ
 
 	private final ByteBuffer buffer;
 
-	protected RegistrylessBinaryValueDeserializer(final ByteBuffer buffer) {
+	public RegistrylessBinaryValueDeserializer(final ByteBuffer buffer) {
 		this.buffer = buffer;
 	}
 
