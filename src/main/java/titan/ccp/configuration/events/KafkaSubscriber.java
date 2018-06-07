@@ -3,6 +3,7 @@ package titan.ccp.configuration.events;
 import java.time.Duration;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.EnumMap;
 import java.util.List;
 import java.util.Map;
@@ -46,8 +47,6 @@ public class KafkaSubscriber {
 		this.consumer = new KafkaConsumer<>(properties, EventSerde.deserializer(), new StringDeserializer());
 		this.topicName = topicName;
 		this.pollTimeoutInMs = pollTimeout.toMillis();
-
-		this.run();
 	}
 
 	public void run() {
@@ -56,7 +55,7 @@ public class KafkaSubscriber {
 		while (!this.terminationRequested) {
 			final ConsumerRecords<Event, String> records = this.consumer.poll(this.pollTimeoutInMs);
 			for (final ConsumerRecord<Event, String> record : records) {
-				for (final Consumer<String> subscription : this.subscriptions.get(record.key())) {
+				for (final Consumer<String> subscription : this.subscriptions.getOrDefault(record.key(), Collections.emptyList())) {
 					subscription.accept(record.value());
 				}
 			}
