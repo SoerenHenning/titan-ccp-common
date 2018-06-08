@@ -16,6 +16,11 @@ import org.apache.kafka.clients.consumer.ConsumerRecords;
 import org.apache.kafka.clients.consumer.KafkaConsumer;
 import org.apache.kafka.common.serialization.StringDeserializer;
 
+/**
+ * Implementation is currently not thread-safe. Once the {@code run()} method is
+ * called, further calls to {@code subscribe()} will result in errors.
+ *
+ */
 public class KafkaSubscriber {
 
 	private static final Duration DEFAULT_POLL_TIMEOUT = Duration.ofSeconds(5);
@@ -50,19 +55,21 @@ public class KafkaSubscriber {
 	}
 
 	public void run() {
-		this.consumer.subscribe(Arrays.asList(this.topicName));
+		new Thread(() -> {
+			this.consumer.subscribe(Arrays.asList(this.topicName));
 
-		while (!this.terminationRequested) {
-			final ConsumerRecords<Event, String> records = this.consumer.poll(this.pollTimeoutInMs);
-			for (final ConsumerRecord<Event, String> record : records) {
-				for (final Consumer<String> subscription : this.subscriptions.getOrDefault(record.key(), Collections.emptyList())) {
-					subscription.accept(record.value());
+			while (!this.terminationRequested) {
+				final ConsumerRecords<Event, String> records = this.consumer.poll(this.pollTimeoutInMs);
+				for (final ConsumerRecord<Event, String> record : records) {
+					for (final Consumer<String> subscription : this.subscriptions.getOrDefault(record.key(), Collections.emptyList())) {
+						subscription.accept(record.value());
+					}
 				}
 			}
-		}
 
-		this.consumer.close();
-		this.terminationRequestResult.complete(null);
+			this.consumer.close();
+			this.terminationRequestResult.complete(null);
+		}).run();
 	}
 
 	public void subscribe(final Event event, final Consumer<String> action) {
