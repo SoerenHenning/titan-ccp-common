@@ -15,6 +15,8 @@ import org.apache.kafka.clients.consumer.ConsumerRecord;
 import org.apache.kafka.clients.consumer.ConsumerRecords;
 import org.apache.kafka.clients.consumer.KafkaConsumer;
 import org.apache.kafka.common.serialization.StringDeserializer;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  * Implementation is currently not thread-safe. Once the {@code run()} method is
@@ -24,6 +26,8 @@ import org.apache.kafka.common.serialization.StringDeserializer;
 public class KafkaSubscriber {
 
 	private static final Duration DEFAULT_POLL_TIMEOUT = Duration.ofSeconds(5);
+
+	private static final Logger LOGGER = LoggerFactory.getLogger(KafkaSubscriber.class);
 
 	private final KafkaConsumer<Event, String> consumer;
 
@@ -70,6 +74,7 @@ public class KafkaSubscriber {
 			this.consumer.close();
 			this.terminationRequestResult.complete(null);
 		}).run();
+		LOGGER.info("Started listening for configuration changes.");
 	}
 
 	public void subscribe(final Event event, final Consumer<String> action) {
