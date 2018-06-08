@@ -73,7 +73,7 @@ public class KafkaSubscriber {
 
 			this.consumer.close();
 			this.terminationRequestResult.complete(null);
-		}).run();
+		}).start();
 		LOGGER.info("Started listening for configuration changes.");
 	}
 
