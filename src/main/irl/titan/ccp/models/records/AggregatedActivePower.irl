@@ -1,11 +1,11 @@
 package titan.ccp.models.records
 
-entity AggregatedActivePower {
+entity AggregatedActivePowerRecord {
    string identifier
    long timestamp
-   double minInWh // Watt * hour
-   double maxInWh // Watt * hour
+   double minInW // Watt
+   double maxInW // Watt
    long count
-   double sumInWh // Watt * hour
-   double averageInWh // Watt * hour
+   double sumInW // Watt
+   double averageInW // Watt
 }

@@ -3,5 +3,5 @@ package titan.ccp.models.records
 entity ActivePowerRecord {
    string identifier
    long timestamp
-   double valueInWh // Watt * hour
+   double valueInW // Watt
 }
