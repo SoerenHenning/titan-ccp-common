@@ -1,7 +1,0 @@
-package titan.ccp.models.records
-
-entity PowerConsumptionRecord {
-   string identifier
-   long timestamp
-   int powerConsumptionInWh // Watt * hour
-}
