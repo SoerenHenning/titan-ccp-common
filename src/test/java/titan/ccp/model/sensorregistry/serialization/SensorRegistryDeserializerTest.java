@@ -44,7 +44,7 @@ public class SensorRegistryDeserializerTest {
 
 	@Test
 	public void testRegistryOfWrongType() {
-		final String json = "[{\"identifier\": \"my-id\"}]";
+		final String json = "[{\"identifier\": \"my-id\", \"name\": \"My Name\"}]";
 		final SensorRegistry registry = this.gson.fromJson(json, SensorRegistry.class);
 		assertEquals(registry.getTopLevelSensor().getIdentifier(), "");
 		assertTrue(registry.getTopLevelSensor().getChildren().isEmpty());
@@ -60,7 +60,7 @@ public class SensorRegistryDeserializerTest {
 
 	@Test
 	public void testRegistryWithMissingChildren() {
-		final String json = "{\"identifier\": \"my-root-id\"}";
+		final String json = "{\"identifier\": \"my-root-id\", \"name\": \"My Name\"}";
 		final SensorRegistry registry = this.gson.fromJson(json, SensorRegistry.class);
 		assertEquals(registry.getTopLevelSensor().getIdentifier(), "my-root-id");
 		assertTrue(registry.getTopLevelSensor().getChildren().isEmpty());
@@ -68,7 +68,7 @@ public class SensorRegistryDeserializerTest {
 
 	@Test
 	public void testRegistryWithZeroChildren() {
-		final String json = "{\"identifier\": \"my-root-id\", \"children\": []}";
+		final String json = "{\"identifier\": \"my-root-id\", \"name\": \"My Name\", \"children\": []}";
 		final SensorRegistry registry = this.gson.fromJson(json, SensorRegistry.class);
 		assertEquals(registry.getTopLevelSensor().getIdentifier(), "my-root-id");
 		assertTrue(registry.getTopLevelSensor().getChildren().isEmpty());
@@ -76,7 +76,7 @@ public class SensorRegistryDeserializerTest {
 
 	@Test
 	public void testRegistryWithOneGenerationChildren() {
-		final String json = "{\"identifier\": \"my-root-id\", \"children\": [{\"identifier\": \"child-id-1\"}, {\"identifier\": \"child-id-2\"}, {\"identifier\": \"child-id-3\"}]}";
+		final String json = "{\"identifier\": \"my-root-id\", \"name\": \"My Name\", \"children\": [{\"identifier\": \"child-id-1\", \"name\": \"Child 1\"}, {\"identifier\": \"child-id-2\", \"name\": \"Child 2\"}, {\"identifier\": \"child-id-3\", \"name\": \"Child 3\"}]}";
 		final List<String> childIdentifiers = ImmutableList.of("child-id-1", "child-id-2", "child-id-3"); // List.of() in Java <= 9
 
 		final SensorRegistry registry = this.gson.fromJson(json, SensorRegistry.class);
@@ -95,7 +95,7 @@ public class SensorRegistryDeserializerTest {
 
 	@Test
 	public void testRegistryWithCorruptedChild() {
-		final String json = "{\"identifier\": \"my-root-id\", \"children\": [{\"identifier\": \"child-id-1\"}, {\"no-identifier\": \"child-id-2\"}]}";
+		final String json = "{\"identifier\": \"my-root-id\", \"name\": \"My Name\", \"children\": [{\"identifier\": \"child-id-1\", \"name\": \"Child 1\"}, {\"no-identifier\": \"child-id-2\", \"name\": \"Child 2\"}]}";
 		final List<String> childIdentifiers = ImmutableList.of("child-id-1"); // List.of() in Java <= 9
 
 		final SensorRegistry registry = this.gson.fromJson(json, SensorRegistry.class);
@@ -114,7 +114,7 @@ public class SensorRegistryDeserializerTest {
 
 	@Test
 	public void testRegistryWithArrayAsChild() {
-		final String json = "{\"identifier\": \"my-root-id\", \"children\": [{\"identifier\": \"child-id-1\"}, [{\"identifier\": \"child-id-2\"}]]}";
+		final String json = "{\"identifier\": \"my-root-id\", \"name\": \"My Name\", \"children\": [{\"identifier\": \"child-id-1\", \"name\": \"Child 1\"}, [{\"identifier\": \"child-id-2\", \"name\": \"Child 2\"}]]}";
 		final List<String> childIdentifiers = ImmutableList.of("child-id-1"); // List.of() in Java <= 9
 
 		final SensorRegistry registry = this.gson.fromJson(json, SensorRegistry.class);
@@ -133,7 +133,7 @@ public class SensorRegistryDeserializerTest {
 
 	@Test
 	public void testRegistryWithTwoGenerationChildren() {
-		final String json = "{\"identifier\": \"my-root-id\", \"children\": [{\"identifier\": \"child-id-1\", \"children\": [{\"identifier\": \"child-id-1-1\"}, {\"identifier\": \"child-id-1-2\"}, {\"identifier\": \"child-id-1-3\"}]}, {\"identifier\": \"child-id-2\"}]}";
+		final String json = "{\"identifier\": \"my-root-id\", \"name\": \"My Name\", \"children\": [{\"identifier\": \"child-id-1\", \"name\": \"Child 1\", \"children\": [{\"identifier\": \"child-id-1-1\", \"name\": \"Child 1a\"}, {\"identifier\": \"child-id-1-2\", \"name\": \"Child 1b\"}, {\"identifier\": \"child-id-1-3\", \"name\": \"Child 1c\"}]}, {\"identifier\": \"child-id-2\", \"name\": \"Child 2\"}]}";
 		final List<String> childIdentifiers = ImmutableList.of("child-id-1", "child-id-2"); // List.of() in Java <= 9
 		final List<String> grandChildIdentifiers = ImmutableList.of("child-id-1-1", "child-id-1-2", "child-id-1-3"); // List.of() in Java <= 9
 		final List<String> machineSensorIdentifiers = ImmutableList.of("child-id-2", "child-id-1-1", "child-id-1-2", // List.of() in Java <= 9

@@ -44,6 +44,11 @@ public class DummySensorRegistry implements SensorRegistry {
 		}
 
 		@Override
+		public String getName() {
+			return "";
+		}
+
+		@Override
 		public Collection<Sensor> getChildren() {
 			return Collections.emptyList();
 		}
@@ -66,6 +71,11 @@ public class DummySensorRegistry implements SensorRegistry {
 		@Override
 		public String getIdentifier() {
 			return this.identifier;
+		}
+
+		@Override
+		public String getName() {
+			return "";
 		}
 
 	}

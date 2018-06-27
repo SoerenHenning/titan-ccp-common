@@ -9,13 +9,13 @@ public class MutableAggregatedSensor extends AbstractSensor implements Aggregate
 	private final List<Sensor> children = new ArrayList<>();
 	private final MutableSensorRegistry sensorRegistry;
 
-	protected MutableAggregatedSensor(final MutableSensorRegistry registry, final String identifier) {
-		super(null, identifier);
+	protected MutableAggregatedSensor(final MutableSensorRegistry registry, final String identifier, final String name) {
+		super(null, identifier, name);
 		this.sensorRegistry = registry;
 	}
 
-	protected MutableAggregatedSensor(final MutableAggregatedSensor parent, final String identifier) {
-		super(parent, identifier);
+	protected MutableAggregatedSensor(final MutableAggregatedSensor parent, final String identifier, final String name) {
+		super(parent, identifier, name);
 		this.sensorRegistry = parent.sensorRegistry;
 	}
 
@@ -25,13 +25,21 @@ public class MutableAggregatedSensor extends AbstractSensor implements Aggregate
 	}
 
 	public MutableAggregatedSensor addChildAggregatedSensor(final String identifier) {
-		final MutableAggregatedSensor aggregatedSensor = new MutableAggregatedSensor(this, identifier);
+		return this.addChildAggregatedSensor(identifier, "");
+	}
+
+	public MutableAggregatedSensor addChildAggregatedSensor(final String identifier, final String name) {
+		final MutableAggregatedSensor aggregatedSensor = new MutableAggregatedSensor(this, identifier, name);
 		this.children.add(aggregatedSensor);
 		return aggregatedSensor;
 	}
 
 	public MachineSensor addChildMachineSensor(final String identifier) {
-		final MutableMachineSensor machineSensor = new MutableMachineSensor(this, identifier);
+		return this.addChildMachineSensor(identifier, "");
+	}
+
+	public MachineSensor addChildMachineSensor(final String identifier, final String name) {
+		final MutableMachineSensor machineSensor = new MutableMachineSensor(this, identifier, name);
 		final boolean registerResult = this.sensorRegistry.register(machineSensor);
 		if (!registerResult) {
 			throw new IllegalArgumentException("Sensor width identifier " + identifier + " is already registered.");
@@ -42,7 +50,7 @@ public class MutableAggregatedSensor extends AbstractSensor implements Aggregate
 
 	@Override
 	public String toString() {
-		return this.getIdentifier() + " (" + this.children.size() + " children)";
+		return this.getName() + '[' + this.getIdentifier() + "] (" + this.children.size() + " children)";
 	}
 
 }

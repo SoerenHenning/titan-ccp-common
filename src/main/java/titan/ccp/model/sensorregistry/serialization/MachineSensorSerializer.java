@@ -15,7 +15,7 @@ public final class MachineSensorSerializer implements JsonSerializer<MachineSens
 	public JsonElement serialize(final MachineSensor sensor, final Type type, final JsonSerializationContext context) {
 		final JsonObject jsonSensorObject = new JsonObject();
 		jsonSensorObject.addProperty("identifier", sensor.getIdentifier());
-		// TODO further attributes here
+		jsonSensorObject.addProperty("name", sensor.getName());
 		return jsonSensorObject;
 	}
 

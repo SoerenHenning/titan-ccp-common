@@ -65,10 +65,12 @@ public final class ImmutableSensorRegistry implements SensorRegistry {
 
 		private final AggregatedSensor parent;
 		private final String identifier;
+		private final String name;
 
 		private AbstractImmutableSensor(final AggregatedSensor newParent, final Sensor sensorToCopy) {
 			this.parent = newParent;
 			this.identifier = sensorToCopy.getIdentifier();
+			this.name = sensorToCopy.getName();
 		}
 
 		@Override
@@ -79,6 +81,11 @@ public final class ImmutableSensorRegistry implements SensorRegistry {
 		@Override
 		public String getIdentifier() {
 			return this.identifier;
+		}
+
+		@Override
+		public String getName() {
+			return this.name;
 		}
 
 	}
@@ -113,7 +120,7 @@ public final class ImmutableSensorRegistry implements SensorRegistry {
 
 		@Override
 		public String toString() {
-			return this.getIdentifier() + " (" + this.children.size() + " children)";
+			return this.getName() + '[' + this.getIdentifier() + "] (" + this.children.size() + " children)";
 		}
 
 	}
@@ -127,7 +134,7 @@ public final class ImmutableSensorRegistry implements SensorRegistry {
 
 		@Override
 		public String toString() {
-			return this.getIdentifier();
+			return this.getName() + '[' + this.getIdentifier() + ']';
 		}
 
 	}

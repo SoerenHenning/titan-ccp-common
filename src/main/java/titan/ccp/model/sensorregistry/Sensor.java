@@ -8,4 +8,6 @@ public interface Sensor {
 
 	public String getIdentifier();
 
+	public String getName();
+
 }

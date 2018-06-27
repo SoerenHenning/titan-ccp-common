@@ -27,7 +27,11 @@ public class MutableSensorRegistry implements SensorRegistry {
 	private final MutableAggregatedSensor topLevelSensor;
 
 	public MutableSensorRegistry(final String topLevelSensorIdentifier) {
-		this.topLevelSensor = new MutableAggregatedSensor(this, topLevelSensorIdentifier);
+		this(topLevelSensorIdentifier, "");
+	}
+
+	public MutableSensorRegistry(final String topLevelSensorIdentifier, final String topLevelSensorName) {
+		this.topLevelSensor = new MutableAggregatedSensor(this, topLevelSensorIdentifier, topLevelSensorName);
 	}
 
 	@Override

@@ -16,7 +16,7 @@ public final class AggregatedSensorSerializer implements JsonSerializer<Aggregat
 			final JsonSerializationContext context) {
 		final JsonObject jsonSensorObject = new JsonObject();
 		jsonSensorObject.addProperty("identifier", sensor.getIdentifier());
-		// TODO further attributes here
+		jsonSensorObject.addProperty("name", sensor.getName());
 		jsonSensorObject.add("children", context.serialize(sensor.getChildren()));
 		return jsonSensorObject;
 	}
