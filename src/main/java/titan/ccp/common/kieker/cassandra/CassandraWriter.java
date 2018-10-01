@@ -40,19 +40,6 @@ public class CassandraWriter {
 
 	private final Set<String> existingTables = new HashSet<>();
 
-	// public CassandraWriter(final Session session) {
-	// // TODO Auto-generated constructor stub
-	// // final String host = "";
-	// // final int port = 0;
-	// // final String keyspace = "";
-	// //
-	// // final Cluster cluster =
-	// // Cluster.builder().addContactPoint(host).withPort(port).build();
-	// // this.session = cluster.connect(keyspace);
-	// this.session = session;
-	//
-	// }
-	//
 	public CassandraWriter(final Session session, final Function<IMonitoringRecord, String> tableNameMapper,
 			final PrimaryKeySelectionStrategy primaryKeySelectionStrategy, final boolean includeRecordType,
 			final boolean includeLoggingTimestamp, final boolean executeAsync) {

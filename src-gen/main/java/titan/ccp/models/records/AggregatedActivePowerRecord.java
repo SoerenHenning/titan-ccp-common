@@ -15,33 +15,49 @@ import kieker.common.record.io.IValueSerializer;
  * 
  * @since 1.14
  */
-public class PowerConsumptionRecord extends AbstractMonitoringRecord implements IMonitoringRecord.Factory, IMonitoringRecord.BinaryFactory {			
+public class AggregatedActivePowerRecord extends AbstractMonitoringRecord implements IMonitoringRecord.Factory, IMonitoringRecord.BinaryFactory {			
 	/** Descriptive definition of the serialization size of the record. */
-	public static final int SIZE = TYPE_SIZE_STRING // PowerConsumptionRecord.identifier
-			 + TYPE_SIZE_LONG // PowerConsumptionRecord.timestamp
-			 + TYPE_SIZE_INT; // PowerConsumptionRecord.powerConsumptionInWh
+	public static final int SIZE = TYPE_SIZE_STRING // AggregatedActivePowerRecord.identifier
+			 + TYPE_SIZE_LONG // AggregatedActivePowerRecord.timestamp
+			 + TYPE_SIZE_DOUBLE // AggregatedActivePowerRecord.minInW
+			 + TYPE_SIZE_DOUBLE // AggregatedActivePowerRecord.maxInW
+			 + TYPE_SIZE_LONG // AggregatedActivePowerRecord.count
+			 + TYPE_SIZE_DOUBLE // AggregatedActivePowerRecord.sumInW
+			 + TYPE_SIZE_DOUBLE; // AggregatedActivePowerRecord.averageInW
 	
 	public static final Class<?>[] TYPES = {
-		String.class, // PowerConsumptionRecord.identifier
-		long.class, // PowerConsumptionRecord.timestamp
-		int.class, // PowerConsumptionRecord.powerConsumptionInWh
+		String.class, // AggregatedActivePowerRecord.identifier
+		long.class, // AggregatedActivePowerRecord.timestamp
+		double.class, // AggregatedActivePowerRecord.minInW
+		double.class, // AggregatedActivePowerRecord.maxInW
+		long.class, // AggregatedActivePowerRecord.count
+		double.class, // AggregatedActivePowerRecord.sumInW
+		double.class, // AggregatedActivePowerRecord.averageInW
 	};
 	
 	/** default constants. */
 	public static final String IDENTIFIER = "";
-	private static final long serialVersionUID = 7891241250783138742L;
+	private static final long serialVersionUID = -2095448023003244219L;
 	
 	/** property name array. */
 	private static final String[] PROPERTY_NAMES = {
 		"identifier",
 		"timestamp",
-		"powerConsumptionInWh",
+		"minInW",
+		"maxInW",
+		"count",
+		"sumInW",
+		"averageInW",
 	};
 	
 	/** property declarations. */
 	private final String identifier;
 	private final long timestamp;
-	private final int powerConsumptionInWh;
+	private final double minInW;
+	private final double maxInW;
+	private final long count;
+	private final double sumInW;
+	private final double averageInW;
 	
 	/**
 	 * Creates a new instance of this class using the given parameters.
@@ -50,13 +66,25 @@ public class PowerConsumptionRecord extends AbstractMonitoringRecord implements 
 	 *            identifier
 	 * @param timestamp
 	 *            timestamp
-	 * @param powerConsumptionInWh
-	 *            powerConsumptionInWh
+	 * @param minInW
+	 *            minInW
+	 * @param maxInW
+	 *            maxInW
+	 * @param count
+	 *            count
+	 * @param sumInW
+	 *            sumInW
+	 * @param averageInW
+	 *            averageInW
 	 */
-	public PowerConsumptionRecord(final String identifier, final long timestamp, final int powerConsumptionInWh) {
+	public AggregatedActivePowerRecord(final String identifier, final long timestamp, final double minInW, final double maxInW, final long count, final double sumInW, final double averageInW) {
 		this.identifier = identifier == null?"":identifier;
 		this.timestamp = timestamp;
-		this.powerConsumptionInWh = powerConsumptionInWh;
+		this.minInW = minInW;
+		this.maxInW = maxInW;
+		this.count = count;
+		this.sumInW = sumInW;
+		this.averageInW = averageInW;
 	}
 
 	/**
@@ -66,14 +94,18 @@ public class PowerConsumptionRecord extends AbstractMonitoringRecord implements 
 	 * @param values
 	 *            The values for the record.
 	 *
-	 * @deprecated since 1.13. Use {@link #PowerConsumptionRecord(IValueDeserializer)} instead.
+	 * @deprecated since 1.13. Use {@link #AggregatedActivePowerRecord(IValueDeserializer)} instead.
 	 */
 	@Deprecated
-	public PowerConsumptionRecord(final Object[] values) { // NOPMD (direct store of values)
+	public AggregatedActivePowerRecord(final Object[] values) { // NOPMD (direct store of values)
 		AbstractMonitoringRecord.checkArray(values, TYPES);
 		this.identifier = (String) values[0];
 		this.timestamp = (Long) values[1];
-		this.powerConsumptionInWh = (Integer) values[2];
+		this.minInW = (Double) values[2];
+		this.maxInW = (Double) values[3];
+		this.count = (Long) values[4];
+		this.sumInW = (Double) values[5];
+		this.averageInW = (Double) values[6];
 	}
 
 	/**
@@ -84,14 +116,18 @@ public class PowerConsumptionRecord extends AbstractMonitoringRecord implements 
 	 * @param valueTypes
 	 *            The types of the elements in the first array.
 	 *
-	 * @deprecated since 1.13. Use {@link #PowerConsumptionRecord(IValueDeserializer)} instead.
+	 * @deprecated since 1.13. Use {@link #AggregatedActivePowerRecord(IValueDeserializer)} instead.
 	 */
 	@Deprecated
-	protected PowerConsumptionRecord(final Object[] values, final Class<?>[] valueTypes) { // NOPMD (values stored directly)
+	protected AggregatedActivePowerRecord(final Object[] values, final Class<?>[] valueTypes) { // NOPMD (values stored directly)
 		AbstractMonitoringRecord.checkArray(values, valueTypes);
 		this.identifier = (String) values[0];
 		this.timestamp = (Long) values[1];
-		this.powerConsumptionInWh = (Integer) values[2];
+		this.minInW = (Double) values[2];
+		this.maxInW = (Double) values[3];
+		this.count = (Long) values[4];
+		this.sumInW = (Double) values[5];
+		this.averageInW = (Double) values[6];
 	}
 
 	
@@ -101,10 +137,14 @@ public class PowerConsumptionRecord extends AbstractMonitoringRecord implements 
 	 * @throws RecordInstantiationException 
 	 *            when the record could not be deserialized
 	 */
-	public PowerConsumptionRecord(final IValueDeserializer deserializer) throws RecordInstantiationException {
+	public AggregatedActivePowerRecord(final IValueDeserializer deserializer) throws RecordInstantiationException {
 		this.identifier = deserializer.getString();
 		this.timestamp = deserializer.getLong();
-		this.powerConsumptionInWh = deserializer.getInt();
+		this.minInW = deserializer.getDouble();
+		this.maxInW = deserializer.getDouble();
+		this.count = deserializer.getLong();
+		this.sumInW = deserializer.getDouble();
+		this.averageInW = deserializer.getDouble();
 	}
 	
 	/**
@@ -118,7 +158,11 @@ public class PowerConsumptionRecord extends AbstractMonitoringRecord implements 
 		return new Object[] {
 			this.getIdentifier(),
 			this.getTimestamp(),
-			this.getPowerConsumptionInWh(),
+			this.getMinInW(),
+			this.getMaxInW(),
+			this.getCount(),
+			this.getSumInW(),
+			this.getAverageInW(),
 		};
 	}
 	/**
@@ -129,7 +173,11 @@ public class PowerConsumptionRecord extends AbstractMonitoringRecord implements 
 		//super.serialize(serializer);
 		serializer.putString(this.getIdentifier());
 		serializer.putLong(this.getTimestamp());
-		serializer.putInt(this.getPowerConsumptionInWh());
+		serializer.putDouble(this.getMinInW());
+		serializer.putDouble(this.getMaxInW());
+		serializer.putLong(this.getCount());
+		serializer.putDouble(this.getSumInW());
+		serializer.putDouble(this.getAverageInW());
 	}
 	
 	/**
@@ -182,7 +230,7 @@ public class PowerConsumptionRecord extends AbstractMonitoringRecord implements 
 			return false;
 		}
 		
-		final PowerConsumptionRecord castedRecord = (PowerConsumptionRecord) obj;
+		final AggregatedActivePowerRecord castedRecord = (AggregatedActivePowerRecord) obj;
 		if (this.getLoggingTimestamp() != castedRecord.getLoggingTimestamp()) {
 			return false;
 		}
@@ -192,7 +240,19 @@ public class PowerConsumptionRecord extends AbstractMonitoringRecord implements 
 		if (this.getTimestamp() != castedRecord.getTimestamp()) {
 			return false;
 		}
-		if (this.getPowerConsumptionInWh() != castedRecord.getPowerConsumptionInWh()) {
+		if (isNotEqual(this.getMinInW(), castedRecord.getMinInW())) {
+			return false;
+		}
+		if (isNotEqual(this.getMaxInW(), castedRecord.getMaxInW())) {
+			return false;
+		}
+		if (this.getCount() != castedRecord.getCount()) {
+			return false;
+		}
+		if (isNotEqual(this.getSumInW(), castedRecord.getSumInW())) {
+			return false;
+		}
+		if (isNotEqual(this.getAverageInW(), castedRecord.getAverageInW())) {
 			return false;
 		}
 		
@@ -209,8 +269,28 @@ public class PowerConsumptionRecord extends AbstractMonitoringRecord implements 
 	}
 	
 	
-	public final int getPowerConsumptionInWh() {
-		return this.powerConsumptionInWh;
+	public final double getMinInW() {
+		return this.minInW;
+	}
+	
+	
+	public final double getMaxInW() {
+		return this.maxInW;
+	}
+	
+	
+	public final long getCount() {
+		return this.count;
+	}
+	
+	
+	public final double getSumInW() {
+		return this.sumInW;
+	}
+	
+	
+	public final double getAverageInW() {
+		return this.averageInW;
 	}
 	
 }

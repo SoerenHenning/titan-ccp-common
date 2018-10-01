@@ -4,68 +4,20 @@ import static org.junit.Assert.assertEquals;
 
 import java.util.List;
 
-import org.cassandraunit.utils.EmbeddedCassandraServerHelper;
-import org.junit.After;
-import org.junit.AfterClass;
-import org.junit.Before;
-import org.junit.BeforeClass;
 import org.junit.Test;
 
-import com.datastax.driver.core.Cluster;
 import com.datastax.driver.core.DataType;
 import com.datastax.driver.core.ResultSet;
 import com.datastax.driver.core.Row;
-import com.datastax.driver.core.Session;
 import com.datastax.driver.core.querybuilder.Insert;
 import com.datastax.driver.core.querybuilder.QueryBuilder;
 import com.datastax.driver.core.querybuilder.Select;
 import com.datastax.driver.core.schemabuilder.Create;
-import com.datastax.driver.core.schemabuilder.DropKeyspace;
-import com.datastax.driver.core.schemabuilder.KeyspaceOptions;
 import com.datastax.driver.core.schemabuilder.SchemaBuilder;
-import com.google.common.collect.ImmutableMap;
 
 import kieker.common.record.flow.trace.operation.BeforeOperationEvent;
 
-public class CassandraWriterTest {
-
-	private static final String KEYSPACE = "test";
-
-	private static Cluster cluster;
-	private Session session;
-
-	@BeforeClass
-	public static void setUpClass() throws Exception {
-		EmbeddedCassandraServerHelper.startEmbeddedCassandra();
-
-		CassandraWriterTest.cluster = Cluster.builder().addContactPoint(EmbeddedCassandraServerHelper.getHost())
-				.withPort(EmbeddedCassandraServerHelper.getNativeTransportPort()).build();
-	}
-
-	@AfterClass
-	public static void tearDownClass() throws Exception {
-		cluster.close();
-	}
-
-	@Before
-	public void setUp() throws Exception {
-		final Session session = EmbeddedCassandraServerHelper.getSession();
-		final KeyspaceOptions createKeyspace = SchemaBuilder.createKeyspace(KEYSPACE).ifNotExists().with()
-				.replication(ImmutableMap.of("class", "SimpleStrategy", "replication_factor", 1));
-		session.execute(createKeyspace);
-
-		this.session = cluster.connect(KEYSPACE);
-	}
-
-	@After
-	public void tearDown() throws Exception {
-		this.session.close();
-		this.session = null;
-
-		final Session session = EmbeddedCassandraServerHelper.getSession();
-		final DropKeyspace dropKeyspace = SchemaBuilder.dropKeyspace(KEYSPACE).ifExists();
-		session.execute(dropKeyspace);
-	}
+public class CassandraWriterTest extends AbstractCassandraTest {
 
 	@Test
 	public void testCassandraRunning() {
