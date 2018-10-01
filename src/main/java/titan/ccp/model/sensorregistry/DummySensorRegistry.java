@@ -8,76 +8,76 @@ import java.util.Optional;
 
 public class DummySensorRegistry implements SensorRegistry {
 
-	private final Map<String, DummyMachineSensor> dummySensors = new HashMap<>();
+  private final Map<String, DummyMachineSensor> dummySensors = new HashMap<>();
 
-	@Override
-	public Optional<MachineSensor> getSensorForIdentifier(final String identifier) {
-		return Optional.of(this.dummySensors.computeIfAbsent(identifier, i -> new DummyMachineSensor(i)));
-	}
+  @Override
+  public Optional<MachineSensor> getSensorForIdentifier(final String identifier) {
+    return Optional
+        .of(this.dummySensors.computeIfAbsent(identifier, i -> new DummyMachineSensor(i)));
+  }
 
-	@Override
-	public AggregatedSensor getTopLevelSensor() {
-		return EMPTY_TOP_LEVEL_SENSOR;
-	}
+  @Override
+  public AggregatedSensor getTopLevelSensor() {
+    return EMPTY_TOP_LEVEL_SENSOR;
+  }
 
-	@Override
-	public Collection<MachineSensor> getMachineSensors() {
-		return Collections.emptyList();
-	}
+  @Override
+  public Collection<MachineSensor> getMachineSensors() {
+    return Collections.emptyList();
+  }
 
-	private static final AggregatedSensor EMPTY_TOP_LEVEL_SENSOR = new EmptyTopLevelSensor();
+  private static final AggregatedSensor EMPTY_TOP_LEVEL_SENSOR = new EmptyTopLevelSensor();
 
-	// TODO move
-	private static class EmptyTopLevelSensor implements AggregatedSensor {
+  // TODO move
+  private static class EmptyTopLevelSensor implements AggregatedSensor {
 
-		private EmptyTopLevelSensor() {
-		}
+    private EmptyTopLevelSensor() {}
 
-		@Override
-		public Optional<AggregatedSensor> getParent() {
-			return Optional.empty();
-		}
+    @Override
+    public Optional<AggregatedSensor> getParent() {
+      return Optional.empty();
+    }
 
-		@Override
-		public String getIdentifier() {
-			return "";
-		}
+    @Override
+    public String getIdentifier() {
+      return "";
+    }
 
-		@Override
-		public String getName() {
-			return "";
-		}
+    @Override
+    public String getName() {
+      return "";
+    }
 
-		@Override
-		public Collection<Sensor> getChildren() {
-			return Collections.emptyList();
-		}
+    @Override
+    public Collection<Sensor> getChildren() {
+      return Collections.emptyList();
+    }
 
-	}
+  }
 
-	private static class DummyMachineSensor implements MachineSensor {
+  private static class DummyMachineSensor implements MachineSensor {
 
-		private final String identifier;
+    private final String identifier;
 
-		private DummyMachineSensor(final String identifier) {
-			this.identifier = identifier;
-		}
+    private DummyMachineSensor(final String identifier) {
+      this.identifier = identifier;
+    }
 
-		@Override
-		public Optional<AggregatedSensor> getParent() {
-			return Optional.empty();
-		}
+    @Override
+    public Optional<AggregatedSensor> getParent() {
+      return Optional.empty();
+    }
 
-		@Override
-		public String getIdentifier() {
-			return this.identifier;
-		}
+    @Override
+    public String getIdentifier() {
+      return this.identifier;
+    }
 
-		@Override
-		public String getName() {
-			return "";
-		}
+    @Override
+    public String getName() {
+      return "";
+    }
 
-	}
+  }
 
 }

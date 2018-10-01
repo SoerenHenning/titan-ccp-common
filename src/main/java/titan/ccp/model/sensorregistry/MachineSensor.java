@@ -6,14 +6,14 @@ import java.util.Optional;
 
 public interface MachineSensor extends Sensor {
 
-	public default List<AggregatedSensor> getParents() {
-		Optional<AggregatedSensor> parent = this.getParent();
-		final List<AggregatedSensor> parents = new ArrayList<>();
-		while (parent.isPresent()) {
-			parents.add(parent.get());
-			parent = parent.get().getParent();
-		}
-		return parents;
-	}
+  public default List<AggregatedSensor> getParents() {
+    Optional<AggregatedSensor> parent = this.getParent();
+    final List<AggregatedSensor> parents = new ArrayList<>();
+    while (parent.isPresent()) {
+      parents.add(parent.get());
+      parent = parent.get().getParent();
+    }
+    return parents;
+  }
 
 }

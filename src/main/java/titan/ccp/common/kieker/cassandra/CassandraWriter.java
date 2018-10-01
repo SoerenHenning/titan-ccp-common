@@ -1,12 +1,5 @@
 package titan.ccp.common.kieker.cassandra;
 
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
-import java.util.function.Function;
-
 import com.datastax.driver.core.Session;
 import com.datastax.driver.core.Statement;
 import com.datastax.driver.core.querybuilder.Insert;
@@ -14,210 +7,221 @@ import com.datastax.driver.core.querybuilder.QueryBuilder;
 import com.datastax.driver.core.schemabuilder.Create;
 import com.datastax.driver.core.schemabuilder.SchemaBuilder;
 import com.google.common.collect.Streams;
-
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Set;
+import java.util.function.Function;
 import kieker.common.record.IMonitoringRecord;
 import titan.ccp.common.kieker.ArrayValueSerializer;
 
 public class CassandraWriter {
 
-	private static final String RECORD_TYPE_NAME = "recordType";
-	private static final Class<?> RECORD_TYPE_TYPE = String.class;
+  private static final String RECORD_TYPE_NAME = "recordType";
+  private static final Class<?> RECORD_TYPE_TYPE = String.class;
 
-	private static final String LOGGING_TIMESTAMP_NAME = "loggingTimestamp";
-	private static final Class<?> LOGGING_TIMESTAMP_TYPE = long.class;
+  private static final String LOGGING_TIMESTAMP_NAME = "loggingTimestamp";
+  private static final Class<?> LOGGING_TIMESTAMP_TYPE = long.class;
 
-	private final Session session;
+  private final Session session;
 
-	private final Function<IMonitoringRecord, String> tableNameMapper;
+  private final Function<IMonitoringRecord, String> tableNameMapper;
 
-	private final PrimaryKeySelectionStrategy primaryKeySelectionStrategy;
+  private final PrimaryKeySelectionStrategy primaryKeySelectionStrategy;
 
-	private final boolean includeRecordType;
+  private final boolean includeRecordType;
 
-	private final boolean includeLoggingTimestamp;
+  private final boolean includeLoggingTimestamp;
 
-	private final boolean executeAsync;
+  private final boolean executeAsync;
 
-	private final Set<String> existingTables = new HashSet<>();
+  private final Set<String> existingTables = new HashSet<>();
 
-	public CassandraWriter(final Session session, final Function<IMonitoringRecord, String> tableNameMapper,
-			final PrimaryKeySelectionStrategy primaryKeySelectionStrategy, final boolean includeRecordType,
-			final boolean includeLoggingTimestamp, final boolean executeAsync) {
-		this.session = session;
-		this.tableNameMapper = tableNameMapper;
-		this.primaryKeySelectionStrategy = primaryKeySelectionStrategy;
-		this.includeRecordType = includeRecordType;
-		this.includeLoggingTimestamp = includeLoggingTimestamp;
-		this.executeAsync = executeAsync;
-	}
+  public CassandraWriter(final Session session,
+      final Function<IMonitoringRecord, String> tableNameMapper,
+      final PrimaryKeySelectionStrategy primaryKeySelectionStrategy,
+      final boolean includeRecordType, final boolean includeLoggingTimestamp,
+      final boolean executeAsync) {
+    this.session = session;
+    this.tableNameMapper = tableNameMapper;
+    this.primaryKeySelectionStrategy = primaryKeySelectionStrategy;
+    this.includeRecordType = includeRecordType;
+    this.includeLoggingTimestamp = includeLoggingTimestamp;
+    this.executeAsync = executeAsync;
+  }
 
-	public void write(final IMonitoringRecord record) {
-		final String tableName = this.tableNameMapper.apply(record);
+  public void write(final IMonitoringRecord record) {
+    final String tableName = this.tableNameMapper.apply(record);
 
-		this.createTableIfNotExists(tableName, record);
+    this.createTableIfNotExists(tableName, record);
 
-		this.store(tableName, record);
-	}
+    this.store(tableName, record);
+  }
 
-	private void createTableIfNotExists(final String tableName, final IMonitoringRecord record) {
-		if (!this.existingTables.contains(tableName)) {
-			this.createTable(tableName, record);
-			this.existingTables.add(tableName);
-		}
-	}
+  private void createTableIfNotExists(final String tableName, final IMonitoringRecord record) {
+    if (!this.existingTables.contains(tableName)) {
+      this.createTable(tableName, record);
+      this.existingTables.add(tableName);
+    }
+  }
 
-	private void createTable(final String tableName, final IMonitoringRecord record) {
-		final List<String> includedFields = this.getFields(record);
-		final List<Class<?>> includedFieldTypes = this.getFieldTypes(record);
+  private void createTable(final String tableName, final IMonitoringRecord record) {
+    final List<String> includedFields = this.getFields(record);
+    final List<Class<?>> includedFieldTypes = this.getFieldTypes(record);
 
-		final Set<String> partitionKey = this.primaryKeySelectionStrategy.selectPartitionKeys(tableName,
-				includedFields);
-		final Set<String> clusteringColumns = this.primaryKeySelectionStrategy.selectClusteringColumns(tableName,
-				includedFields);
+    final Set<String> partitionKey =
+        this.primaryKeySelectionStrategy.selectPartitionKeys(tableName, includedFields);
+    final Set<String> clusteringColumns =
+        this.primaryKeySelectionStrategy.selectClusteringColumns(tableName, includedFields);
 
-		final Create createStatement = SchemaBuilder.createTable(tableName).ifNotExists();
+    final Create createStatement = SchemaBuilder.createTable(tableName).ifNotExists();
 
-		Streams.zip(includedFields.stream(), includedFieldTypes.stream(), RecordField::new).forEach(field -> {
-			if (partitionKey.contains(field.name)) {
-				createStatement.addPartitionKey(field.name, JavaTypeMapper.map(field.type));
-			} else if (clusteringColumns.contains(field.name)) {
-				createStatement.addClusteringColumn(field.name, JavaTypeMapper.map(field.type));
-			} else {
-				createStatement.addColumn(field.name, JavaTypeMapper.map(field.type));
-			}
-		});
+    Streams.zip(includedFields.stream(), includedFieldTypes.stream(), RecordField::new)
+        .forEach(field -> {
+          if (partitionKey.contains(field.name)) {
+            createStatement.addPartitionKey(field.name, JavaTypeMapper.map(field.type));
+          } else if (clusteringColumns.contains(field.name)) {
+            createStatement.addClusteringColumn(field.name, JavaTypeMapper.map(field.type));
+          } else {
+            createStatement.addColumn(field.name, JavaTypeMapper.map(field.type));
+          }
+        });
 
-		this.session.execute(createStatement);
-	}
+    this.session.execute(createStatement);
+  }
 
-	private void store(final String table, final IMonitoringRecord record) {
-		final String[] valueNames = record.getValueNames();
-		final Object[] values = new Object[valueNames.length];
-		record.serialize(new ArrayValueSerializer(values));
+  private void store(final String table, final IMonitoringRecord record) {
+    final String[] valueNames = record.getValueNames();
+    final Object[] values = new Object[valueNames.length];
+    record.serialize(new ArrayValueSerializer(values));
 
-		final Insert insertStatement = QueryBuilder.insertInto(table);
-		if (this.includeRecordType) {
-			insertStatement.value(RECORD_TYPE_NAME, record.getClass().getName());
-		}
-		if (this.includeLoggingTimestamp) {
-			insertStatement.value(LOGGING_TIMESTAMP_NAME, record.getLoggingTimestamp());
-		}
-		insertStatement.values(valueNames, values);
+    final Insert insertStatement = QueryBuilder.insertInto(table);
+    if (this.includeRecordType) {
+      insertStatement.value(RECORD_TYPE_NAME, record.getClass().getName());
+    }
+    if (this.includeLoggingTimestamp) {
+      insertStatement.value(LOGGING_TIMESTAMP_NAME, record.getLoggingTimestamp());
+    }
+    insertStatement.values(valueNames, values);
 
-		this.executeStatement(insertStatement);
-	}
+    this.executeStatement(insertStatement);
+  }
 
-	private List<String> getFields(final IMonitoringRecord record) {
-		final String[] valueNames = record.getValueNames();
+  private List<String> getFields(final IMonitoringRecord record) {
+    final String[] valueNames = record.getValueNames();
 
-		final List<String> fields = new ArrayList<>(valueNames.length + 2);
-		if (this.includeRecordType) {
-			fields.add(RECORD_TYPE_NAME);
-		}
-		if (this.includeLoggingTimestamp) {
-			fields.add(LOGGING_TIMESTAMP_NAME);
-		}
-		Collections.addAll(fields, valueNames);
-		return fields;
-	}
+    final List<String> fields = new ArrayList<>(valueNames.length + 2);
+    if (this.includeRecordType) {
+      fields.add(RECORD_TYPE_NAME);
+    }
+    if (this.includeLoggingTimestamp) {
+      fields.add(LOGGING_TIMESTAMP_NAME);
+    }
+    Collections.addAll(fields, valueNames);
+    return fields;
+  }
 
-	private List<Class<?>> getFieldTypes(final IMonitoringRecord record) {
-		final Class<?>[] valueTypes = record.getValueTypes();
+  private List<Class<?>> getFieldTypes(final IMonitoringRecord record) {
+    final Class<?>[] valueTypes = record.getValueTypes();
 
-		final List<Class<?>> fieldTypes = new ArrayList<>(valueTypes.length + 2);
-		if (this.includeRecordType) {
-			fieldTypes.add(RECORD_TYPE_TYPE);
-		}
-		if (this.includeLoggingTimestamp) {
-			fieldTypes.add(LOGGING_TIMESTAMP_TYPE);
-		}
-		Collections.addAll(fieldTypes, valueTypes);
-		return fieldTypes;
-	}
+    final List<Class<?>> fieldTypes = new ArrayList<>(valueTypes.length + 2);
+    if (this.includeRecordType) {
+      fieldTypes.add(RECORD_TYPE_TYPE);
+    }
+    if (this.includeLoggingTimestamp) {
+      fieldTypes.add(LOGGING_TIMESTAMP_TYPE);
+    }
+    Collections.addAll(fieldTypes, valueTypes);
+    return fieldTypes;
+  }
 
-	private void executeStatement(final Statement statement) {
-		if (this.executeAsync) {
-			this.session.executeAsync(statement);
-		} else {
-			this.session.execute(statement);
-		}
+  private void executeStatement(final Statement statement) {
+    if (this.executeAsync) {
+      this.session.executeAsync(statement);
+    } else {
+      this.session.execute(statement);
+    }
 
-	}
+  }
 
-	public static Builder builder(final Session session) {
-		return new Builder(session);
-	}
+  public static Builder builder(final Session session) {
+    return new Builder(session);
+  }
 
-	public static class Builder {
+  public static class Builder {
 
-		private final Session session;
+    private final Session session;
 
-		private Function<IMonitoringRecord, String> tableNameMapper = PredefinedTableNameMappers.CLASS_NAME;
+    private Function<IMonitoringRecord, String> tableNameMapper =
+        PredefinedTableNameMappers.CLASS_NAME;
 
-		private PrimaryKeySelectionStrategy primaryKeySelectionStrategy = new TakeLoggingTimestampStrategy();
+    private PrimaryKeySelectionStrategy primaryKeySelectionStrategy =
+        new TakeLoggingTimestampStrategy();
 
-		private boolean includeRecordType = false;
+    private boolean includeRecordType = false;
 
-		private boolean includeLoggingTimestamp = true;
+    private boolean includeLoggingTimestamp = true;
 
-		private boolean executeAsync = false;
+    private boolean executeAsync = false;
 
-		public Builder(final Session session) {
-			this.session = session;
-		}
+    public Builder(final Session session) {
+      this.session = session;
+    }
 
-		public Builder tableNameMapper(final Function<IMonitoringRecord, String> tableNameMapper) {
-			this.tableNameMapper = tableNameMapper;
-			return this;
-		}
+    public Builder tableNameMapper(final Function<IMonitoringRecord, String> tableNameMapper) {
+      this.tableNameMapper = tableNameMapper;
+      return this;
+    }
 
-		public Builder primaryKeySelectionStrategy(final PrimaryKeySelectionStrategy strategy) {
-			this.primaryKeySelectionStrategy = strategy;
-			return this;
-		}
+    public Builder primaryKeySelectionStrategy(final PrimaryKeySelectionStrategy strategy) {
+      this.primaryKeySelectionStrategy = strategy;
+      return this;
+    }
 
-		public Builder includeRecordType() {
-			this.includeRecordType = true;
-			return this;
-		}
+    public Builder includeRecordType() {
+      this.includeRecordType = true;
+      return this;
+    }
 
-		public Builder excludeRecordType() {
-			this.includeRecordType = false;
-			return this;
-		}
+    public Builder excludeRecordType() {
+      this.includeRecordType = false;
+      return this;
+    }
 
-		public Builder includeLoggingTimestamp() {
-			this.includeLoggingTimestamp = true;
-			return this;
-		}
+    public Builder includeLoggingTimestamp() {
+      this.includeLoggingTimestamp = true;
+      return this;
+    }
 
-		public Builder excludeLoggingTimestamp() {
-			this.includeLoggingTimestamp = false;
-			return this;
-		}
+    public Builder excludeLoggingTimestamp() {
+      this.includeLoggingTimestamp = false;
+      return this;
+    }
 
-		public Builder async() {
-			this.executeAsync = true;
-			return this;
-		}
+    public Builder async() {
+      this.executeAsync = true;
+      return this;
+    }
 
-		public CassandraWriter build() {
-			return new CassandraWriter(this.session, this.tableNameMapper, this.primaryKeySelectionStrategy,
-					this.includeRecordType, this.includeLoggingTimestamp, this.executeAsync);
-		}
+    public CassandraWriter build() {
+      return new CassandraWriter(this.session, this.tableNameMapper,
+          this.primaryKeySelectionStrategy, this.includeRecordType, this.includeLoggingTimestamp,
+          this.executeAsync);
+    }
 
-	}
+  }
 
-	private static final class RecordField {
+  private static final class RecordField {
 
-		public final String name;
-		public final Class<?> type;
+    public final String name;
+    public final Class<?> type;
 
-		public RecordField(final String name, final Class<?> type) {
-			this.name = name;
-			this.type = type;
-		}
+    public RecordField(final String name, final Class<?> type) {
+      this.name = name;
+      this.type = type;
+    }
 
-	}
+  }
 
 }
