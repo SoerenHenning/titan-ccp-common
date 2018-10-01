@@ -1,19 +1,29 @@
-image: maven:latest
+image: openjdk:10-jdk
 
+# Disable the Gradle daemon for Continuous Integration servers as correctness
+# is usually a priority over speed in CI environments. Using a fresh
+# runtime for each build is more reliable since the runtime is completely
+# isolated from any previous builds.
 variables:
-  MAVEN_CLI_OPTS: "-s deploy/settings.xml --batch-mode --errors --fail-at-end --show-version "
-  MAVEN_OPTS: "-Dmaven.repo.local=.m2/repository"
+  GRADLE_OPTS: "-Dorg.gradle.daemon=false"
 
 cache:
   paths:
-    - .m2/repository/
+    - .gradle
+
+before_script:
+  - export GRADLE_USER_HOME=`pwd`/.gradle
+
+stages:
+  - build
+  - test
+  - check
 
 build:
   stage: build
   tags:
     - dockerex
-  script:
-    - mvn $MAVEN_CLI_OPTS compile
+  script: ./gradlew --build-cache assemble
   artifacts:
     paths:
       - target/
@@ -23,14 +33,4 @@ test:
   stage: test
   tags:
     - dockerex
-  script:
-    - mvn $MAVEN_CLI_OPTS test
-
-deploy:
-  stage: deploy
-  tags:
-    - dockerex
-  script:
-    - mvn $MAVEN_CLI_OPTS deploy -DskipTests=true -DperformRelease=true
-  only:
-    - master
+  script: ./gradlew test
