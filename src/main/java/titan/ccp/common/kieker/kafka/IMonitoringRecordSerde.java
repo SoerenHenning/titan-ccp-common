@@ -42,10 +42,12 @@ public final class IMonitoringRecordSerde {
       this.byteBufferSerializer.configure(configs, isKey);
     }
 
+
     @Override
     public byte[] serialize(final String topic, final T record) {
       final ByteBuffer buffer = ByteBuffer.allocateDirect(BYTE_BUFFER_CAPACITY);
       record.serialize(new RegistrylessBinaryValueSerializer(buffer));
+      buffer.flip();
       return this.byteBufferSerializer.serialize(topic, buffer);
     }
 
@@ -84,4 +86,5 @@ public final class IMonitoringRecordSerde {
     }
 
   }
+
 }
