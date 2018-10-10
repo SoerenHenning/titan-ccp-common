@@ -31,7 +31,7 @@ public final class IMonitoringRecordSerde {
 
 	private static class IMonitoringRecordSerializer<T extends IMonitoringRecord> implements Serializer<T> {
 
-		private static final int BYTE_BUFFER_CAPACITY = 65536; // Is only virtual memory
+		private static final int BYTE_BUFFER_CAPACITY = 128; // Is only virtual memory
 
 		private final ByteBufferSerializer byteBufferSerializer = new ByteBufferSerializer();
 
