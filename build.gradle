@@ -26,8 +26,8 @@ dependencies {
     implementation 'com.google.guava:guava:24.1-jre'
     implementation 'org.slf4j:slf4j-api:1.7.25'
 
-    // Use JUnit test framework
-    testImplementation 'junit:junit:4.12'
+    // Use JUnit test framework   
+    testImplementation 'org.junit.jupiter:junit-jupiter-api:5.3.1'
     testImplementation 'com.github.stefanbirkner:system-rules:1.17.0'
     testImplementation 'org.cassandraunit:cassandra-unit-shaded:3.3.0.2'
 }

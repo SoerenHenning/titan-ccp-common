@@ -2,6 +2,7 @@ package titan.ccp.common.kieker.kafka;
 
 import java.nio.ByteBuffer;
 import java.util.Map;
+import java.util.function.Supplier;
 import kieker.common.record.IMonitoringRecord;
 import kieker.common.record.factory.IRecordFactory;
 import org.apache.kafka.common.serialization.ByteBufferDeserializer;
@@ -33,9 +34,19 @@ public final class IMonitoringRecordSerde {
   private static class IMonitoringRecordSerializer<T extends IMonitoringRecord>
       implements Serializer<T> {
 
-    private static final int BYTE_BUFFER_CAPACITY = 65536; // Is only virtual memory
+    private static final int DEFAULT_BYTE_BUFFER_CAPACITY = 1024;
 
     private final ByteBufferSerializer byteBufferSerializer = new ByteBufferSerializer();
+
+    private final Supplier<ByteBuffer> byteBufferFactory;
+
+    public IMonitoringRecordSerializer() {
+      this(() -> ByteBuffer.allocate(DEFAULT_BYTE_BUFFER_CAPACITY));
+    }
+
+    public IMonitoringRecordSerializer(final Supplier<ByteBuffer> byteBufferFactory) {
+      this.byteBufferFactory = byteBufferFactory;
+    }
 
     @Override
     public void configure(final Map<String, ?> configs, final boolean isKey) {
@@ -45,7 +56,7 @@ public final class IMonitoringRecordSerde {
 
     @Override
     public byte[] serialize(final String topic, final T record) {
-      final ByteBuffer buffer = ByteBuffer.allocateDirect(BYTE_BUFFER_CAPACITY);
+      final ByteBuffer buffer = this.byteBufferFactory.get();
       record.serialize(new RegistrylessBinaryValueSerializer(buffer));
       buffer.flip();
       return this.byteBufferSerializer.serialize(topic, buffer);
