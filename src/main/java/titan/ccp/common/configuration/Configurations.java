@@ -1,5 +1,6 @@
 package titan.ccp.common.configuration;
 
+import com.google.common.io.Resources;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
@@ -44,11 +45,14 @@ public final class Configurations {
   }
 
   private static void addDefaultConfigurationFile(final CompositeConfiguration configuration) {
-    try {
-      configuration.addConfiguration(configurations().properties(DEFAULT_PROPERTY_LOCATION));
-    } catch (final ConfigurationException e) {
-      throw new IllegalArgumentException(
-          "Cannot load configuration from ressource " + "\"" + DEFAULT_PROPERTY_LOCATION + "\"", e);
+    if (resourceExists(DEFAULT_PROPERTY_LOCATION)) {
+      try {
+        configuration.addConfiguration(configurations().properties(DEFAULT_PROPERTY_LOCATION));
+      } catch (final ConfigurationException e) {
+        throw new IllegalArgumentException(
+            "Cannot load configuration from ressource " + "\"" + DEFAULT_PROPERTY_LOCATION + "\"",
+            e);
+      }
     }
   }
 
@@ -57,6 +61,15 @@ public final class Configurations {
    */
   private static org.apache.commons.configuration2.builder.fluent.Configurations configurations() {
     return new org.apache.commons.configuration2.builder.fluent.Configurations();
+  }
+
+  private static boolean resourceExists(final String resourceName) {
+    try {
+      Resources.getResource(resourceName);
+    } catch (final IllegalArgumentException e) {
+      return false;
+    }
+    return true;
   }
 
 }
