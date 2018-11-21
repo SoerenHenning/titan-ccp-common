@@ -4,52 +4,49 @@ import java.nio.BufferOverflowException;
 
 import kieker.common.exception.RecordInstantiationException;
 import kieker.common.record.AbstractMonitoringRecord;
-import kieker.common.record.IMonitoringRecord;
 import kieker.common.record.io.IValueDeserializer;
 import kieker.common.record.io.IValueSerializer;
 
-
 /**
- * @author Generic Kieker
- * API compatibility: Kieker 1.14.0
- * 
+ * @author Generic Kieker API compatibility: Kieker 1.14.0
+ *
  * @since 1.14
  */
-public class AggregatedActivePowerRecord extends AbstractMonitoringRecord implements IMonitoringRecord.Factory, IMonitoringRecord.BinaryFactory {			
+public class AggregatedActivePowerRecord extends AbstractMonitoringRecord {
 	/** Descriptive definition of the serialization size of the record. */
 	public static final int SIZE = TYPE_SIZE_STRING // AggregatedActivePowerRecord.identifier
-			 + TYPE_SIZE_LONG // AggregatedActivePowerRecord.timestamp
-			 + TYPE_SIZE_DOUBLE // AggregatedActivePowerRecord.minInW
-			 + TYPE_SIZE_DOUBLE // AggregatedActivePowerRecord.maxInW
-			 + TYPE_SIZE_LONG // AggregatedActivePowerRecord.count
-			 + TYPE_SIZE_DOUBLE // AggregatedActivePowerRecord.sumInW
-			 + TYPE_SIZE_DOUBLE; // AggregatedActivePowerRecord.averageInW
-	
+			+ TYPE_SIZE_LONG // AggregatedActivePowerRecord.timestamp
+			+ TYPE_SIZE_DOUBLE // AggregatedActivePowerRecord.minInW
+			+ TYPE_SIZE_DOUBLE // AggregatedActivePowerRecord.maxInW
+			+ TYPE_SIZE_LONG // AggregatedActivePowerRecord.count
+			+ TYPE_SIZE_DOUBLE // AggregatedActivePowerRecord.sumInW
+			+ TYPE_SIZE_DOUBLE; // AggregatedActivePowerRecord.averageInW
+
 	public static final Class<?>[] TYPES = {
-		String.class, // AggregatedActivePowerRecord.identifier
-		long.class, // AggregatedActivePowerRecord.timestamp
-		double.class, // AggregatedActivePowerRecord.minInW
-		double.class, // AggregatedActivePowerRecord.maxInW
-		long.class, // AggregatedActivePowerRecord.count
-		double.class, // AggregatedActivePowerRecord.sumInW
-		double.class, // AggregatedActivePowerRecord.averageInW
+			String.class, // AggregatedActivePowerRecord.identifier
+			long.class, // AggregatedActivePowerRecord.timestamp
+			double.class, // AggregatedActivePowerRecord.minInW
+			double.class, // AggregatedActivePowerRecord.maxInW
+			long.class, // AggregatedActivePowerRecord.count
+			double.class, // AggregatedActivePowerRecord.sumInW
+			double.class, // AggregatedActivePowerRecord.averageInW
 	};
-	
+
 	/** default constants. */
 	public static final String IDENTIFIER = "";
 	private static final long serialVersionUID = -2095448023003244219L;
-	
+
 	/** property name array. */
 	private static final String[] PROPERTY_NAMES = {
-		"identifier",
-		"timestamp",
-		"minInW",
-		"maxInW",
-		"count",
-		"sumInW",
-		"averageInW",
+			"identifier",
+			"timestamp",
+			"minInW",
+			"maxInW",
+			"count",
+			"sumInW",
+			"averageInW",
 	};
-	
+
 	/** property declarations. */
 	private final String identifier;
 	private final long timestamp;
@@ -58,10 +55,10 @@ public class AggregatedActivePowerRecord extends AbstractMonitoringRecord implem
 	private final long count;
 	private final double sumInW;
 	private final double averageInW;
-	
+
 	/**
 	 * Creates a new instance of this class using the given parameters.
-	 * 
+	 *
 	 * @param identifier
 	 *            identifier
 	 * @param timestamp
@@ -77,8 +74,9 @@ public class AggregatedActivePowerRecord extends AbstractMonitoringRecord implem
 	 * @param averageInW
 	 *            averageInW
 	 */
-	public AggregatedActivePowerRecord(final String identifier, final long timestamp, final double minInW, final double maxInW, final long count, final double sumInW, final double averageInW) {
-		this.identifier = identifier == null?"":identifier;
+	public AggregatedActivePowerRecord(final String identifier, final long timestamp, final double minInW, final double maxInW, final long count,
+			final double sumInW, final double averageInW) {
+		this.identifier = identifier == null ? "" : identifier;
 		this.timestamp = timestamp;
 		this.minInW = minInW;
 		this.maxInW = maxInW;
@@ -88,13 +86,14 @@ public class AggregatedActivePowerRecord extends AbstractMonitoringRecord implem
 	}
 
 	/**
-	 * This constructor converts the given array into a record.
-	 * It is recommended to use the array which is the result of a call to {@link #toArray()}.
-	 * 
+	 * This constructor converts the given array into a record. It is recommended to
+	 * use the array which is the result of a call to {@link #toArray()}.
+	 *
 	 * @param values
 	 *            The values for the record.
 	 *
-	 * @deprecated since 1.13. Use {@link #AggregatedActivePowerRecord(IValueDeserializer)} instead.
+	 * @deprecated since 1.13. Use
+	 *             {@link #AggregatedActivePowerRecord(IValueDeserializer)} instead.
 	 */
 	@Deprecated
 	public AggregatedActivePowerRecord(final Object[] values) { // NOPMD (direct store of values)
@@ -109,14 +108,16 @@ public class AggregatedActivePowerRecord extends AbstractMonitoringRecord implem
 	}
 
 	/**
-	 * This constructor uses the given array to initialize the fields of this record.
-	 * 
+	 * This constructor uses the given array to initialize the fields of this
+	 * record.
+	 *
 	 * @param values
 	 *            The values for the record.
 	 * @param valueTypes
 	 *            The types of the elements in the first array.
 	 *
-	 * @deprecated since 1.13. Use {@link #AggregatedActivePowerRecord(IValueDeserializer)} instead.
+	 * @deprecated since 1.13. Use
+	 *             {@link #AggregatedActivePowerRecord(IValueDeserializer)} instead.
 	 */
 	@Deprecated
 	protected AggregatedActivePowerRecord(final Object[] values, final Class<?>[] valueTypes) { // NOPMD (values stored directly)
@@ -130,12 +131,11 @@ public class AggregatedActivePowerRecord extends AbstractMonitoringRecord implem
 		this.averageInW = (Double) values[6];
 	}
 
-	
 	/**
 	 * @param deserializer
 	 *            The deserializer to use
-	 * @throws RecordInstantiationException 
-	 *            when the record could not be deserialized
+	 * @throws RecordInstantiationException
+	 *             when the record could not be deserialized
 	 */
 	public AggregatedActivePowerRecord(final IValueDeserializer deserializer) throws RecordInstantiationException {
 		this.identifier = deserializer.getString();
@@ -146,31 +146,13 @@ public class AggregatedActivePowerRecord extends AbstractMonitoringRecord implem
 		this.sumInW = deserializer.getDouble();
 		this.averageInW = deserializer.getDouble();
 	}
-	
-	/**
-	 * {@inheritDoc}
-	 *
-	 * @deprecated since 1.13. Use {@link #serialize(IValueSerializer)} with an array serializer instead.
-	 */
-	@Override
-	@Deprecated
-	public Object[] toArray() {
-		return new Object[] {
-			this.getIdentifier(),
-			this.getTimestamp(),
-			this.getMinInW(),
-			this.getMaxInW(),
-			this.getCount(),
-			this.getSumInW(),
-			this.getAverageInW(),
-		};
-	}
+
 	/**
 	 * {@inheritDoc}
 	 */
 	@Override
 	public void serialize(final IValueSerializer serializer) throws BufferOverflowException {
-		//super.serialize(serializer);
+		// super.serialize(serializer);
 		serializer.putString(this.getIdentifier());
 		serializer.putLong(this.getTimestamp());
 		serializer.putDouble(this.getMinInW());
@@ -179,7 +161,7 @@ public class AggregatedActivePowerRecord extends AbstractMonitoringRecord implem
 		serializer.putDouble(this.getSumInW());
 		serializer.putDouble(this.getAverageInW());
 	}
-	
+
 	/**
 	 * {@inheritDoc}
 	 */
@@ -187,7 +169,7 @@ public class AggregatedActivePowerRecord extends AbstractMonitoringRecord implem
 	public Class<?>[] getValueTypes() {
 		return TYPES; // NOPMD
 	}
-	
+
 	/**
 	 * {@inheritDoc}
 	 */
@@ -195,7 +177,7 @@ public class AggregatedActivePowerRecord extends AbstractMonitoringRecord implem
 	public String[] getValueNames() {
 		return PROPERTY_NAMES; // NOPMD
 	}
-	
+
 	/**
 	 * {@inheritDoc}
 	 */
@@ -204,17 +186,6 @@ public class AggregatedActivePowerRecord extends AbstractMonitoringRecord implem
 		return SIZE;
 	}
 
-	/**
-	 * {@inheritDoc}
-	 * 
-	 * @deprecated This record uses the {@link kieker.common.record.IMonitoringRecord.Factory} mechanism. Hence, this method is not implemented.
-	 */
-	@Override
-	@Deprecated
-	public void initFromArray(final Object[] values) {
-		throw new UnsupportedOperationException();
-	}
-	
 	/**
 	 * {@inheritDoc}
 	 */
@@ -229,7 +200,7 @@ public class AggregatedActivePowerRecord extends AbstractMonitoringRecord implem
 		if (obj.getClass() != this.getClass()) {
 			return false;
 		}
-		
+
 		final AggregatedActivePowerRecord castedRecord = (AggregatedActivePowerRecord) obj;
 		if (this.getLoggingTimestamp() != castedRecord.getLoggingTimestamp()) {
 			return false;
@@ -255,42 +226,36 @@ public class AggregatedActivePowerRecord extends AbstractMonitoringRecord implem
 		if (isNotEqual(this.getAverageInW(), castedRecord.getAverageInW())) {
 			return false;
 		}
-		
+
 		return true;
 	}
-	
+
 	public final String getIdentifier() {
 		return this.identifier;
 	}
-	
-	
+
 	public final long getTimestamp() {
 		return this.timestamp;
 	}
-	
-	
+
 	public final double getMinInW() {
 		return this.minInW;
 	}
-	
-	
+
 	public final double getMaxInW() {
 		return this.maxInW;
 	}
-	
-	
+
 	public final long getCount() {
 		return this.count;
 	}
-	
-	
+
 	public final double getSumInW() {
 		return this.sumInW;
 	}
-	
-	
+
 	public final double getAverageInW() {
 		return this.averageInW;
 	}
-	
+
 }

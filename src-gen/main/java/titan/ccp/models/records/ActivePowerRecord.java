@@ -4,48 +4,45 @@ import java.nio.BufferOverflowException;
 
 import kieker.common.exception.RecordInstantiationException;
 import kieker.common.record.AbstractMonitoringRecord;
-import kieker.common.record.IMonitoringRecord;
 import kieker.common.record.io.IValueDeserializer;
 import kieker.common.record.io.IValueSerializer;
 
-
 /**
- * @author Generic Kieker
- * API compatibility: Kieker 1.14.0
- * 
+ * @author Generic Kieker API compatibility: Kieker 1.14.0
+ *
  * @since 1.14
  */
-public class ActivePowerRecord extends AbstractMonitoringRecord implements IMonitoringRecord.Factory, IMonitoringRecord.BinaryFactory {			
+public class ActivePowerRecord extends AbstractMonitoringRecord {
 	/** Descriptive definition of the serialization size of the record. */
 	public static final int SIZE = TYPE_SIZE_STRING // ActivePowerRecord.identifier
-			 + TYPE_SIZE_LONG // ActivePowerRecord.timestamp
-			 + TYPE_SIZE_DOUBLE; // ActivePowerRecord.valueInW
-	
+			+ TYPE_SIZE_LONG // ActivePowerRecord.timestamp
+			+ TYPE_SIZE_DOUBLE; // ActivePowerRecord.valueInW
+
 	public static final Class<?>[] TYPES = {
-		String.class, // ActivePowerRecord.identifier
-		long.class, // ActivePowerRecord.timestamp
-		double.class, // ActivePowerRecord.valueInW
+			String.class, // ActivePowerRecord.identifier
+			long.class, // ActivePowerRecord.timestamp
+			double.class, // ActivePowerRecord.valueInW
 	};
-	
+
 	/** default constants. */
 	public static final String IDENTIFIER = "";
 	private static final long serialVersionUID = 2003050765763100903L;
-	
+
 	/** property name array. */
 	private static final String[] PROPERTY_NAMES = {
-		"identifier",
-		"timestamp",
-		"valueInW",
+			"identifier",
+			"timestamp",
+			"valueInW",
 	};
-	
+
 	/** property declarations. */
 	private final String identifier;
 	private final long timestamp;
 	private final double valueInW;
-	
+
 	/**
 	 * Creates a new instance of this class using the given parameters.
-	 * 
+	 *
 	 * @param identifier
 	 *            identifier
 	 * @param timestamp
@@ -54,19 +51,20 @@ public class ActivePowerRecord extends AbstractMonitoringRecord implements IMoni
 	 *            valueInW
 	 */
 	public ActivePowerRecord(final String identifier, final long timestamp, final double valueInW) {
-		this.identifier = identifier == null?"":identifier;
+		this.identifier = identifier == null ? "" : identifier;
 		this.timestamp = timestamp;
 		this.valueInW = valueInW;
 	}
 
 	/**
-	 * This constructor converts the given array into a record.
-	 * It is recommended to use the array which is the result of a call to {@link #toArray()}.
-	 * 
+	 * This constructor converts the given array into a record. It is recommended to
+	 * use the array which is the result of a call to {@link #toArray()}.
+	 *
 	 * @param values
 	 *            The values for the record.
 	 *
-	 * @deprecated since 1.13. Use {@link #ActivePowerRecord(IValueDeserializer)} instead.
+	 * @deprecated since 1.13. Use {@link #ActivePowerRecord(IValueDeserializer)}
+	 *             instead.
 	 */
 	@Deprecated
 	public ActivePowerRecord(final Object[] values) { // NOPMD (direct store of values)
@@ -77,14 +75,16 @@ public class ActivePowerRecord extends AbstractMonitoringRecord implements IMoni
 	}
 
 	/**
-	 * This constructor uses the given array to initialize the fields of this record.
-	 * 
+	 * This constructor uses the given array to initialize the fields of this
+	 * record.
+	 *
 	 * @param values
 	 *            The values for the record.
 	 * @param valueTypes
 	 *            The types of the elements in the first array.
 	 *
-	 * @deprecated since 1.13. Use {@link #ActivePowerRecord(IValueDeserializer)} instead.
+	 * @deprecated since 1.13. Use {@link #ActivePowerRecord(IValueDeserializer)}
+	 *             instead.
 	 */
 	@Deprecated
 	protected ActivePowerRecord(final Object[] values, final Class<?>[] valueTypes) { // NOPMD (values stored directly)
@@ -94,44 +94,29 @@ public class ActivePowerRecord extends AbstractMonitoringRecord implements IMoni
 		this.valueInW = (Double) values[2];
 	}
 
-	
 	/**
 	 * @param deserializer
 	 *            The deserializer to use
-	 * @throws RecordInstantiationException 
-	 *            when the record could not be deserialized
+	 * @throws RecordInstantiationException
+	 *             when the record could not be deserialized
 	 */
 	public ActivePowerRecord(final IValueDeserializer deserializer) throws RecordInstantiationException {
 		this.identifier = deserializer.getString();
 		this.timestamp = deserializer.getLong();
 		this.valueInW = deserializer.getDouble();
 	}
-	
-	/**
-	 * {@inheritDoc}
-	 *
-	 * @deprecated since 1.13. Use {@link #serialize(IValueSerializer)} with an array serializer instead.
-	 */
-	@Override
-	@Deprecated
-	public Object[] toArray() {
-		return new Object[] {
-			this.getIdentifier(),
-			this.getTimestamp(),
-			this.getValueInW(),
-		};
-	}
+
 	/**
 	 * {@inheritDoc}
 	 */
 	@Override
 	public void serialize(final IValueSerializer serializer) throws BufferOverflowException {
-		//super.serialize(serializer);
+		// super.serialize(serializer);
 		serializer.putString(this.getIdentifier());
 		serializer.putLong(this.getTimestamp());
 		serializer.putDouble(this.getValueInW());
 	}
-	
+
 	/**
 	 * {@inheritDoc}
 	 */
@@ -139,7 +124,7 @@ public class ActivePowerRecord extends AbstractMonitoringRecord implements IMoni
 	public Class<?>[] getValueTypes() {
 		return TYPES; // NOPMD
 	}
-	
+
 	/**
 	 * {@inheritDoc}
 	 */
@@ -147,7 +132,7 @@ public class ActivePowerRecord extends AbstractMonitoringRecord implements IMoni
 	public String[] getValueNames() {
 		return PROPERTY_NAMES; // NOPMD
 	}
-	
+
 	/**
 	 * {@inheritDoc}
 	 */
@@ -156,17 +141,6 @@ public class ActivePowerRecord extends AbstractMonitoringRecord implements IMoni
 		return SIZE;
 	}
 
-	/**
-	 * {@inheritDoc}
-	 * 
-	 * @deprecated This record uses the {@link kieker.common.record.IMonitoringRecord.Factory} mechanism. Hence, this method is not implemented.
-	 */
-	@Override
-	@Deprecated
-	public void initFromArray(final Object[] values) {
-		throw new UnsupportedOperationException();
-	}
-	
 	/**
 	 * {@inheritDoc}
 	 */
@@ -181,7 +155,7 @@ public class ActivePowerRecord extends AbstractMonitoringRecord implements IMoni
 		if (obj.getClass() != this.getClass()) {
 			return false;
 		}
-		
+
 		final ActivePowerRecord castedRecord = (ActivePowerRecord) obj;
 		if (this.getLoggingTimestamp() != castedRecord.getLoggingTimestamp()) {
 			return false;
@@ -195,22 +169,20 @@ public class ActivePowerRecord extends AbstractMonitoringRecord implements IMoni
 		if (isNotEqual(this.getValueInW(), castedRecord.getValueInW())) {
 			return false;
 		}
-		
+
 		return true;
 	}
-	
+
 	public final String getIdentifier() {
 		return this.identifier;
 	}
-	
-	
+
 	public final long getTimestamp() {
 		return this.timestamp;
 	}
-	
-	
+
 	public final double getValueInW() {
 		return this.valueInW;
 	}
-	
+
 }
