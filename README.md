@@ -9,4 +9,5 @@ This repository contains common library code and record definitions for all micr
 
 ## Build
 
-We use Apache Maven as build tool. To build this project an existing Maven and JDK installation is required. Run `mvn install` to create a jar file.
+We use Gradle as a build tool. In order to build the project run
+`./gradlew build` on Linux/macOS or `./gradlew.bat build` on Windows.
