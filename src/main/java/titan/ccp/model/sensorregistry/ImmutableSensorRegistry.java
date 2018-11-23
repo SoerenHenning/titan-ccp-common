@@ -1,12 +1,13 @@
 package titan.ccp.model.sensorregistry;
 
-import java.util.Collection;
-import java.util.Optional;
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableList.Builder;
 import com.google.common.collect.ImmutableMap;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
+import java.util.Collection;
+import java.util.Objects;
+import java.util.Optional;
 import titan.ccp.model.sensorregistry.serialization.AggregatedSensorSerializer;
 import titan.ccp.model.sensorregistry.serialization.MachineSensorSerializer;
 import titan.ccp.model.sensorregistry.serialization.SensorRegistryDeserializer;
@@ -51,6 +52,23 @@ public final class ImmutableSensorRegistry implements SensorRegistry {
   public String toJson() {
     // Necessary method. Deletion would cause SensorRegistry.toJson() to fail.
     return GSON.toJson(this);
+  }
+
+  @Override
+  public int hashCode() {
+    return Objects.hashCode(this.topLevelSensor);
+  }
+
+  @Override
+  public boolean equals(final Object obj) {
+    if (obj == this) {
+      return true;
+    }
+    if (obj instanceof SensorRegistry) {
+      final SensorRegistry other = (SensorRegistry) obj;
+      return Objects.equals(this.getTopLevelSensor(), other.getTopLevelSensor());
+    }
+    return false;
   }
 
   public static ImmutableSensorRegistry copyOf(final SensorRegistry sensorRegistry) {
@@ -121,6 +139,24 @@ public final class ImmutableSensorRegistry implements SensorRegistry {
     }
 
     @Override
+    public int hashCode() {
+      return Objects.hash(this.getIdentifier(), this.children);
+    }
+
+    @Override
+    public boolean equals(final Object obj) {
+      if (obj == this) {
+        return true;
+      }
+      if (obj instanceof AggregatedSensor) {
+        final AggregatedSensor other = (AggregatedSensor) obj;
+        return Objects.equals(this.getIdentifier(), other.getIdentifier())
+            && Objects.equals(this.children, other.getChildren());
+      }
+      return false;
+    }
+
+    @Override
     public String toString() {
       return this.getName() + '[' + this.getIdentifier() + "] (" + this.children.size()
           + " children)";
@@ -135,6 +171,23 @@ public final class ImmutableSensorRegistry implements SensorRegistry {
     private ImmutableMachineSensor(final AggregatedSensor newParent,
         final MachineSensor SensorToCopy) {
       super(newParent, SensorToCopy);
+    }
+
+    @Override
+    public int hashCode() {
+      return Objects.hashCode(this.getIdentifier());
+    }
+
+    @Override
+    public boolean equals(final Object obj) {
+      if (obj == this) {
+        return true;
+      }
+      if (obj instanceof MachineSensor) {
+        final MachineSensor other = (MachineSensor) obj;
+        return Objects.equals(this.getIdentifier(), other.getIdentifier());
+      }
+      return false;
     }
 
     @Override

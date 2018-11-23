@@ -1,12 +1,13 @@
 package titan.ccp.model.sensorregistry;
 
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Objects;
 import java.util.Optional;
-import com.google.gson.Gson;
-import com.google.gson.GsonBuilder;
 import titan.ccp.model.sensorregistry.serialization.AggregatedSensorSerializer;
 import titan.ccp.model.sensorregistry.serialization.MachineSensorSerializer;
 import titan.ccp.model.sensorregistry.serialization.SensorRegistrySerializer;
@@ -53,6 +54,23 @@ public class MutableSensorRegistry implements SensorRegistry {
     final Object oldValue =
         this.machineSensors.putIfAbsent(machineSensor.getIdentifier(), machineSensor);
     return oldValue == null;
+  }
+
+  @Override
+  public int hashCode() {
+    return Objects.hashCode(this.topLevelSensor);
+  }
+
+  @Override
+  public boolean equals(final Object obj) {
+    if (obj == this) {
+      return true;
+    }
+    if (obj instanceof SensorRegistry) {
+      final SensorRegistry other = (SensorRegistry) obj;
+      return Objects.equals(this.getTopLevelSensor(), other.getTopLevelSensor());
+    }
+    return false;
   }
 
   @Override

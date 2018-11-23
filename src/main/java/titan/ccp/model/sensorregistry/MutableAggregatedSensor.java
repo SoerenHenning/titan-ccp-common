@@ -3,6 +3,7 @@ package titan.ccp.model.sensorregistry;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
+import java.util.Objects;
 
 public class MutableAggregatedSensor extends AbstractSensor implements AggregatedSensor {
 
@@ -51,6 +52,24 @@ public class MutableAggregatedSensor extends AbstractSensor implements Aggregate
     }
     this.children.add(machineSensor);
     return machineSensor;
+  }
+
+  @Override
+  public int hashCode() {
+    return Objects.hash(this.getIdentifier(), this.children);
+  }
+
+  @Override
+  public boolean equals(final Object obj) {
+    if (obj == this) {
+      return true;
+    }
+    if (obj instanceof AggregatedSensor) {
+      final AggregatedSensor other = (AggregatedSensor) obj;
+      return Objects.equals(this.getIdentifier(), other.getIdentifier())
+          && Objects.equals(this.children, other.getChildren());
+    }
+    return false;
   }
 
   @Override
