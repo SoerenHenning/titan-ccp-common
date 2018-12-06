@@ -1,4 +1,4 @@
-package titan.ccp.common.kieker.cassandra;
+package titan.ccp.common.cassandra;
 
 import com.datastax.driver.core.Cluster;
 import com.datastax.driver.core.Session;

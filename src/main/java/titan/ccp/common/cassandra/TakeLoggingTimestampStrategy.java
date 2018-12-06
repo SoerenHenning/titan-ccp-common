@@ -1,4 +1,4 @@
-package titan.ccp.common.kieker.cassandra;
+package titan.ccp.common.cassandra;
 
 import com.google.common.collect.ImmutableSet;
 import java.util.Collections;

@@ -5,7 +5,9 @@ import static org.junit.Assert.assertEquals;
 import java.util.List;
 
 import org.junit.Test;
-
+import titan.ccp.common.cassandra.AbstractCassandraTest;
+import titan.ccp.common.cassandra.ExplicitPrimaryKeySelectionStrategy;
+import titan.ccp.common.cassandra.PredefinedTableNameMappers;
 import com.datastax.driver.core.DataType;
 import com.datastax.driver.core.ResultSet;
 import com.datastax.driver.core.Row;
@@ -17,7 +19,7 @@ import com.datastax.driver.core.schemabuilder.SchemaBuilder;
 
 import kieker.common.record.flow.trace.operation.BeforeOperationEvent;
 
-public class CassandraWriterTest extends AbstractCassandraTest {
+public class KiekerCassandraWriterTest extends AbstractCassandraTest {
 
 	@Test
 	public void testCassandraRunning() {
@@ -72,7 +74,7 @@ public class CassandraWriterTest extends AbstractCassandraTest {
 		final ExplicitPrimaryKeySelectionStrategy primaryKeySelectionStrategy = new ExplicitPrimaryKeySelectionStrategy();
 		primaryKeySelectionStrategy.registerPartitionKeys("BeforeOperationEvent", "timestamp");
 
-		final CassandraWriter cassandraWriter = CassandraWriter.builder(this.session)
+		final KiekerCassandraWriter cassandraWriter = KiekerCassandraWriter.builder(this.session)
 				.tableNameMapper(PredefinedTableNameMappers.SIMPLE_CLASS_NAME).excludeRecordType()
 				.excludeLoggingTimestamp().primaryKeySelectionStrategy(primaryKeySelectionStrategy).build();
 
@@ -101,7 +103,7 @@ public class CassandraWriterTest extends AbstractCassandraTest {
 		final ExplicitPrimaryKeySelectionStrategy primaryKeySelectionStrategy = new ExplicitPrimaryKeySelectionStrategy();
 		primaryKeySelectionStrategy.registerPartitionKeys("BeforeOperationEvent", "timestamp");
 
-		final CassandraWriter cassandraWriter = CassandraWriter.builder(this.session)
+		final KiekerCassandraWriter cassandraWriter = KiekerCassandraWriter.builder(this.session)
 				.tableNameMapper(PredefinedTableNameMappers.SIMPLE_CLASS_NAME).includeRecordType()
 				.excludeLoggingTimestamp().primaryKeySelectionStrategy(primaryKeySelectionStrategy).build();
 
@@ -128,7 +130,7 @@ public class CassandraWriterTest extends AbstractCassandraTest {
 	public void testWithoutRecordtypeAndWithTimestamp() {
 		final BeforeOperationEvent record = new BeforeOperationEvent(12345, 123, 1, "foo()", "project.package.Class");
 
-		final CassandraWriter cassandraWriter = CassandraWriter.builder(this.session)
+		final KiekerCassandraWriter cassandraWriter = KiekerCassandraWriter.builder(this.session)
 				.tableNameMapper(PredefinedTableNameMappers.SIMPLE_CLASS_NAME).excludeRecordType()
 				.includeLoggingTimestamp().build();
 
@@ -155,7 +157,7 @@ public class CassandraWriterTest extends AbstractCassandraTest {
 	public void testWithRecordtypeAndTimestamp() {
 		final BeforeOperationEvent record = new BeforeOperationEvent(12345, 123, 1, "foo()", "project.package.Class");
 
-		final CassandraWriter cassandraWriter = CassandraWriter.builder(this.session)
+		final KiekerCassandraWriter cassandraWriter = KiekerCassandraWriter.builder(this.session)
 				.tableNameMapper(PredefinedTableNameMappers.SIMPLE_CLASS_NAME).includeRecordType()
 				.includeLoggingTimestamp().build();
 

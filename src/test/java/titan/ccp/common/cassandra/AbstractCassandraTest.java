@@ -1,4 +1,4 @@
-package titan.ccp.common.kieker.cassandra;
+package titan.ccp.common.cassandra;
 
 import org.cassandraunit.utils.EmbeddedCassandraServerHelper;
 import org.junit.After;

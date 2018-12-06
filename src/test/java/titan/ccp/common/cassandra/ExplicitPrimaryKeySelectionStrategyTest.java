@@ -1,4 +1,4 @@
-package titan.ccp.common.kieker.cassandra;
+package titan.ccp.common.cassandra;
 
 import static org.junit.Assert.assertEquals;
 
@@ -7,7 +7,7 @@ import java.util.Set;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
-
+import titan.ccp.common.cassandra.ExplicitPrimaryKeySelectionStrategy;
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableSet;
 
