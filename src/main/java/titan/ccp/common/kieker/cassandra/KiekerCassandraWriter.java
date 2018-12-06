@@ -8,6 +8,10 @@ import titan.ccp.common.cassandra.PredefinedTableNameMappers;
 import titan.ccp.common.cassandra.PrimaryKeySelectionStrategy;
 import titan.ccp.common.cassandra.TakeLoggingTimestampStrategy;
 
+/**
+ * @deprecated Use {@link CassandraWriter} instead in conjunction with {@link KiekerDataAdapter}.
+ */
+@Deprecated
 public class KiekerCassandraWriter {
 
   private final CassandraWriter<IMonitoringRecord> cassandraWriter;

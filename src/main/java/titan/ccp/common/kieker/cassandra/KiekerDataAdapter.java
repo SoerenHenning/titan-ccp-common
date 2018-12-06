@@ -19,9 +19,29 @@ public class KiekerDataAdapter implements DataAdapter<IMonitoringRecord> {
 
   private final boolean includeLoggingTimestamp;
 
+  public KiekerDataAdapter() {
+    this(false, false);
+  }
+
   public KiekerDataAdapter(final boolean includeRecordType, final boolean includeLoggingTimestamp) {
     this.includeRecordType = includeRecordType;
     this.includeLoggingTimestamp = includeLoggingTimestamp;
+  }
+
+  public KiekerDataAdapter includeRecordType() {
+    return new KiekerDataAdapter(true, this.includeLoggingTimestamp);
+  }
+
+  public KiekerDataAdapter excludeRecordType() {
+    return new KiekerDataAdapter(false, this.includeLoggingTimestamp);
+  }
+
+  public KiekerDataAdapter includeLoggingTimestamp() {
+    return new KiekerDataAdapter(this.includeRecordType, true);
+  }
+
+  public KiekerDataAdapter excludeLoggingTimestamp() {
+    return new KiekerDataAdapter(this.includeRecordType, false);
   }
 
   @Override
