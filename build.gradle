@@ -18,6 +18,7 @@ dependencies {
     api 'net.kieker-monitoring:kieker:1.14-SNAPSHOT'
     api 'org.apache.kafka:kafka-clients:1.0.0'
     api 'com.datastax.cassandra:cassandra-driver-core:3.4.0'
+    api 'org.apache.avro:avro:1.8.2'
 	api 'org.apache.commons:commons-configuration2:2.0'
 
     // These dependencies are used internally, and not exposed to consumers on their own compile classpath.
