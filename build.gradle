@@ -58,7 +58,12 @@ sourceSets {
         }
     }
  }
- 
+
+avro {
+    fieldVisibility = "PRIVATE"
+    createSetters = false
+}
+
 task("generateAvroProtocol", type: com.commercehub.gradle.plugin.avro.GenerateAvroProtocolTask) {
     group 'Generate Sources'
     source file("src/main/avro")
