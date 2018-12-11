@@ -35,4 +35,14 @@ public class ProxySensorRegistry implements SensorRegistry {
     this.backingSensorRegisty = backingSensorRegisty;
   }
 
+  @Override
+  public int hashCode() {
+    return this.backingSensorRegisty.hashCode();
+  }
+
+  @Override
+  public boolean equals(final Object obj) {
+    return this.backingSensorRegisty.equals(obj);
+  }
+
 }
