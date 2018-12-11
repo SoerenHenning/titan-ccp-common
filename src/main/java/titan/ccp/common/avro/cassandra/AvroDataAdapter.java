@@ -26,7 +26,7 @@ public class AvroDataAdapter implements DataAdapter<SpecificRecord> {
     final int numberOfFields = record.getSchema().getFields().size();
     final List<Object> values = new ArrayList<>(numberOfFields);
     for (int i = 0; i < numberOfFields; i++) {
-      values.set(i, record.get(i));
+      values.add(record.get(i));
     }
     return values;
     // Probably less efficient:
