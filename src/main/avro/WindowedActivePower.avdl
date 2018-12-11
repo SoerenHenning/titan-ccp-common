@@ -3,7 +3,8 @@ protocol WindowedActivePower {
 
   record WindowedActivePowerRecord {
     string identifier;
-    long timestamp;
+    long startTimestamp;
+    long endTimestamp;
     long count;
     double mean;
     double populationVariance;

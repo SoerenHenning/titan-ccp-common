@@ -6,7 +6,10 @@
     "name" : "identifier",
     "type" : "string"
   }, {
-    "name" : "timestamp",
+    "name" : "startTimestamp",
+    "type" : "long"
+  }, {
+    "name" : "endTimestamp",
     "type" : "long"
   }, {
     "name" : "count",

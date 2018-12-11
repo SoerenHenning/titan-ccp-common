@@ -13,8 +13,8 @@ import org.apache.avro.message.SchemaStore;
 @SuppressWarnings("all")
 @org.apache.avro.specific.AvroGenerated
 public class WindowedActivePowerRecord extends org.apache.avro.specific.SpecificRecordBase implements org.apache.avro.specific.SpecificRecord {
-  private static final long serialVersionUID = 7561842981594783214L;
-  public static final org.apache.avro.Schema SCHEMA$ = new org.apache.avro.Schema.Parser().parse("{\"type\":\"record\",\"name\":\"WindowedActivePowerRecord\",\"namespace\":\"titan.ccp.model.records\",\"fields\":[{\"name\":\"identifier\",\"type\":{\"type\":\"string\",\"avro.java.string\":\"String\"}},{\"name\":\"timestamp\",\"type\":\"long\"},{\"name\":\"count\",\"type\":\"long\"},{\"name\":\"mean\",\"type\":\"double\"},{\"name\":\"populationVariance\",\"type\":\"double\"},{\"name\":\"min\",\"type\":\"double\"},{\"name\":\"max\",\"type\":\"double\"}]}");
+  private static final long serialVersionUID = 4901468746138541707L;
+  public static final org.apache.avro.Schema SCHEMA$ = new org.apache.avro.Schema.Parser().parse("{\"type\":\"record\",\"name\":\"WindowedActivePowerRecord\",\"namespace\":\"titan.ccp.model.records\",\"fields\":[{\"name\":\"identifier\",\"type\":{\"type\":\"string\",\"avro.java.string\":\"String\"}},{\"name\":\"startTimestamp\",\"type\":\"long\"},{\"name\":\"endTimestamp\",\"type\":\"long\"},{\"name\":\"count\",\"type\":\"long\"},{\"name\":\"mean\",\"type\":\"double\"},{\"name\":\"populationVariance\",\"type\":\"double\"},{\"name\":\"min\",\"type\":\"double\"},{\"name\":\"max\",\"type\":\"double\"}]}");
   public static org.apache.avro.Schema getClassSchema() { return SCHEMA$; }
 
   private static SpecificData MODEL$ = new SpecificData();
@@ -52,7 +52,8 @@ public class WindowedActivePowerRecord extends org.apache.avro.specific.Specific
   }
 
   @Deprecated public java.lang.String identifier;
-  @Deprecated public long timestamp;
+  @Deprecated public long startTimestamp;
+  @Deprecated public long endTimestamp;
   @Deprecated public long count;
   @Deprecated public double mean;
   @Deprecated public double populationVariance;
@@ -69,16 +70,18 @@ public class WindowedActivePowerRecord extends org.apache.avro.specific.Specific
   /**
    * All-args constructor.
    * @param identifier The new value for identifier
-   * @param timestamp The new value for timestamp
+   * @param startTimestamp The new value for startTimestamp
+   * @param endTimestamp The new value for endTimestamp
    * @param count The new value for count
    * @param mean The new value for mean
    * @param populationVariance The new value for populationVariance
    * @param min The new value for min
    * @param max The new value for max
    */
-  public WindowedActivePowerRecord(java.lang.String identifier, java.lang.Long timestamp, java.lang.Long count, java.lang.Double mean, java.lang.Double populationVariance, java.lang.Double min, java.lang.Double max) {
+  public WindowedActivePowerRecord(java.lang.String identifier, java.lang.Long startTimestamp, java.lang.Long endTimestamp, java.lang.Long count, java.lang.Double mean, java.lang.Double populationVariance, java.lang.Double min, java.lang.Double max) {
     this.identifier = identifier;
-    this.timestamp = timestamp;
+    this.startTimestamp = startTimestamp;
+    this.endTimestamp = endTimestamp;
     this.count = count;
     this.mean = mean;
     this.populationVariance = populationVariance;
@@ -91,12 +94,13 @@ public class WindowedActivePowerRecord extends org.apache.avro.specific.Specific
   public java.lang.Object get(int field$) {
     switch (field$) {
     case 0: return identifier;
-    case 1: return timestamp;
-    case 2: return count;
-    case 3: return mean;
-    case 4: return populationVariance;
-    case 5: return min;
-    case 6: return max;
+    case 1: return startTimestamp;
+    case 2: return endTimestamp;
+    case 3: return count;
+    case 4: return mean;
+    case 5: return populationVariance;
+    case 6: return min;
+    case 7: return max;
     default: throw new org.apache.avro.AvroRuntimeException("Bad index");
     }
   }
@@ -106,12 +110,13 @@ public class WindowedActivePowerRecord extends org.apache.avro.specific.Specific
   public void put(int field$, java.lang.Object value$) {
     switch (field$) {
     case 0: identifier = (java.lang.String)value$; break;
-    case 1: timestamp = (java.lang.Long)value$; break;
-    case 2: count = (java.lang.Long)value$; break;
-    case 3: mean = (java.lang.Double)value$; break;
-    case 4: populationVariance = (java.lang.Double)value$; break;
-    case 5: min = (java.lang.Double)value$; break;
-    case 6: max = (java.lang.Double)value$; break;
+    case 1: startTimestamp = (java.lang.Long)value$; break;
+    case 2: endTimestamp = (java.lang.Long)value$; break;
+    case 3: count = (java.lang.Long)value$; break;
+    case 4: mean = (java.lang.Double)value$; break;
+    case 5: populationVariance = (java.lang.Double)value$; break;
+    case 6: min = (java.lang.Double)value$; break;
+    case 7: max = (java.lang.Double)value$; break;
     default: throw new org.apache.avro.AvroRuntimeException("Bad index");
     }
   }
@@ -133,19 +138,35 @@ public class WindowedActivePowerRecord extends org.apache.avro.specific.Specific
   }
 
   /**
-   * Gets the value of the 'timestamp' field.
-   * @return The value of the 'timestamp' field.
+   * Gets the value of the 'startTimestamp' field.
+   * @return The value of the 'startTimestamp' field.
    */
-  public java.lang.Long getTimestamp() {
-    return timestamp;
+  public java.lang.Long getStartTimestamp() {
+    return startTimestamp;
   }
 
   /**
-   * Sets the value of the 'timestamp' field.
+   * Sets the value of the 'startTimestamp' field.
    * @param value the value to set.
    */
-  public void setTimestamp(java.lang.Long value) {
-    this.timestamp = value;
+  public void setStartTimestamp(java.lang.Long value) {
+    this.startTimestamp = value;
+  }
+
+  /**
+   * Gets the value of the 'endTimestamp' field.
+   * @return The value of the 'endTimestamp' field.
+   */
+  public java.lang.Long getEndTimestamp() {
+    return endTimestamp;
+  }
+
+  /**
+   * Sets the value of the 'endTimestamp' field.
+   * @param value the value to set.
+   */
+  public void setEndTimestamp(java.lang.Long value) {
+    this.endTimestamp = value;
   }
 
   /**
@@ -261,7 +282,8 @@ public class WindowedActivePowerRecord extends org.apache.avro.specific.Specific
     implements org.apache.avro.data.RecordBuilder<WindowedActivePowerRecord> {
 
     private java.lang.String identifier;
-    private long timestamp;
+    private long startTimestamp;
+    private long endTimestamp;
     private long count;
     private double mean;
     private double populationVariance;
@@ -283,29 +305,33 @@ public class WindowedActivePowerRecord extends org.apache.avro.specific.Specific
         this.identifier = data().deepCopy(fields()[0].schema(), other.identifier);
         fieldSetFlags()[0] = true;
       }
-      if (isValidValue(fields()[1], other.timestamp)) {
-        this.timestamp = data().deepCopy(fields()[1].schema(), other.timestamp);
+      if (isValidValue(fields()[1], other.startTimestamp)) {
+        this.startTimestamp = data().deepCopy(fields()[1].schema(), other.startTimestamp);
         fieldSetFlags()[1] = true;
       }
-      if (isValidValue(fields()[2], other.count)) {
-        this.count = data().deepCopy(fields()[2].schema(), other.count);
+      if (isValidValue(fields()[2], other.endTimestamp)) {
+        this.endTimestamp = data().deepCopy(fields()[2].schema(), other.endTimestamp);
         fieldSetFlags()[2] = true;
       }
-      if (isValidValue(fields()[3], other.mean)) {
-        this.mean = data().deepCopy(fields()[3].schema(), other.mean);
+      if (isValidValue(fields()[3], other.count)) {
+        this.count = data().deepCopy(fields()[3].schema(), other.count);
         fieldSetFlags()[3] = true;
       }
-      if (isValidValue(fields()[4], other.populationVariance)) {
-        this.populationVariance = data().deepCopy(fields()[4].schema(), other.populationVariance);
+      if (isValidValue(fields()[4], other.mean)) {
+        this.mean = data().deepCopy(fields()[4].schema(), other.mean);
         fieldSetFlags()[4] = true;
       }
-      if (isValidValue(fields()[5], other.min)) {
-        this.min = data().deepCopy(fields()[5].schema(), other.min);
+      if (isValidValue(fields()[5], other.populationVariance)) {
+        this.populationVariance = data().deepCopy(fields()[5].schema(), other.populationVariance);
         fieldSetFlags()[5] = true;
       }
-      if (isValidValue(fields()[6], other.max)) {
-        this.max = data().deepCopy(fields()[6].schema(), other.max);
+      if (isValidValue(fields()[6], other.min)) {
+        this.min = data().deepCopy(fields()[6].schema(), other.min);
         fieldSetFlags()[6] = true;
+      }
+      if (isValidValue(fields()[7], other.max)) {
+        this.max = data().deepCopy(fields()[7].schema(), other.max);
+        fieldSetFlags()[7] = true;
       }
     }
 
@@ -319,29 +345,33 @@ public class WindowedActivePowerRecord extends org.apache.avro.specific.Specific
         this.identifier = data().deepCopy(fields()[0].schema(), other.identifier);
         fieldSetFlags()[0] = true;
       }
-      if (isValidValue(fields()[1], other.timestamp)) {
-        this.timestamp = data().deepCopy(fields()[1].schema(), other.timestamp);
+      if (isValidValue(fields()[1], other.startTimestamp)) {
+        this.startTimestamp = data().deepCopy(fields()[1].schema(), other.startTimestamp);
         fieldSetFlags()[1] = true;
       }
-      if (isValidValue(fields()[2], other.count)) {
-        this.count = data().deepCopy(fields()[2].schema(), other.count);
+      if (isValidValue(fields()[2], other.endTimestamp)) {
+        this.endTimestamp = data().deepCopy(fields()[2].schema(), other.endTimestamp);
         fieldSetFlags()[2] = true;
       }
-      if (isValidValue(fields()[3], other.mean)) {
-        this.mean = data().deepCopy(fields()[3].schema(), other.mean);
+      if (isValidValue(fields()[3], other.count)) {
+        this.count = data().deepCopy(fields()[3].schema(), other.count);
         fieldSetFlags()[3] = true;
       }
-      if (isValidValue(fields()[4], other.populationVariance)) {
-        this.populationVariance = data().deepCopy(fields()[4].schema(), other.populationVariance);
+      if (isValidValue(fields()[4], other.mean)) {
+        this.mean = data().deepCopy(fields()[4].schema(), other.mean);
         fieldSetFlags()[4] = true;
       }
-      if (isValidValue(fields()[5], other.min)) {
-        this.min = data().deepCopy(fields()[5].schema(), other.min);
+      if (isValidValue(fields()[5], other.populationVariance)) {
+        this.populationVariance = data().deepCopy(fields()[5].schema(), other.populationVariance);
         fieldSetFlags()[5] = true;
       }
-      if (isValidValue(fields()[6], other.max)) {
-        this.max = data().deepCopy(fields()[6].schema(), other.max);
+      if (isValidValue(fields()[6], other.min)) {
+        this.min = data().deepCopy(fields()[6].schema(), other.min);
         fieldSetFlags()[6] = true;
+      }
+      if (isValidValue(fields()[7], other.max)) {
+        this.max = data().deepCopy(fields()[7].schema(), other.max);
+        fieldSetFlags()[7] = true;
       }
     }
 
@@ -385,40 +415,78 @@ public class WindowedActivePowerRecord extends org.apache.avro.specific.Specific
     }
 
     /**
-      * Gets the value of the 'timestamp' field.
+      * Gets the value of the 'startTimestamp' field.
       * @return The value.
       */
-    public java.lang.Long getTimestamp() {
-      return timestamp;
+    public java.lang.Long getStartTimestamp() {
+      return startTimestamp;
     }
 
     /**
-      * Sets the value of the 'timestamp' field.
-      * @param value The value of 'timestamp'.
+      * Sets the value of the 'startTimestamp' field.
+      * @param value The value of 'startTimestamp'.
       * @return This builder.
       */
-    public titan.ccp.model.records.WindowedActivePowerRecord.Builder setTimestamp(long value) {
+    public titan.ccp.model.records.WindowedActivePowerRecord.Builder setStartTimestamp(long value) {
       validate(fields()[1], value);
-      this.timestamp = value;
+      this.startTimestamp = value;
       fieldSetFlags()[1] = true;
       return this;
     }
 
     /**
-      * Checks whether the 'timestamp' field has been set.
-      * @return True if the 'timestamp' field has been set, false otherwise.
+      * Checks whether the 'startTimestamp' field has been set.
+      * @return True if the 'startTimestamp' field has been set, false otherwise.
       */
-    public boolean hasTimestamp() {
+    public boolean hasStartTimestamp() {
       return fieldSetFlags()[1];
     }
 
 
     /**
-      * Clears the value of the 'timestamp' field.
+      * Clears the value of the 'startTimestamp' field.
       * @return This builder.
       */
-    public titan.ccp.model.records.WindowedActivePowerRecord.Builder clearTimestamp() {
+    public titan.ccp.model.records.WindowedActivePowerRecord.Builder clearStartTimestamp() {
       fieldSetFlags()[1] = false;
+      return this;
+    }
+
+    /**
+      * Gets the value of the 'endTimestamp' field.
+      * @return The value.
+      */
+    public java.lang.Long getEndTimestamp() {
+      return endTimestamp;
+    }
+
+    /**
+      * Sets the value of the 'endTimestamp' field.
+      * @param value The value of 'endTimestamp'.
+      * @return This builder.
+      */
+    public titan.ccp.model.records.WindowedActivePowerRecord.Builder setEndTimestamp(long value) {
+      validate(fields()[2], value);
+      this.endTimestamp = value;
+      fieldSetFlags()[2] = true;
+      return this;
+    }
+
+    /**
+      * Checks whether the 'endTimestamp' field has been set.
+      * @return True if the 'endTimestamp' field has been set, false otherwise.
+      */
+    public boolean hasEndTimestamp() {
+      return fieldSetFlags()[2];
+    }
+
+
+    /**
+      * Clears the value of the 'endTimestamp' field.
+      * @return This builder.
+      */
+    public titan.ccp.model.records.WindowedActivePowerRecord.Builder clearEndTimestamp() {
+      fieldSetFlags()[2] = false;
       return this;
     }
 
@@ -436,9 +504,9 @@ public class WindowedActivePowerRecord extends org.apache.avro.specific.Specific
       * @return This builder.
       */
     public titan.ccp.model.records.WindowedActivePowerRecord.Builder setCount(long value) {
-      validate(fields()[2], value);
+      validate(fields()[3], value);
       this.count = value;
-      fieldSetFlags()[2] = true;
+      fieldSetFlags()[3] = true;
       return this;
     }
 
@@ -447,7 +515,7 @@ public class WindowedActivePowerRecord extends org.apache.avro.specific.Specific
       * @return True if the 'count' field has been set, false otherwise.
       */
     public boolean hasCount() {
-      return fieldSetFlags()[2];
+      return fieldSetFlags()[3];
     }
 
 
@@ -456,7 +524,7 @@ public class WindowedActivePowerRecord extends org.apache.avro.specific.Specific
       * @return This builder.
       */
     public titan.ccp.model.records.WindowedActivePowerRecord.Builder clearCount() {
-      fieldSetFlags()[2] = false;
+      fieldSetFlags()[3] = false;
       return this;
     }
 
@@ -474,9 +542,9 @@ public class WindowedActivePowerRecord extends org.apache.avro.specific.Specific
       * @return This builder.
       */
     public titan.ccp.model.records.WindowedActivePowerRecord.Builder setMean(double value) {
-      validate(fields()[3], value);
+      validate(fields()[4], value);
       this.mean = value;
-      fieldSetFlags()[3] = true;
+      fieldSetFlags()[4] = true;
       return this;
     }
 
@@ -485,7 +553,7 @@ public class WindowedActivePowerRecord extends org.apache.avro.specific.Specific
       * @return True if the 'mean' field has been set, false otherwise.
       */
     public boolean hasMean() {
-      return fieldSetFlags()[3];
+      return fieldSetFlags()[4];
     }
 
 
@@ -494,7 +562,7 @@ public class WindowedActivePowerRecord extends org.apache.avro.specific.Specific
       * @return This builder.
       */
     public titan.ccp.model.records.WindowedActivePowerRecord.Builder clearMean() {
-      fieldSetFlags()[3] = false;
+      fieldSetFlags()[4] = false;
       return this;
     }
 
@@ -512,9 +580,9 @@ public class WindowedActivePowerRecord extends org.apache.avro.specific.Specific
       * @return This builder.
       */
     public titan.ccp.model.records.WindowedActivePowerRecord.Builder setPopulationVariance(double value) {
-      validate(fields()[4], value);
+      validate(fields()[5], value);
       this.populationVariance = value;
-      fieldSetFlags()[4] = true;
+      fieldSetFlags()[5] = true;
       return this;
     }
 
@@ -523,7 +591,7 @@ public class WindowedActivePowerRecord extends org.apache.avro.specific.Specific
       * @return True if the 'populationVariance' field has been set, false otherwise.
       */
     public boolean hasPopulationVariance() {
-      return fieldSetFlags()[4];
+      return fieldSetFlags()[5];
     }
 
 
@@ -532,7 +600,7 @@ public class WindowedActivePowerRecord extends org.apache.avro.specific.Specific
       * @return This builder.
       */
     public titan.ccp.model.records.WindowedActivePowerRecord.Builder clearPopulationVariance() {
-      fieldSetFlags()[4] = false;
+      fieldSetFlags()[5] = false;
       return this;
     }
 
@@ -550,9 +618,9 @@ public class WindowedActivePowerRecord extends org.apache.avro.specific.Specific
       * @return This builder.
       */
     public titan.ccp.model.records.WindowedActivePowerRecord.Builder setMin(double value) {
-      validate(fields()[5], value);
+      validate(fields()[6], value);
       this.min = value;
-      fieldSetFlags()[5] = true;
+      fieldSetFlags()[6] = true;
       return this;
     }
 
@@ -561,7 +629,7 @@ public class WindowedActivePowerRecord extends org.apache.avro.specific.Specific
       * @return True if the 'min' field has been set, false otherwise.
       */
     public boolean hasMin() {
-      return fieldSetFlags()[5];
+      return fieldSetFlags()[6];
     }
 
 
@@ -570,7 +638,7 @@ public class WindowedActivePowerRecord extends org.apache.avro.specific.Specific
       * @return This builder.
       */
     public titan.ccp.model.records.WindowedActivePowerRecord.Builder clearMin() {
-      fieldSetFlags()[5] = false;
+      fieldSetFlags()[6] = false;
       return this;
     }
 
@@ -588,9 +656,9 @@ public class WindowedActivePowerRecord extends org.apache.avro.specific.Specific
       * @return This builder.
       */
     public titan.ccp.model.records.WindowedActivePowerRecord.Builder setMax(double value) {
-      validate(fields()[6], value);
+      validate(fields()[7], value);
       this.max = value;
-      fieldSetFlags()[6] = true;
+      fieldSetFlags()[7] = true;
       return this;
     }
 
@@ -599,7 +667,7 @@ public class WindowedActivePowerRecord extends org.apache.avro.specific.Specific
       * @return True if the 'max' field has been set, false otherwise.
       */
     public boolean hasMax() {
-      return fieldSetFlags()[6];
+      return fieldSetFlags()[7];
     }
 
 
@@ -608,7 +676,7 @@ public class WindowedActivePowerRecord extends org.apache.avro.specific.Specific
       * @return This builder.
       */
     public titan.ccp.model.records.WindowedActivePowerRecord.Builder clearMax() {
-      fieldSetFlags()[6] = false;
+      fieldSetFlags()[7] = false;
       return this;
     }
 
@@ -618,12 +686,13 @@ public class WindowedActivePowerRecord extends org.apache.avro.specific.Specific
       try {
         WindowedActivePowerRecord record = new WindowedActivePowerRecord();
         record.identifier = fieldSetFlags()[0] ? this.identifier : (java.lang.String) defaultValue(fields()[0]);
-        record.timestamp = fieldSetFlags()[1] ? this.timestamp : (java.lang.Long) defaultValue(fields()[1]);
-        record.count = fieldSetFlags()[2] ? this.count : (java.lang.Long) defaultValue(fields()[2]);
-        record.mean = fieldSetFlags()[3] ? this.mean : (java.lang.Double) defaultValue(fields()[3]);
-        record.populationVariance = fieldSetFlags()[4] ? this.populationVariance : (java.lang.Double) defaultValue(fields()[4]);
-        record.min = fieldSetFlags()[5] ? this.min : (java.lang.Double) defaultValue(fields()[5]);
-        record.max = fieldSetFlags()[6] ? this.max : (java.lang.Double) defaultValue(fields()[6]);
+        record.startTimestamp = fieldSetFlags()[1] ? this.startTimestamp : (java.lang.Long) defaultValue(fields()[1]);
+        record.endTimestamp = fieldSetFlags()[2] ? this.endTimestamp : (java.lang.Long) defaultValue(fields()[2]);
+        record.count = fieldSetFlags()[3] ? this.count : (java.lang.Long) defaultValue(fields()[3]);
+        record.mean = fieldSetFlags()[4] ? this.mean : (java.lang.Double) defaultValue(fields()[4]);
+        record.populationVariance = fieldSetFlags()[5] ? this.populationVariance : (java.lang.Double) defaultValue(fields()[5]);
+        record.min = fieldSetFlags()[6] ? this.min : (java.lang.Double) defaultValue(fields()[6]);
+        record.max = fieldSetFlags()[7] ? this.max : (java.lang.Double) defaultValue(fields()[7]);
         return record;
       } catch (java.lang.Exception e) {
         throw new org.apache.avro.AvroRuntimeException(e);
