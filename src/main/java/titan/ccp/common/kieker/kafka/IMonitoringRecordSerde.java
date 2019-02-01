@@ -56,6 +56,9 @@ public final class IMonitoringRecordSerde {
 
     @Override
     public byte[] serialize(final String topic, final T record) {
+      if (record == null) {
+        return null;
+      }
       final ByteBuffer buffer = this.byteBufferFactory.get();
       record.serialize(new RegistrylessBinaryValueSerializer(buffer));
       buffer.flip();
@@ -87,6 +90,9 @@ public final class IMonitoringRecordSerde {
 
     @Override
     public T deserialize(final String topic, final byte[] data) {
+      if (data == null) {
+        return null;
+      }
       final ByteBuffer buffer = this.byteBufferDeserializer.deserialize(topic, data);
       return this.recordFactory.create(new RegistrylessBinaryValueDeserializer(buffer));
     }
