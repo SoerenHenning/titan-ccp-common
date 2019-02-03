@@ -18,7 +18,7 @@ public interface AggregatedSensor extends Sensor {
       if (sensor instanceof MachineSensor) {
         allChildren.add((MachineSensor) sensor);
       } else if (sensor instanceof AggregatedSensor) {
-        untraversedSensors.offer(sensor);
+        untraversedSensors.addAll(((AggregatedSensor) sensor).getChildren());
       }
     }
     return allChildren;
