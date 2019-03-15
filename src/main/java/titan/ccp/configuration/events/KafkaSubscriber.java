@@ -32,7 +32,7 @@ public class KafkaSubscriber {
 
   private final String topicName;
 
-  private final long pollTimeoutInMs;
+  private final Duration pollTimeout;
 
   private final Map<Event, List<Consumer<String>>> subscriptions = new EnumMap<>(Event.class);
 
@@ -56,7 +56,7 @@ public class KafkaSubscriber {
     this.consumer =
         new KafkaConsumer<>(properties, EventSerde.deserializer(), new StringDeserializer());
     this.topicName = topicName;
-    this.pollTimeoutInMs = pollTimeout.toMillis();
+    this.pollTimeout = pollTimeout;
   }
 
   public void run() {
@@ -64,7 +64,7 @@ public class KafkaSubscriber {
       this.consumer.subscribe(Arrays.asList(this.topicName));
 
       while (!this.terminationRequested) {
-        final ConsumerRecords<Event, String> records = this.consumer.poll(this.pollTimeoutInMs);
+        final ConsumerRecords<Event, String> records = this.consumer.poll(this.pollTimeout);
         for (final ConsumerRecord<Event, String> record : records) {
           for (final Consumer<String> subscription : this.subscriptions.getOrDefault(record.key(),
               Collections.emptyList())) {
