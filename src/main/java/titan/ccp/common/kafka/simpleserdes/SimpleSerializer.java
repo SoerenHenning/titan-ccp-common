@@ -23,6 +23,9 @@ public class SimpleSerializer<T> implements Serializer<T> {
 
   @Override
   public byte[] serialize(final String topic, final T data) {
+    if (data == null) {
+      return null;
+    }
     final WriteBuffer buffer = new WriteBuffer();
     this.serializer.serialize(buffer, data);
     return buffer.getBytes();
