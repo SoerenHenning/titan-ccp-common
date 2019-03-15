@@ -60,12 +60,6 @@ public class RegistrylessBinaryValueDeserializer extends AbstractValueDeserializ
   }
 
   @Override
-  public byte[] getBytes(final byte[] target) {
-    this.buffer.get(target);
-    return target;
-  }
-
-  @Override
   public char getChar() {
     return this.buffer.getChar();
   }

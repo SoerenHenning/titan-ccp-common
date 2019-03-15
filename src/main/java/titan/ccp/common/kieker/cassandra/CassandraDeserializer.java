@@ -78,12 +78,6 @@ public class CassandraDeserializer extends AbstractValueDeserializer implements 
     return super.enumerationValueOf(clazz, this.row.getInt(this.getCurrentColumnName()));
   }
 
-  @Override
-  public byte[] getBytes(final byte[] target) {
-    this.row.getBytes(this.getCurrentColumnName()).get(target);
-    return target;
-  }
-
   private String getCurrentColumnName() {
     this.lastIndex++;
     return this.columnNames[this.lastIndex];
