@@ -1,1 +1,3 @@
 rootProject.name = 'titanccp-common'
+
+enableFeaturePreview('STABLE_PUBLISHING') // Remove in > Gradle 5.0
