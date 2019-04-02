@@ -40,7 +40,9 @@ deploy:
   stage: deploy
   tags:
     - dockerex
-  script: ./gradlew publish -PsonatypeUsername=$OSSRH_JIRA_PASSWORD -PsonatypePassword=$OSSRH_JIRA_USERNAME
+  script:
+    - echo $TESTI
+    - ./gradlew publish -PsonatypeUsername=$OSSRH_JIRA_USERNAME -PsonatypePassword=$OSSRH_JIRA_PASSWORD
   only:
     variables:
       - $OSSRH_JIRA_PASSWORD
