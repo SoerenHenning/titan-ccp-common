@@ -42,6 +42,8 @@ deploy:
     - dockerex
   script: ./gradlew publish -PsonatypeUsername=$OSSRH_JIRA_USERNAME -PsonatypePassword=$OSSRH_JIRA_PASSWORD
   only:
+    refs:
+      - master
     variables:
       - $OSSRH_JIRA_PASSWORD
       - $OSSRH_JIRA_USERNAME
