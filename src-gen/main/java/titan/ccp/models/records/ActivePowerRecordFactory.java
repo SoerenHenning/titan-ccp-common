@@ -11,13 +11,24 @@ import kieker.common.record.io.IValueDeserializer;
  */
 public final class ActivePowerRecordFactory implements IRecordFactory<ActivePowerRecord> {
 
-	@Override
-	public ActivePowerRecord create(final IValueDeserializer deserializer) throws RecordInstantiationException {
-		return new ActivePowerRecord(deserializer);
-	}
+  @Override
+  public ActivePowerRecord create(final IValueDeserializer deserializer)
+      throws RecordInstantiationException {
+    return new ActivePowerRecord(deserializer);
+  }
 
-	@Override
-	public int getRecordSizeInBytes() {
-		return ActivePowerRecord.SIZE;
-	}
+  @Override
+  public String[] getValueNames() {
+    return ActivePowerRecord.VALUE_NAMES; // NOPMD
+  }
+
+  @Override
+  public Class<?>[] getValueTypes() {
+    return ActivePowerRecord.TYPES; // NOPMD
+  }
+
+  @Override
+  public int getRecordSizeInBytes() {
+    return ActivePowerRecord.SIZE;
+  }
 }
