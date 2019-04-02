@@ -79,49 +79,6 @@ public class AggregatedActivePowerRecord extends AbstractMonitoringRecord {
   }
 
   /**
-   * This constructor converts the given array into a record. It is recommended to use the array
-   * which is the result of a call to {@link #toArray()}.
-   *
-   * @param values The values for the record.
-   *
-   * @deprecated since 1.13. Use {@link #AggregatedActivePowerRecord(IValueDeserializer)} instead.
-   */
-  @Deprecated
-  public AggregatedActivePowerRecord(final Object[] values) { // NOPMD (direct store of values)
-    AbstractMonitoringRecord.checkArray(values, TYPES);
-    this.identifier = (String) values[0];
-    this.timestamp = (Long) values[1];
-    this.minInW = (Double) values[2];
-    this.maxInW = (Double) values[3];
-    this.count = (Long) values[4];
-    this.sumInW = (Double) values[5];
-    this.averageInW = (Double) values[6];
-  }
-
-  /**
-   * This constructor uses the given array to initialize the fields of this record.
-   *
-   * @param values The values for the record.
-   * @param valueTypes The types of the elements in the first array.
-   *
-   * @deprecated since 1.13. Use {@link #AggregatedActivePowerRecord(IValueDeserializer)} instead.
-   */
-  @Deprecated
-  protected AggregatedActivePowerRecord(final Object[] values, final Class<?>[] valueTypes) { // NOPMD
-                                                                                              // (values
-                                                                                              // stored
-                                                                                              // directly)
-    AbstractMonitoringRecord.checkArray(values, valueTypes);
-    this.identifier = (String) values[0];
-    this.timestamp = (Long) values[1];
-    this.minInW = (Double) values[2];
-    this.maxInW = (Double) values[3];
-    this.count = (Long) values[4];
-    this.sumInW = (Double) values[5];
-    this.averageInW = (Double) values[6];
-  }
-
-  /**
    * @param deserializer The deserializer to use
    * @throws RecordInstantiationException when the record could not be deserialized
    */
