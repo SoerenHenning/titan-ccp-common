@@ -1,0 +1,28 @@
+@namespace("titan.ccp.model.records")
+protocol StatsActivePower {
+
+  record HourOfDayActivePowerRecord {
+    string identifier;
+    int hourOfDay;
+    long periodStart;
+    long periodEnd;
+    long count;
+    double mean;
+    double populationVariance;
+    double min;
+    double max;
+  }
+  
+  record DayOfWeekActivePowerRecord {
+    string identifier;
+    int dayOfDay;
+    long periodStart;
+    long periodEnd;
+    long count;
+    double mean;
+    double populationVariance;
+    double min;
+    double max;
+  }
+
+}
