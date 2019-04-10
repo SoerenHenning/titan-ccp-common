@@ -51,14 +51,14 @@ public class WindowedActivePowerRecord extends org.apache.avro.specific.Specific
     return DECODER.decode(b);
   }
 
-  @Deprecated public java.lang.String identifier;
-  @Deprecated public long startTimestamp;
-  @Deprecated public long endTimestamp;
-  @Deprecated public long count;
-  @Deprecated public double mean;
-  @Deprecated public double populationVariance;
-  @Deprecated public double min;
-  @Deprecated public double max;
+   private java.lang.String identifier;
+   private long startTimestamp;
+   private long endTimestamp;
+   private long count;
+   private double mean;
+   private double populationVariance;
+   private double min;
+   private double max;
 
   /**
    * Default constructor.  Note that this does not initialize fields
@@ -129,13 +129,6 @@ public class WindowedActivePowerRecord extends org.apache.avro.specific.Specific
     return identifier;
   }
 
-  /**
-   * Sets the value of the 'identifier' field.
-   * @param value the value to set.
-   */
-  public void setIdentifier(java.lang.String value) {
-    this.identifier = value;
-  }
 
   /**
    * Gets the value of the 'startTimestamp' field.
@@ -145,13 +138,6 @@ public class WindowedActivePowerRecord extends org.apache.avro.specific.Specific
     return startTimestamp;
   }
 
-  /**
-   * Sets the value of the 'startTimestamp' field.
-   * @param value the value to set.
-   */
-  public void setStartTimestamp(java.lang.Long value) {
-    this.startTimestamp = value;
-  }
 
   /**
    * Gets the value of the 'endTimestamp' field.
@@ -161,13 +147,6 @@ public class WindowedActivePowerRecord extends org.apache.avro.specific.Specific
     return endTimestamp;
   }
 
-  /**
-   * Sets the value of the 'endTimestamp' field.
-   * @param value the value to set.
-   */
-  public void setEndTimestamp(java.lang.Long value) {
-    this.endTimestamp = value;
-  }
 
   /**
    * Gets the value of the 'count' field.
@@ -177,13 +156,6 @@ public class WindowedActivePowerRecord extends org.apache.avro.specific.Specific
     return count;
   }
 
-  /**
-   * Sets the value of the 'count' field.
-   * @param value the value to set.
-   */
-  public void setCount(java.lang.Long value) {
-    this.count = value;
-  }
 
   /**
    * Gets the value of the 'mean' field.
@@ -193,13 +165,6 @@ public class WindowedActivePowerRecord extends org.apache.avro.specific.Specific
     return mean;
   }
 
-  /**
-   * Sets the value of the 'mean' field.
-   * @param value the value to set.
-   */
-  public void setMean(java.lang.Double value) {
-    this.mean = value;
-  }
 
   /**
    * Gets the value of the 'populationVariance' field.
@@ -209,13 +174,6 @@ public class WindowedActivePowerRecord extends org.apache.avro.specific.Specific
     return populationVariance;
   }
 
-  /**
-   * Sets the value of the 'populationVariance' field.
-   * @param value the value to set.
-   */
-  public void setPopulationVariance(java.lang.Double value) {
-    this.populationVariance = value;
-  }
 
   /**
    * Gets the value of the 'min' field.
@@ -225,13 +183,6 @@ public class WindowedActivePowerRecord extends org.apache.avro.specific.Specific
     return min;
   }
 
-  /**
-   * Sets the value of the 'min' field.
-   * @param value the value to set.
-   */
-  public void setMin(java.lang.Double value) {
-    this.min = value;
-  }
 
   /**
    * Gets the value of the 'max' field.
@@ -241,13 +192,6 @@ public class WindowedActivePowerRecord extends org.apache.avro.specific.Specific
     return max;
   }
 
-  /**
-   * Sets the value of the 'max' field.
-   * @param value the value to set.
-   */
-  public void setMax(java.lang.Double value) {
-    this.max = value;
-  }
 
   /**
    * Creates a new WindowedActivePowerRecord RecordBuilder.
