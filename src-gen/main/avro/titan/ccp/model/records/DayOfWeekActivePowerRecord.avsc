@@ -6,7 +6,7 @@
     "name" : "identifier",
     "type" : "string"
   }, {
-    "name" : "dayOfDay",
+    "name" : "dayOfWeek",
     "type" : "int"
   }, {
     "name" : "periodStart",

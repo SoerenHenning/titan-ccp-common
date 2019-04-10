@@ -13,8 +13,8 @@ import org.apache.avro.message.SchemaStore;
 @SuppressWarnings("all")
 @org.apache.avro.specific.AvroGenerated
 public class DayOfWeekActivePowerRecord extends org.apache.avro.specific.SpecificRecordBase implements org.apache.avro.specific.SpecificRecord {
-  private static final long serialVersionUID = 562934377924116544L;
-  public static final org.apache.avro.Schema SCHEMA$ = new org.apache.avro.Schema.Parser().parse("{\"type\":\"record\",\"name\":\"DayOfWeekActivePowerRecord\",\"namespace\":\"titan.ccp.model.records\",\"fields\":[{\"name\":\"identifier\",\"type\":{\"type\":\"string\",\"avro.java.string\":\"String\"}},{\"name\":\"dayOfDay\",\"type\":\"int\"},{\"name\":\"periodStart\",\"type\":\"long\"},{\"name\":\"periodEnd\",\"type\":\"long\"},{\"name\":\"count\",\"type\":\"long\"},{\"name\":\"mean\",\"type\":\"double\"},{\"name\":\"populationVariance\",\"type\":\"double\"},{\"name\":\"min\",\"type\":\"double\"},{\"name\":\"max\",\"type\":\"double\"}]}");
+  private static final long serialVersionUID = 3705351107161071520L;
+  public static final org.apache.avro.Schema SCHEMA$ = new org.apache.avro.Schema.Parser().parse("{\"type\":\"record\",\"name\":\"DayOfWeekActivePowerRecord\",\"namespace\":\"titan.ccp.model.records\",\"fields\":[{\"name\":\"identifier\",\"type\":{\"type\":\"string\",\"avro.java.string\":\"String\"}},{\"name\":\"dayOfWeek\",\"type\":\"int\"},{\"name\":\"periodStart\",\"type\":\"long\"},{\"name\":\"periodEnd\",\"type\":\"long\"},{\"name\":\"count\",\"type\":\"long\"},{\"name\":\"mean\",\"type\":\"double\"},{\"name\":\"populationVariance\",\"type\":\"double\"},{\"name\":\"min\",\"type\":\"double\"},{\"name\":\"max\",\"type\":\"double\"}]}");
   public static org.apache.avro.Schema getClassSchema() { return SCHEMA$; }
 
   private static SpecificData MODEL$ = new SpecificData();
@@ -52,7 +52,7 @@ public class DayOfWeekActivePowerRecord extends org.apache.avro.specific.Specifi
   }
 
    private java.lang.String identifier;
-   private int dayOfDay;
+   private int dayOfWeek;
    private long periodStart;
    private long periodEnd;
    private long count;
@@ -71,7 +71,7 @@ public class DayOfWeekActivePowerRecord extends org.apache.avro.specific.Specifi
   /**
    * All-args constructor.
    * @param identifier The new value for identifier
-   * @param dayOfDay The new value for dayOfDay
+   * @param dayOfWeek The new value for dayOfWeek
    * @param periodStart The new value for periodStart
    * @param periodEnd The new value for periodEnd
    * @param count The new value for count
@@ -80,9 +80,9 @@ public class DayOfWeekActivePowerRecord extends org.apache.avro.specific.Specifi
    * @param min The new value for min
    * @param max The new value for max
    */
-  public DayOfWeekActivePowerRecord(java.lang.String identifier, java.lang.Integer dayOfDay, java.lang.Long periodStart, java.lang.Long periodEnd, java.lang.Long count, java.lang.Double mean, java.lang.Double populationVariance, java.lang.Double min, java.lang.Double max) {
+  public DayOfWeekActivePowerRecord(java.lang.String identifier, java.lang.Integer dayOfWeek, java.lang.Long periodStart, java.lang.Long periodEnd, java.lang.Long count, java.lang.Double mean, java.lang.Double populationVariance, java.lang.Double min, java.lang.Double max) {
     this.identifier = identifier;
-    this.dayOfDay = dayOfDay;
+    this.dayOfWeek = dayOfWeek;
     this.periodStart = periodStart;
     this.periodEnd = periodEnd;
     this.count = count;
@@ -97,7 +97,7 @@ public class DayOfWeekActivePowerRecord extends org.apache.avro.specific.Specifi
   public java.lang.Object get(int field$) {
     switch (field$) {
     case 0: return identifier;
-    case 1: return dayOfDay;
+    case 1: return dayOfWeek;
     case 2: return periodStart;
     case 3: return periodEnd;
     case 4: return count;
@@ -114,7 +114,7 @@ public class DayOfWeekActivePowerRecord extends org.apache.avro.specific.Specifi
   public void put(int field$, java.lang.Object value$) {
     switch (field$) {
     case 0: identifier = (java.lang.String)value$; break;
-    case 1: dayOfDay = (java.lang.Integer)value$; break;
+    case 1: dayOfWeek = (java.lang.Integer)value$; break;
     case 2: periodStart = (java.lang.Long)value$; break;
     case 3: periodEnd = (java.lang.Long)value$; break;
     case 4: count = (java.lang.Long)value$; break;
@@ -136,11 +136,11 @@ public class DayOfWeekActivePowerRecord extends org.apache.avro.specific.Specifi
 
 
   /**
-   * Gets the value of the 'dayOfDay' field.
-   * @return The value of the 'dayOfDay' field.
+   * Gets the value of the 'dayOfWeek' field.
+   * @return The value of the 'dayOfWeek' field.
    */
-  public java.lang.Integer getDayOfDay() {
-    return dayOfDay;
+  public java.lang.Integer getDayOfWeek() {
+    return dayOfWeek;
   }
 
 
@@ -240,7 +240,7 @@ public class DayOfWeekActivePowerRecord extends org.apache.avro.specific.Specifi
     implements org.apache.avro.data.RecordBuilder<DayOfWeekActivePowerRecord> {
 
     private java.lang.String identifier;
-    private int dayOfDay;
+    private int dayOfWeek;
     private long periodStart;
     private long periodEnd;
     private long count;
@@ -264,8 +264,8 @@ public class DayOfWeekActivePowerRecord extends org.apache.avro.specific.Specifi
         this.identifier = data().deepCopy(fields()[0].schema(), other.identifier);
         fieldSetFlags()[0] = true;
       }
-      if (isValidValue(fields()[1], other.dayOfDay)) {
-        this.dayOfDay = data().deepCopy(fields()[1].schema(), other.dayOfDay);
+      if (isValidValue(fields()[1], other.dayOfWeek)) {
+        this.dayOfWeek = data().deepCopy(fields()[1].schema(), other.dayOfWeek);
         fieldSetFlags()[1] = true;
       }
       if (isValidValue(fields()[2], other.periodStart)) {
@@ -308,8 +308,8 @@ public class DayOfWeekActivePowerRecord extends org.apache.avro.specific.Specifi
         this.identifier = data().deepCopy(fields()[0].schema(), other.identifier);
         fieldSetFlags()[0] = true;
       }
-      if (isValidValue(fields()[1], other.dayOfDay)) {
-        this.dayOfDay = data().deepCopy(fields()[1].schema(), other.dayOfDay);
+      if (isValidValue(fields()[1], other.dayOfWeek)) {
+        this.dayOfWeek = data().deepCopy(fields()[1].schema(), other.dayOfWeek);
         fieldSetFlags()[1] = true;
       }
       if (isValidValue(fields()[2], other.periodStart)) {
@@ -382,39 +382,39 @@ public class DayOfWeekActivePowerRecord extends org.apache.avro.specific.Specifi
     }
 
     /**
-      * Gets the value of the 'dayOfDay' field.
+      * Gets the value of the 'dayOfWeek' field.
       * @return The value.
       */
-    public java.lang.Integer getDayOfDay() {
-      return dayOfDay;
+    public java.lang.Integer getDayOfWeek() {
+      return dayOfWeek;
     }
 
     /**
-      * Sets the value of the 'dayOfDay' field.
-      * @param value The value of 'dayOfDay'.
+      * Sets the value of the 'dayOfWeek' field.
+      * @param value The value of 'dayOfWeek'.
       * @return This builder.
       */
-    public titan.ccp.model.records.DayOfWeekActivePowerRecord.Builder setDayOfDay(int value) {
+    public titan.ccp.model.records.DayOfWeekActivePowerRecord.Builder setDayOfWeek(int value) {
       validate(fields()[1], value);
-      this.dayOfDay = value;
+      this.dayOfWeek = value;
       fieldSetFlags()[1] = true;
       return this;
     }
 
     /**
-      * Checks whether the 'dayOfDay' field has been set.
-      * @return True if the 'dayOfDay' field has been set, false otherwise.
+      * Checks whether the 'dayOfWeek' field has been set.
+      * @return True if the 'dayOfWeek' field has been set, false otherwise.
       */
-    public boolean hasDayOfDay() {
+    public boolean hasDayOfWeek() {
       return fieldSetFlags()[1];
     }
 
 
     /**
-      * Clears the value of the 'dayOfDay' field.
+      * Clears the value of the 'dayOfWeek' field.
       * @return This builder.
       */
-    public titan.ccp.model.records.DayOfWeekActivePowerRecord.Builder clearDayOfDay() {
+    public titan.ccp.model.records.DayOfWeekActivePowerRecord.Builder clearDayOfWeek() {
       fieldSetFlags()[1] = false;
       return this;
     }
@@ -691,7 +691,7 @@ public class DayOfWeekActivePowerRecord extends org.apache.avro.specific.Specifi
       try {
         DayOfWeekActivePowerRecord record = new DayOfWeekActivePowerRecord();
         record.identifier = fieldSetFlags()[0] ? this.identifier : (java.lang.String) defaultValue(fields()[0]);
-        record.dayOfDay = fieldSetFlags()[1] ? this.dayOfDay : (java.lang.Integer) defaultValue(fields()[1]);
+        record.dayOfWeek = fieldSetFlags()[1] ? this.dayOfWeek : (java.lang.Integer) defaultValue(fields()[1]);
         record.periodStart = fieldSetFlags()[2] ? this.periodStart : (java.lang.Long) defaultValue(fields()[2]);
         record.periodEnd = fieldSetFlags()[3] ? this.periodEnd : (java.lang.Long) defaultValue(fields()[3]);
         record.count = fieldSetFlags()[4] ? this.count : (java.lang.Long) defaultValue(fields()[4]);

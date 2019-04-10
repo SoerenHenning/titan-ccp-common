@@ -15,7 +15,7 @@ protocol StatsActivePower {
   
   record DayOfWeekActivePowerRecord {
     string identifier;
-    int dayOfDay;
+    int dayOfWeek;
     long periodStart;
     long periodEnd;
     long count;
