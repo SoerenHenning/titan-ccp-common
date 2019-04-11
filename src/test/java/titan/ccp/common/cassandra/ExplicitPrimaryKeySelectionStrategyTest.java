@@ -2,7 +2,6 @@ package titan.ccp.common.cassandra;
 
 import static org.junit.Assert.assertEquals;
 import com.google.common.collect.ImmutableList;
-import com.google.common.collect.ImmutableSet;
 import java.util.List;
 import org.junit.After;
 import org.junit.Before;
@@ -39,7 +38,7 @@ public class ExplicitPrimaryKeySelectionStrategyTest {
     final List<String> returnedClusteringColumns =
         this.strategy.selectClusteringColumns(EXAMPLE_TABLE_NAME,
             ImmutableList.of());
-    assertEquals(ImmutableSet.of(EXAMPLE_CLUSTERING_COLUMN_1, EXAMPLE_CLUSTERING_COLUMN_2),
+    assertEquals(ImmutableList.of(EXAMPLE_CLUSTERING_COLUMN_1, EXAMPLE_CLUSTERING_COLUMN_2),
         returnedClusteringColumns);
   }
 
@@ -50,7 +49,7 @@ public class ExplicitPrimaryKeySelectionStrategyTest {
     final List<String> returnedClusteringColumns =
         this.strategy.selectClusteringColumns(EXAMPLE_TABLE_NAME,
             ImmutableList.of());
-    assertEquals(ImmutableSet.of(EXAMPLE_PARTITION_KEY_1, EXAMPLE_CLUSTERING_COLUMN_2),
+    assertEquals(ImmutableList.of(EXAMPLE_PARTITION_KEY_1, EXAMPLE_CLUSTERING_COLUMN_2),
         returnedClusteringColumns);
   }
 
@@ -60,7 +59,7 @@ public class ExplicitPrimaryKeySelectionStrategyTest {
         EXAMPLE_PARTITION_KEY_2);
     final List<String> returnedPartitionKeys = this.strategy.selectPartitionKeys(EXAMPLE_TABLE_NAME,
         ImmutableList.of());
-    assertEquals(ImmutableSet.of(EXAMPLE_PARTITION_KEY_1, EXAMPLE_PARTITION_KEY_2),
+    assertEquals(ImmutableList.of(EXAMPLE_PARTITION_KEY_1, EXAMPLE_PARTITION_KEY_2),
         returnedPartitionKeys);
   }
 
@@ -70,7 +69,7 @@ public class ExplicitPrimaryKeySelectionStrategyTest {
         ImmutableList.of(EXAMPLE_PARTITION_KEY_1, EXAMPLE_PARTITION_KEY_2));
     final List<String> returnedPartitionKeys = this.strategy.selectPartitionKeys(EXAMPLE_TABLE_NAME,
         ImmutableList.of());
-    assertEquals(ImmutableSet.of(EXAMPLE_PARTITION_KEY_1, EXAMPLE_PARTITION_KEY_2),
+    assertEquals(ImmutableList.of(EXAMPLE_PARTITION_KEY_1, EXAMPLE_PARTITION_KEY_2),
         returnedPartitionKeys);
   }
 
