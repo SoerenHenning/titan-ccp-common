@@ -55,9 +55,9 @@ public class CassandraWriter<T> {
     final List<String> includedFields = this.dataAdapter.getFieldNames(record);
     final List<Class<?>> includedFieldTypes = this.dataAdapter.getFieldTypes(record);
 
-    final Set<String> partitionKey =
+    final List<String> partitionKey =
         this.primaryKeySelectionStrategy.selectPartitionKeys(tableName, includedFields);
-    final Set<String> clusteringColumns =
+    final List<String> clusteringColumns =
         this.primaryKeySelectionStrategy.selectClusteringColumns(tableName, includedFields);
 
     final Create createStatement = SchemaBuilder.createTable(tableName).ifNotExists();
