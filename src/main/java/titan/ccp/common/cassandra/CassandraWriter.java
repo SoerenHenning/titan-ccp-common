@@ -9,8 +9,12 @@ import com.datastax.driver.core.schemabuilder.SchemaBuilder;
 import com.google.common.collect.Streams;
 import java.util.HashSet;
 import java.util.List;
+import java.util.Map;
+import java.util.Map.Entry;
+import java.util.Optional;
 import java.util.Set;
 import java.util.function.Function;
+import java.util.stream.Collectors;
 
 public class CassandraWriter<T> {
 
@@ -55,23 +59,38 @@ public class CassandraWriter<T> {
     final List<String> includedFields = this.dataAdapter.getFieldNames(record);
     final List<Class<?>> includedFieldTypes = this.dataAdapter.getFieldTypes(record);
 
-    final List<String> partitionKey =
+    final List<String> partitionKeys =
         this.primaryKeySelectionStrategy.selectPartitionKeys(tableName, includedFields);
     final List<String> clusteringColumns =
         this.primaryKeySelectionStrategy.selectClusteringColumns(tableName, includedFields);
+    final Set<String> specialColumns =
+        new HashSet<>(partitionKeys.size() + clusteringColumns.size());
 
     final Create createStatement = SchemaBuilder.createTable(tableName).ifNotExists();
 
-    Streams.zip(includedFields.stream(), includedFieldTypes.stream(), RecordField::new)
-        .forEach(field -> {
-          if (partitionKey.contains(field.name)) {
-            createStatement.addPartitionKey(field.name, JavaTypeMapper.map(field.type));
-          } else if (clusteringColumns.contains(field.name)) {
-            createStatement.addClusteringColumn(field.name, JavaTypeMapper.map(field.type));
-          } else {
-            createStatement.addColumn(field.name, JavaTypeMapper.map(field.type));
-          }
-        });
+    final Map<String, Class<?>> recordFields =
+        Streams.zip(includedFields.stream(), includedFieldTypes.stream(), RecordField::new)
+            .collect(Collectors.toMap(field -> field.name, field -> field.type));
+
+    for (final String partitionKey : partitionKeys) {
+      Optional.ofNullable(recordFields.get(partitionKey)).ifPresent(type -> {
+        createStatement.addPartitionKey(partitionKey, JavaTypeMapper.map(type));
+        specialColumns.add(partitionKey);
+      });
+    }
+
+    for (final String clusteringColumn : clusteringColumns) {
+      Optional.ofNullable(recordFields.get(clusteringColumn)).ifPresent(type -> {
+        createStatement.addClusteringColumn(clusteringColumn, JavaTypeMapper.map(type));
+        specialColumns.add(clusteringColumn);
+      });
+    }
+
+    for (final Entry<String, Class<?>> recordField : recordFields.entrySet()) {
+      if (!specialColumns.contains(recordField.getKey())) {
+        createStatement.addColumn(recordField.getKey(), JavaTypeMapper.map(recordField.getValue()));
+      }
+    }
 
     this.session.execute(createStatement);
   }
