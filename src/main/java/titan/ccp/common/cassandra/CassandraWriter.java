@@ -2,6 +2,8 @@ package titan.ccp.common.cassandra;
 
 import com.datastax.driver.core.Session;
 import com.datastax.driver.core.Statement;
+import com.datastax.driver.core.exceptions.NoHostAvailableException;
+import com.datastax.driver.core.exceptions.QueryExecutionException;
 import com.datastax.driver.core.querybuilder.Insert;
 import com.datastax.driver.core.querybuilder.QueryBuilder;
 import com.datastax.driver.core.schemabuilder.Create;
@@ -15,8 +17,12 @@ import java.util.Optional;
 import java.util.Set;
 import java.util.function.Function;
 import java.util.stream.Collectors;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 public class CassandraWriter<T> {
+
+  private static final Logger LOGGER = LoggerFactory.getLogger(CassandraWriter.class);
 
   private final Session session;
 
@@ -92,7 +98,39 @@ public class CassandraWriter<T> {
       }
     }
 
-    this.session.execute(createStatement);
+    this.execute(createStatement);
+  }
+
+  /**
+   * Execute a cassandra statement, such that connection errors and query errors are handled by the
+   * database driver.
+   *
+   * @param statement the statement to execute.
+   */
+  private void execute(final Statement statement) {
+    try {
+      this.session.execute(statement);
+    } catch (final NoHostAvailableException e) {
+      LOGGER.error("Could not connect to cassandra-database", e);
+    } catch (final QueryExecutionException e) {
+      LOGGER.error("Could not execute cassandra query", e);
+    }
+  }
+
+  /**
+   * Execute a cassandra statement asynchronously, such that connection errors and query errors are
+   * handled by the database driver.
+   *
+   * @param statement the statement to execute.
+   */
+  private void executeAsync(final Statement statement) {
+    try {
+      this.session.executeAsync(statement);
+    } catch (final NoHostAvailableException e) {
+      LOGGER.error("Could not connect to cassandra-database", e);
+    } catch (final QueryExecutionException e) {
+      LOGGER.error("Could not execute cassandra query", e);
+    }
   }
 
   private void store(final String table, final T record) {
@@ -106,12 +144,13 @@ public class CassandraWriter<T> {
 
   private void executeStatement(final Statement statement) {
     if (this.executeAsync) {
-      this.session.executeAsync(statement);
+      this.executeAsync(statement);
     } else {
-      this.session.execute(statement);
+      this.execute(statement);
     }
 
   }
+
 
   public static <T> Builder<T> builder(final Session session, final DataAdapter<T> dataAdapter) {
     return new Builder<>(session, dataAdapter);
