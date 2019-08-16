@@ -2,6 +2,8 @@ package titan.ccp.common.cassandra;
 
 import com.datastax.driver.core.Session;
 import com.datastax.driver.core.Statement;
+import com.datastax.driver.core.exceptions.NoHostAvailableException;
+import com.datastax.driver.core.exceptions.QueryExecutionException;
 import com.datastax.driver.core.querybuilder.Insert;
 import com.datastax.driver.core.querybuilder.QueryBuilder;
 import com.datastax.driver.core.schemabuilder.Create;
@@ -15,8 +17,12 @@ import java.util.Optional;
 import java.util.Set;
 import java.util.function.Function;
 import java.util.stream.Collectors;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 public class CassandraWriter<T> {
+
+  private static final Logger LOGGER = LoggerFactory.getLogger(CassandraWriter.class);
 
   private final Session session;
 
@@ -92,7 +98,7 @@ public class CassandraWriter<T> {
       }
     }
 
-    this.session.execute(createStatement);
+    this.executeStatement(createStatement, false);
   }
 
   private void store(final String table, final T record) {
@@ -104,14 +110,38 @@ public class CassandraWriter<T> {
     this.executeStatement(insertStatement);
   }
 
+  /**
+   * Execute a Cassandra statement, such that connection errors and query errors are handled by the
+   * database driver. Whether the statement is executed synchronously or asynchronously depends on
+   * the {@code executeAsync} field.
+   *
+   * @param statement the statement to execute.
+   */
   private void executeStatement(final Statement statement) {
-    if (this.executeAsync) {
-      this.session.executeAsync(statement);
-    } else {
-      this.session.execute(statement);
-    }
-
+    this.executeStatement(statement, this.executeAsync);
   }
+
+  /**
+   * Execute a Cassandra statement, such that connection errors and query errors are handled by the
+   * database driver.
+   *
+   * @param statement the statement to execute.
+   * @param async whether the statement is executed asynchronously or not.
+   */
+  private void executeStatement(final Statement statement, final boolean async) {
+    try {
+      if (async) {
+        this.session.executeAsync(statement);
+      } else {
+        this.session.execute(statement);
+      }
+    } catch (final NoHostAvailableException e) {
+      LOGGER.error("Could not connect to Cassandra database.", e);
+    } catch (final QueryExecutionException e) {
+      LOGGER.error("Could not execute Cassandra query.", e);
+    }
+  }
+
 
   public static <T> Builder<T> builder(final Session session, final DataAdapter<T> dataAdapter) {
     return new Builder<>(session, dataAdapter);
