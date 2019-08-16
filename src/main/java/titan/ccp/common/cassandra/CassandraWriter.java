@@ -98,39 +98,7 @@ public class CassandraWriter<T> {
       }
     }
 
-    this.execute(createStatement);
-  }
-
-  /**
-   * Execute a cassandra statement, such that connection errors and query errors are handled by the
-   * database driver.
-   *
-   * @param statement the statement to execute.
-   */
-  private void execute(final Statement statement) {
-    try {
-      this.session.execute(statement);
-    } catch (final NoHostAvailableException e) {
-      LOGGER.error("Could not connect to cassandra-database", e);
-    } catch (final QueryExecutionException e) {
-      LOGGER.error("Could not execute cassandra query", e);
-    }
-  }
-
-  /**
-   * Execute a cassandra statement asynchronously, such that connection errors and query errors are
-   * handled by the database driver.
-   *
-   * @param statement the statement to execute.
-   */
-  private void executeAsync(final Statement statement) {
-    try {
-      this.session.executeAsync(statement);
-    } catch (final NoHostAvailableException e) {
-      LOGGER.error("Could not connect to cassandra-database", e);
-    } catch (final QueryExecutionException e) {
-      LOGGER.error("Could not execute cassandra query", e);
-    }
+    this.executeStatement(createStatement, false);
   }
 
   private void store(final String table, final T record) {
@@ -142,13 +110,36 @@ public class CassandraWriter<T> {
     this.executeStatement(insertStatement);
   }
 
+  /**
+   * Execute a Cassandra statement, such that connection errors and query errors are handled by the
+   * database driver. Whether the statement is executed synchronously or asynchronously depends on
+   * the {@code executeAsync} field.
+   *
+   * @param statement the statement to execute.
+   */
   private void executeStatement(final Statement statement) {
-    if (this.executeAsync) {
-      this.executeAsync(statement);
-    } else {
-      this.execute(statement);
-    }
+    this.executeStatement(statement, this.executeAsync);
+  }
 
+  /**
+   * Execute a Cassandra statement, such that connection errors and query errors are handled by the
+   * database driver.
+   *
+   * @param statement the statement to execute.
+   * @param async whether the statement is executed asynchronously or not.
+   */
+  private void executeStatement(final Statement statement, final boolean async) {
+    try {
+      if (async) {
+        this.session.executeAsync(statement);
+      } else {
+        this.session.execute(statement);
+      }
+    } catch (final NoHostAvailableException e) {
+      LOGGER.error("Could not connect to Cassandra database.", e);
+    } catch (final QueryExecutionException e) {
+      LOGGER.error("Could not execute Cassandra query.", e);
+    }
   }
 
 
