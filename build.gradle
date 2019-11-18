@@ -29,7 +29,7 @@ repositories {
 dependencies {
     // These dependencies is exported to consumers, that is to say found on their compile classpath.
     api 'net.kieker-monitoring:kieker:1.14-SNAPSHOT'
-    api 'org.apache.kafka:kafka-clients:2.2.0'
+    api 'org.apache.kafka:kafka-streams:2.3.0'
     api 'com.datastax.cassandra:cassandra-driver-core:3.4.0'
     api 'org.apache.avro:avro:1.8.2'
     api 'org.apache.commons:commons-configuration2:2.0'
