@@ -1,0 +1,37 @@
+{
+  "type" : "record",
+  "name" : "AggregatedActivePowerRecord",
+  "namespace" : "titan.ccp.model.records",
+  "fields" : [ {
+    "name" : "identifier",
+    "type" : "string",
+    "doc" : "*"
+  }, {
+    "name" : "timestamp",
+    "type" : {
+      "type" : "long",
+      "logicalType" : "timestamp-millis"
+    },
+    "doc" : "*"
+  }, {
+    "name" : "minInW",
+    "type" : "double",
+    "doc" : "*"
+  }, {
+    "name" : "maxInW",
+    "type" : "double",
+    "doc" : "*"
+  }, {
+    "name" : "count",
+    "type" : "long",
+    "doc" : "*"
+  }, {
+    "name" : "sumInW",
+    "type" : "double",
+    "doc" : "*"
+  }, {
+    "name" : "averageInW",
+    "type" : "double",
+    "doc" : "*"
+  } ]
+}
