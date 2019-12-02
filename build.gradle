@@ -6,7 +6,7 @@ buildscript {
   }
   dependencies {
     classpath "gradle.plugin.com.github.spotbugs:spotbugs-gradle-plugin:1.6.3"
-    classpath "com.commercehub.gradle.plugin:gradle-avro-plugin:0.16.0"
+    classpath "com.commercehub.gradle.plugin:gradle-avro-plugin:0.17.0"
   }
 }
 
@@ -31,7 +31,7 @@ dependencies {
     api 'net.kieker-monitoring:kieker:1.14-SNAPSHOT'
     api 'org.apache.kafka:kafka-streams:2.3.0'
     api 'com.datastax.cassandra:cassandra-driver-core:3.4.0'
-    api 'org.apache.avro:avro:1.8.2'
+    api 'org.apache.avro:avro:1.9.1'
     api 'org.apache.commons:commons-configuration2:2.0'
 
     // These dependencies are used internally, and not exposed to consumers on their own compile classpath.
