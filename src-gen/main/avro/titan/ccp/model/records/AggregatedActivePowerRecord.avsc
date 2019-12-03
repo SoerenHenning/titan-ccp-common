@@ -8,10 +8,7 @@
     "doc" : "*"
   }, {
     "name" : "timestamp",
-    "type" : {
-      "type" : "long",
-      "logicalType" : "timestamp-millis"
-    },
+    "type" : "long",
     "doc" : "*"
   }, {
     "name" : "minInW",

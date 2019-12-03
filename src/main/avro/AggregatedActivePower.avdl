@@ -9,7 +9,7 @@ protocol AggregatedActivePower {
     /**
   	 * 
   	 */
-    timestamp_ms timestamp;
+    long timestamp;
     /**
   	 * 
   	 */

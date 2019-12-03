@@ -15,13 +15,10 @@ import org.apache.avro.message.SchemaStore;
 @org.apache.avro.specific.AvroGenerated
 public class AggregatedActivePowerRecord extends org.apache.avro.specific.SpecificRecordBase implements org.apache.avro.specific.SpecificRecord {
   private static final long serialVersionUID = 4492063818442833648L;
-  public static final org.apache.avro.Schema SCHEMA$ = new org.apache.avro.Schema.Parser().parse("{\"type\":\"record\",\"name\":\"AggregatedActivePowerRecord\",\"namespace\":\"titan.ccp.model.records\",\"fields\":[{\"name\":\"identifier\",\"type\":{\"type\":\"string\",\"avro.java.string\":\"String\"},\"doc\":\"*\"},{\"name\":\"timestamp\",\"type\":{\"type\":\"long\",\"logicalType\":\"timestamp-millis\"},\"doc\":\"*\"},{\"name\":\"minInW\",\"type\":\"double\",\"doc\":\"*\"},{\"name\":\"maxInW\",\"type\":\"double\",\"doc\":\"*\"},{\"name\":\"count\",\"type\":\"long\",\"doc\":\"*\"},{\"name\":\"sumInW\",\"type\":\"double\",\"doc\":\"*\"},{\"name\":\"averageInW\",\"type\":\"double\",\"doc\":\"*\"}]}");
+  public static final org.apache.avro.Schema SCHEMA$ = new org.apache.avro.Schema.Parser().parse("{\"type\":\"record\",\"name\":\"AggregatedActivePowerRecord\",\"namespace\":\"titan.ccp.model.records\",\"fields\":[{\"name\":\"identifier\",\"type\":{\"type\":\"string\",\"avro.java.string\":\"String\"},\"doc\":\"*\"},{\"name\":\"timestamp\",\"type\":\"long\",\"doc\":\"*\"},{\"name\":\"minInW\",\"type\":\"double\",\"doc\":\"*\"},{\"name\":\"maxInW\",\"type\":\"double\",\"doc\":\"*\"},{\"name\":\"count\",\"type\":\"long\",\"doc\":\"*\"},{\"name\":\"sumInW\",\"type\":\"double\",\"doc\":\"*\"},{\"name\":\"averageInW\",\"type\":\"double\",\"doc\":\"*\"}]}");
   public static org.apache.avro.Schema getClassSchema() { return SCHEMA$; }
 
   private static SpecificData MODEL$ = new SpecificData();
-static {
-    MODEL$.addLogicalTypeConversion(new org.apache.avro.data.TimeConversions.TimestampMillisConversion());
-  }
 
   private static final BinaryMessageEncoder<AggregatedActivePowerRecord> ENCODER =
       new BinaryMessageEncoder<AggregatedActivePowerRecord>(MODEL$, SCHEMA$);
@@ -77,7 +74,7 @@ static {
   /** * */
    private java.lang.String identifier;
   /** * */
-   private java.time.Instant timestamp;
+   private long timestamp;
   /** * */
    private double minInW;
   /** * */
@@ -106,9 +103,9 @@ static {
    * @param sumInW *
    * @param averageInW *
    */
-  public AggregatedActivePowerRecord(java.lang.String identifier, java.time.Instant timestamp, java.lang.Double minInW, java.lang.Double maxInW, java.lang.Long count, java.lang.Double sumInW, java.lang.Double averageInW) {
+  public AggregatedActivePowerRecord(java.lang.String identifier, java.lang.Long timestamp, java.lang.Double minInW, java.lang.Double maxInW, java.lang.Long count, java.lang.Double sumInW, java.lang.Double averageInW) {
     this.identifier = identifier;
-    this.timestamp = timestamp.truncatedTo(java.time.temporal.ChronoUnit.MILLIS);
+    this.timestamp = timestamp;
     this.minInW = minInW;
     this.maxInW = maxInW;
     this.count = count;
@@ -132,29 +129,12 @@ static {
     }
   }
 
-  private static final org.apache.avro.Conversion<?>[] conversions =
-      new org.apache.avro.Conversion<?>[] {
-      null,
-      new org.apache.avro.data.TimeConversions.TimestampMillisConversion(),
-      null,
-      null,
-      null,
-      null,
-      null,
-      null
-  };
-
-  @Override
-  public org.apache.avro.Conversion<?> getConversion(int field) {
-    return conversions[field];
-  }
-
   // Used by DatumReader.  Applications should not call.
   @SuppressWarnings(value="unchecked")
   public void put(int field$, java.lang.Object value$) {
     switch (field$) {
     case 0: identifier = (java.lang.String)value$; break;
-    case 1: timestamp = (java.time.Instant)value$; break;
+    case 1: timestamp = (java.lang.Long)value$; break;
     case 2: minInW = (java.lang.Double)value$; break;
     case 3: maxInW = (java.lang.Double)value$; break;
     case 4: count = (java.lang.Long)value$; break;
@@ -178,7 +158,7 @@ static {
    * Gets the value of the 'timestamp' field.
    * @return *
    */
-  public java.time.Instant getTimestamp() {
+  public long getTimestamp() {
     return timestamp;
   }
 
@@ -277,7 +257,7 @@ static {
     /** * */
     private java.lang.String identifier;
     /** * */
-    private java.time.Instant timestamp;
+    private long timestamp;
     /** * */
     private double minInW;
     /** * */
@@ -415,7 +395,7 @@ static {
       * *
       * @return The value.
       */
-    public java.time.Instant getTimestamp() {
+    public long getTimestamp() {
       return timestamp;
     }
 
@@ -426,9 +406,9 @@ static {
       * @param value The value of 'timestamp'.
       * @return This builder.
       */
-    public titan.ccp.model.records.AggregatedActivePowerRecord.Builder setTimestamp(java.time.Instant value) {
+    public titan.ccp.model.records.AggregatedActivePowerRecord.Builder setTimestamp(long value) {
       validate(fields()[1], value);
-      this.timestamp = value.truncatedTo(java.time.temporal.ChronoUnit.MILLIS);
+      this.timestamp = value;
       fieldSetFlags()[1] = true;
       return this;
     }
@@ -674,7 +654,7 @@ static {
       try {
         AggregatedActivePowerRecord record = new AggregatedActivePowerRecord();
         record.identifier = fieldSetFlags()[0] ? this.identifier : (java.lang.String) defaultValue(fields()[0]);
-        record.timestamp = fieldSetFlags()[1] ? this.timestamp : (java.time.Instant) defaultValue(fields()[1]);
+        record.timestamp = fieldSetFlags()[1] ? this.timestamp : (java.lang.Long) defaultValue(fields()[1]);
         record.minInW = fieldSetFlags()[2] ? this.minInW : (java.lang.Double) defaultValue(fields()[2]);
         record.maxInW = fieldSetFlags()[3] ? this.maxInW : (java.lang.Double) defaultValue(fields()[3]);
         record.count = fieldSetFlags()[4] ? this.count : (java.lang.Long) defaultValue(fields()[4]);
@@ -707,6 +687,83 @@ static {
     READER$.read(this, SpecificData.getDecoder(in));
   }
 
+  @Override protected boolean hasCustomCoders() { return true; }
+
+  @Override public void customEncode(org.apache.avro.io.Encoder out)
+    throws java.io.IOException
+  {
+    out.writeString(this.identifier);
+
+    out.writeLong(this.timestamp);
+
+    out.writeDouble(this.minInW);
+
+    out.writeDouble(this.maxInW);
+
+    out.writeLong(this.count);
+
+    out.writeDouble(this.sumInW);
+
+    out.writeDouble(this.averageInW);
+
+  }
+
+  @Override public void customDecode(org.apache.avro.io.ResolvingDecoder in)
+    throws java.io.IOException
+  {
+    org.apache.avro.Schema.Field[] fieldOrder = in.readFieldOrderIfDiff();
+    if (fieldOrder == null) {
+      this.identifier = in.readString();
+
+      this.timestamp = in.readLong();
+
+      this.minInW = in.readDouble();
+
+      this.maxInW = in.readDouble();
+
+      this.count = in.readLong();
+
+      this.sumInW = in.readDouble();
+
+      this.averageInW = in.readDouble();
+
+    } else {
+      for (int i = 0; i < 7; i++) {
+        switch (fieldOrder[i].pos()) {
+        case 0:
+          this.identifier = in.readString();
+          break;
+
+        case 1:
+          this.timestamp = in.readLong();
+          break;
+
+        case 2:
+          this.minInW = in.readDouble();
+          break;
+
+        case 3:
+          this.maxInW = in.readDouble();
+          break;
+
+        case 4:
+          this.count = in.readLong();
+          break;
+
+        case 5:
+          this.sumInW = in.readDouble();
+          break;
+
+        case 6:
+          this.averageInW = in.readDouble();
+          break;
+
+        default:
+          throw new java.io.IOException("Corrupt ResolvingDecoder.");
+        }
+      }
+    }
+  }
 }
 
 
