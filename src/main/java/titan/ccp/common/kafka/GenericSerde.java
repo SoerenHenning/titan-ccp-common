@@ -1,4 +1,4 @@
-package titan.ccp.common.kafka.simpleserdes;
+package titan.ccp.common.kafka;
 
 import java.util.Map;
 import java.util.function.Function;
