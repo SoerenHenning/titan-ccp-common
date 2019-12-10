@@ -1,0 +1,19 @@
+@namespace("titan.ccp.model.records")
+protocol ActivePower {
+
+  record ActivePowerRecord {
+  	/**
+  	 * 
+  	 */
+    string identifier;
+    /**
+  	 * 
+  	 */
+    long timestamp;
+    /**
+  	 * 
+  	 */
+  	 double valueInW;
+  }
+
+}
