@@ -80,4 +80,10 @@ public class DummySensorRegistry implements SensorRegistry {
 
   }
 
+  @Override
+  public Collection<Sensor> flat() {
+    // TODO Auto-generated method stub
+    return null;
+  }
+
 }

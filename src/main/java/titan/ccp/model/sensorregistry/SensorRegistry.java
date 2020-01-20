@@ -11,6 +11,8 @@ public interface SensorRegistry {
 
   public Collection<MachineSensor> getMachineSensors();
 
+  public Collection<Sensor> flat();
+
   /**
    * Converts this sensor registry into a json string.
    *

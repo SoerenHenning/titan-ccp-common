@@ -13,6 +13,7 @@ import titan.ccp.model.sensorregistry.serialization.MachineSensorSerializer;
 import titan.ccp.model.sensorregistry.serialization.SensorRegistryDeserializer;
 import titan.ccp.model.sensorregistry.serialization.SensorRegistrySerializer;
 
+
 public final class ImmutableSensorRegistry implements SensorRegistry {
 
   private static final Gson GSON = new GsonBuilder()
@@ -46,6 +47,11 @@ public final class ImmutableSensorRegistry implements SensorRegistry {
   @Override
   public Collection<MachineSensor> getMachineSensors() {
     return this.machineSensors.values();
+  }
+
+  @Override
+  public Collection<Sensor> flat() {
+    return this.topLevelSensor.flat();
   }
 
   @Override
