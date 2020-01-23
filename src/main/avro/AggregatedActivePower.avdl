@@ -2,33 +2,33 @@
 protocol AggregatedActivePower {
 
   record AggregatedActivePowerRecord {
-  	/**
-  	 * 
-  	 */
+    /**
+     *
+     */
     string identifier;
     /**
-  	 * 
-  	 */
+     * 
+     */
     long timestamp;
     /**
-  	 * 
-  	 */
+     * 
+     */
     double minInW;
     /**
-  	 * 
-  	 */
+     * 
+     */
     double maxInW;
     /**
-  	 * 
-  	 */
+     * 
+     */
     long count;
     /**
-  	 * 
-  	 */
+     * 
+     */
     double sumInW;
     /**
-  	 * 
-  	 */
+     * 
+     */
     double averageInW;
   }
 
