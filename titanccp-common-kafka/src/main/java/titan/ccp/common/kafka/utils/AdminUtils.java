@@ -2,7 +2,9 @@ package titan.ccp.common.kafka.utils;
 
 import java.util.Collection;
 import java.util.Properties;
+import java.util.Set;
 import java.util.concurrent.CompletableFuture;
+import java.util.concurrent.ExecutionException;
 import org.apache.kafka.clients.admin.Admin;
 import org.apache.kafka.clients.admin.AdminClientConfig;
 import titan.ccp.common.kafka.utils.internal.TopicsExistsWaiter;
@@ -64,6 +66,37 @@ public class AdminUtils implements AutoCloseable {
     final Properties props = new Properties();
     props.put(AdminClientConfig.BOOTSTRAP_SERVERS_CONFIG, bootstrapServers);
     return new AdminUtils(Admin.create(props), true);
+  }
+
+  // TODO remove
+  public static void main(final String[] args) {
+
+    try (AdminUtils kafkaUtils = AdminUtils.fromBootstrapServers("localhost:9092")) {
+
+      final Collection<String> topics = Set.of("input", "output");
+
+      final CompletableFuture<Void> ft = kafkaUtils.awaitTopicsExists(topics);
+
+
+      ft.join();
+      System.out.println("Ready!!!");
+
+      try {
+        final Void x = ft.get();
+        System.out.println(x);
+      } catch (final InterruptedException e) {
+        // TODO Auto-generated catch block
+        e.printStackTrace();
+      } catch (final ExecutionException e) {
+        // TODO Auto-generated catch block
+        e.printStackTrace();
+      }
+
+    } catch (final Exception e1) {
+      // TODO Auto-generated catch block
+      e1.printStackTrace();
+    }
+
   }
 
 }

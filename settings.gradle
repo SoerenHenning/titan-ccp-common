@@ -1,3 +1,5 @@
 rootProject.name = 'titanccp-common'
 
+include 'titanccp-common-kafka'
+
 enableFeaturePreview('STABLE_PUBLISHING') // Remove in > Gradle 5.0
