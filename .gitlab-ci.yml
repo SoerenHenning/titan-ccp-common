@@ -1,4 +1,4 @@
-image: openjdk:8-jdk
+image: openjdk:11-jdk
 
 # Disable the Gradle daemon for Continuous Integration servers as correctness
 # is usually a priority over speed in CI environments. Using a fresh
@@ -30,11 +30,12 @@ build:
       - target/
     expire_in: 1 day
 
-test:
+test-root:
   stage: test
   tags:
     - dockerex
-  script: ./gradlew test
+  image: openjdk:8-jdk
+  script: "./gradlew :test"
 
 deploy:
   stage: deploy

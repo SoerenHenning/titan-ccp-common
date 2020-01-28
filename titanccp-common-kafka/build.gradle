@@ -12,12 +12,11 @@ buildscript {
 
 apply plugin: 'java-library'
 apply plugin: 'maven-publish'
-apply plugin: "com.commercehub.gradle.plugin.avro-base"
 apply plugin: 'eclipse'
 
 
-sourceCompatibility = "1.8"
-targetCompatibility = "1.8"
+sourceCompatibility = "1.11"
+targetCompatibility = "1.11"
 
 allprojects { 
 	repositories {
@@ -30,22 +29,13 @@ allprojects {
 
 dependencies {
     // These dependencies is exported to consumers, that is to say found on their compile classpath.
-    api 'net.kieker-monitoring:kieker:1.14-SNAPSHOT'
     api 'org.apache.kafka:kafka-streams:2.4.0'
-    api 'com.datastax.cassandra:cassandra-driver-core:3.4.0'
-    api 'org.apache.avro:avro:1.8.2'
-    api 'org.apache.commons:commons-configuration2:2.0'
 
     // These dependencies are used internally, and not exposed to consumers on their own compile classpath.
-    implementation 'commons-beanutils:commons-beanutils:1.9.2' // necessary for commons-configuration2
-    implementation 'com.google.code.gson:gson:2.8.2'
-    implementation 'com.google.guava:guava:24.1-jre'
     implementation 'org.slf4j:slf4j-api:1.7.25'
 
     // Use JUnit test framework   
     testImplementation 'org.junit.jupiter:junit-jupiter-api:5.3.1'
-    testImplementation 'com.github.stefanbirkner:system-rules:1.17.0'
-    testImplementation 'org.cassandraunit:cassandra-unit-shaded:3.3.0.2'
 }
 
 sourceSets {
@@ -73,39 +63,11 @@ artifacts {
     archives javadocJar
 }
 
-avro {
-    fieldVisibility = "PRIVATE"
-    createSetters = false
-}
-
-task("generateAvroProtocol", type: com.commercehub.gradle.plugin.avro.GenerateAvroProtocolTask) {
-    group 'Generate Sources'
-    source file("src/main/avro")
-    include("**/*.avdl")
-    outputDir = file("build/generated-avro-main-avpr")
-}
-
-task("generateAvroSchema", type: com.commercehub.gradle.plugin.avro.GenerateAvroSchemaTask) {
-    group 'Generate Sources'
-    dependsOn generateAvroProtocol
-    source file("src/main/avro")
-    source file("build/generated-avro-main-avpr")
-    include("**/*.avpr")
-    outputDir = file("src-gen/main/avro")
-}
-
-task ("generateAvroJava", type: com.commercehub.gradle.plugin.avro.GenerateAvroJavaTask) {
-    group 'Generate Sources'
-    dependsOn generateAvroSchema
-    source file("src-gen/main/avro")
-    outputDir = file("src-gen/main/java")
-}
-
 publishing {
 	publications {
 	    mavenJava(MavenPublication) {
 	        groupId 'org.industrial-devops'
-	        artifactId 'titan-ccp-common'
+	        artifactId 'titan-ccp-common-kafka'
 	        version '0.0.1-SNAPSHOT'
 	
 	        from components.java
@@ -117,8 +79,8 @@ publishing {
 	            classifier = 'javadoc'
 	        }
 			pom {
-				name = 'Titan Control Center Prototype - Common'
-				description = 'A common library for microservices of the Titan Control Center Prototype'
+				name = 'Titan Control Center - Common Kafka'
+				description = 'A common Kafka library for microservices of the Titan Control Center'
 				url = 'https://git.industrial-devops.org/titan/ControlCenterPrototype/common'
 				licenses {
 					license {
