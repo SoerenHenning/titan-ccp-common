@@ -35,7 +35,7 @@ test-root:
   tags:
     - dockerex
   image: openjdk:8-jdk
-  script: ./gradlew test :
+  script: "./gradlew test :"
 
 deploy:
   stage: deploy
