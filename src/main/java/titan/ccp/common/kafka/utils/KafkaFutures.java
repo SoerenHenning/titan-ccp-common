@@ -10,6 +10,9 @@ public final class KafkaFutures {
 
   private KafkaFutures() {}
 
+  /**
+   * Convert a {@link KafkaFuture} to a native Java {@link CompletableFuture}.
+   */
   public static <T> CompletableFuture<T> toCompletableFuture(final KafkaFuture<T> kafkaFuture) {
     final CompletableFuture<T> wrappingFuture = new CompletableFuture<>();
     kafkaFuture.whenComplete((value, throwable) -> {
