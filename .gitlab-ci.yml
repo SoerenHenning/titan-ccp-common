@@ -30,12 +30,18 @@ build:
       - target/
     expire_in: 1 day
 
-test-root:
+test-except-cassandra:
+  stage: test
+  tags:
+    - dockerex
+  script: "./gradlew test -x titanccp-common-cassandra:test"
+
+test-cassandra:
   stage: test
   tags:
     - dockerex
   image: openjdk:8-jdk
-  script: "./gradlew :test"
+  script: "./gradlew titanccp-common-cassandra:test"
 
 deploy:
   stage: deploy
