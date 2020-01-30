@@ -1,5 +1,6 @@
 rootProject.name = 'titanccp-common'
 
 include 'titanccp-common-kafka'
+include 'titanccp-common-cassandra'
 
 enableFeaturePreview('STABLE_PUBLISHING') // Remove in > Gradle 5.0
