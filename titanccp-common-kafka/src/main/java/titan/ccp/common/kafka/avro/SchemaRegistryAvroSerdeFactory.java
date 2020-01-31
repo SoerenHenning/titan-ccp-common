@@ -1,4 +1,4 @@
-package titan.ccp.common.avro;
+package titan.ccp.common.kafka.avro;
 
 import io.confluent.kafka.serializers.AbstractKafkaAvroSerDeConfig;
 import io.confluent.kafka.streams.serdes.avro.SpecificAvroSerde;
