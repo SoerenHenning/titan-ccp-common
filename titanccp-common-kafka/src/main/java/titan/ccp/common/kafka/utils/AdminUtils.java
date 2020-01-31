@@ -2,9 +2,7 @@ package titan.ccp.common.kafka.utils;
 
 import java.util.Collection;
 import java.util.Properties;
-import java.util.Set;
 import java.util.concurrent.CompletableFuture;
-import java.util.concurrent.ExecutionException;
 import org.apache.kafka.clients.admin.Admin;
 import org.apache.kafka.clients.admin.AdminClientConfig;
 import titan.ccp.common.kafka.utils.internal.TopicsExistsWaiter;

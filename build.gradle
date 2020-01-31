@@ -107,7 +107,7 @@ publishing {
 	    mavenJava(MavenPublication) {
 	        groupId 'org.industrial-devops'
 	        artifactId 'titan-ccp-common'
-	        version '0.0.3-SNAPSHOT'
+	        version '0.1.0-SNAPSHOT'
 
 	        from components.java
 
