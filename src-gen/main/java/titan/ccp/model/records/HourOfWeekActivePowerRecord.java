@@ -5,12 +5,13 @@
  */
 package titan.ccp.model.records;
 
+import org.apache.avro.generic.GenericArray;
 import org.apache.avro.specific.SpecificData;
+import org.apache.avro.util.Utf8;
 import org.apache.avro.message.BinaryMessageEncoder;
 import org.apache.avro.message.BinaryMessageDecoder;
 import org.apache.avro.message.SchemaStore;
 
-@SuppressWarnings("all")
 @org.apache.avro.specific.AvroGenerated
 public class HourOfWeekActivePowerRecord extends org.apache.avro.specific.SpecificRecordBase implements org.apache.avro.specific.SpecificRecord {
   private static final long serialVersionUID = -7341461163681182064L;
@@ -26,7 +27,16 @@ public class HourOfWeekActivePowerRecord extends org.apache.avro.specific.Specif
       new BinaryMessageDecoder<HourOfWeekActivePowerRecord>(MODEL$, SCHEMA$);
 
   /**
+   * Return the BinaryMessageEncoder instance used by this class.
+   * @return the message encoder used by this class
+   */
+  public static BinaryMessageEncoder<HourOfWeekActivePowerRecord> getEncoder() {
+    return ENCODER;
+  }
+
+  /**
    * Return the BinaryMessageDecoder instance used by this class.
+   * @return the message decoder used by this class
    */
   public static BinaryMessageDecoder<HourOfWeekActivePowerRecord> getDecoder() {
     return DECODER;
@@ -35,17 +45,27 @@ public class HourOfWeekActivePowerRecord extends org.apache.avro.specific.Specif
   /**
    * Create a new BinaryMessageDecoder instance for this class that uses the specified {@link SchemaStore}.
    * @param resolver a {@link SchemaStore} used to find schemas by fingerprint
+   * @return a BinaryMessageDecoder instance for this class backed by the given SchemaStore
    */
   public static BinaryMessageDecoder<HourOfWeekActivePowerRecord> createDecoder(SchemaStore resolver) {
     return new BinaryMessageDecoder<HourOfWeekActivePowerRecord>(MODEL$, SCHEMA$, resolver);
   }
 
-  /** Serializes this HourOfWeekActivePowerRecord to a ByteBuffer. */
+  /**
+   * Serializes this HourOfWeekActivePowerRecord to a ByteBuffer.
+   * @return a buffer holding the serialized data for this instance
+   * @throws java.io.IOException if this instance could not be serialized
+   */
   public java.nio.ByteBuffer toByteBuffer() throws java.io.IOException {
     return ENCODER.encode(this);
   }
 
-  /** Deserializes a HourOfWeekActivePowerRecord from a ByteBuffer. */
+  /**
+   * Deserializes a HourOfWeekActivePowerRecord from a ByteBuffer.
+   * @param b a byte buffer holding serialized data for an instance of this class
+   * @return a HourOfWeekActivePowerRecord instance decoded from the given buffer
+   * @throws java.io.IOException if the given bytes could not be deserialized into an instance of this class
+   */
   public static HourOfWeekActivePowerRecord fromByteBuffer(
       java.nio.ByteBuffer b) throws java.io.IOException {
     return DECODER.decode(b);
@@ -95,6 +115,7 @@ public class HourOfWeekActivePowerRecord extends org.apache.avro.specific.Specif
     this.max = max;
   }
 
+  public org.apache.avro.specific.SpecificData getSpecificData() { return MODEL$; }
   public org.apache.avro.Schema getSchema() { return SCHEMA$; }
   // Used by DatumWriter.  Applications should not call.
   public java.lang.Object get(int field$) {
@@ -140,85 +161,95 @@ public class HourOfWeekActivePowerRecord extends org.apache.avro.specific.Specif
   }
 
 
+
   /**
    * Gets the value of the 'dayOfWeek' field.
    * @return The value of the 'dayOfWeek' field.
    */
-  public java.lang.Integer getDayOfWeek() {
+  public int getDayOfWeek() {
     return dayOfWeek;
   }
+
 
 
   /**
    * Gets the value of the 'hourOfDay' field.
    * @return The value of the 'hourOfDay' field.
    */
-  public java.lang.Integer getHourOfDay() {
+  public int getHourOfDay() {
     return hourOfDay;
   }
+
 
 
   /**
    * Gets the value of the 'periodStart' field.
    * @return The value of the 'periodStart' field.
    */
-  public java.lang.Long getPeriodStart() {
+  public long getPeriodStart() {
     return periodStart;
   }
+
 
 
   /**
    * Gets the value of the 'periodEnd' field.
    * @return The value of the 'periodEnd' field.
    */
-  public java.lang.Long getPeriodEnd() {
+  public long getPeriodEnd() {
     return periodEnd;
   }
+
 
 
   /**
    * Gets the value of the 'count' field.
    * @return The value of the 'count' field.
    */
-  public java.lang.Long getCount() {
+  public long getCount() {
     return count;
   }
+
 
 
   /**
    * Gets the value of the 'mean' field.
    * @return The value of the 'mean' field.
    */
-  public java.lang.Double getMean() {
+  public double getMean() {
     return mean;
   }
+
 
 
   /**
    * Gets the value of the 'populationVariance' field.
    * @return The value of the 'populationVariance' field.
    */
-  public java.lang.Double getPopulationVariance() {
+  public double getPopulationVariance() {
     return populationVariance;
   }
+
 
 
   /**
    * Gets the value of the 'min' field.
    * @return The value of the 'min' field.
    */
-  public java.lang.Double getMin() {
+  public double getMin() {
     return min;
   }
+
 
 
   /**
    * Gets the value of the 'max' field.
    * @return The value of the 'max' field.
    */
-  public java.lang.Double getMax() {
+  public double getMax() {
     return max;
   }
+
 
 
   /**
@@ -235,7 +266,11 @@ public class HourOfWeekActivePowerRecord extends org.apache.avro.specific.Specif
    * @return A new HourOfWeekActivePowerRecord RecordBuilder
    */
   public static titan.ccp.model.records.HourOfWeekActivePowerRecord.Builder newBuilder(titan.ccp.model.records.HourOfWeekActivePowerRecord.Builder other) {
-    return new titan.ccp.model.records.HourOfWeekActivePowerRecord.Builder(other);
+    if (other == null) {
+      return new titan.ccp.model.records.HourOfWeekActivePowerRecord.Builder();
+    } else {
+      return new titan.ccp.model.records.HourOfWeekActivePowerRecord.Builder(other);
+    }
   }
 
   /**
@@ -244,7 +279,11 @@ public class HourOfWeekActivePowerRecord extends org.apache.avro.specific.Specif
    * @return A new HourOfWeekActivePowerRecord RecordBuilder
    */
   public static titan.ccp.model.records.HourOfWeekActivePowerRecord.Builder newBuilder(titan.ccp.model.records.HourOfWeekActivePowerRecord other) {
-    return new titan.ccp.model.records.HourOfWeekActivePowerRecord.Builder(other);
+    if (other == null) {
+      return new titan.ccp.model.records.HourOfWeekActivePowerRecord.Builder();
+    } else {
+      return new titan.ccp.model.records.HourOfWeekActivePowerRecord.Builder(other);
+    }
   }
 
   /**
@@ -277,43 +316,43 @@ public class HourOfWeekActivePowerRecord extends org.apache.avro.specific.Specif
       super(other);
       if (isValidValue(fields()[0], other.identifier)) {
         this.identifier = data().deepCopy(fields()[0].schema(), other.identifier);
-        fieldSetFlags()[0] = true;
+        fieldSetFlags()[0] = other.fieldSetFlags()[0];
       }
       if (isValidValue(fields()[1], other.dayOfWeek)) {
         this.dayOfWeek = data().deepCopy(fields()[1].schema(), other.dayOfWeek);
-        fieldSetFlags()[1] = true;
+        fieldSetFlags()[1] = other.fieldSetFlags()[1];
       }
       if (isValidValue(fields()[2], other.hourOfDay)) {
         this.hourOfDay = data().deepCopy(fields()[2].schema(), other.hourOfDay);
-        fieldSetFlags()[2] = true;
+        fieldSetFlags()[2] = other.fieldSetFlags()[2];
       }
       if (isValidValue(fields()[3], other.periodStart)) {
         this.periodStart = data().deepCopy(fields()[3].schema(), other.periodStart);
-        fieldSetFlags()[3] = true;
+        fieldSetFlags()[3] = other.fieldSetFlags()[3];
       }
       if (isValidValue(fields()[4], other.periodEnd)) {
         this.periodEnd = data().deepCopy(fields()[4].schema(), other.periodEnd);
-        fieldSetFlags()[4] = true;
+        fieldSetFlags()[4] = other.fieldSetFlags()[4];
       }
       if (isValidValue(fields()[5], other.count)) {
         this.count = data().deepCopy(fields()[5].schema(), other.count);
-        fieldSetFlags()[5] = true;
+        fieldSetFlags()[5] = other.fieldSetFlags()[5];
       }
       if (isValidValue(fields()[6], other.mean)) {
         this.mean = data().deepCopy(fields()[6].schema(), other.mean);
-        fieldSetFlags()[6] = true;
+        fieldSetFlags()[6] = other.fieldSetFlags()[6];
       }
       if (isValidValue(fields()[7], other.populationVariance)) {
         this.populationVariance = data().deepCopy(fields()[7].schema(), other.populationVariance);
-        fieldSetFlags()[7] = true;
+        fieldSetFlags()[7] = other.fieldSetFlags()[7];
       }
       if (isValidValue(fields()[8], other.min)) {
         this.min = data().deepCopy(fields()[8].schema(), other.min);
-        fieldSetFlags()[8] = true;
+        fieldSetFlags()[8] = other.fieldSetFlags()[8];
       }
       if (isValidValue(fields()[9], other.max)) {
         this.max = data().deepCopy(fields()[9].schema(), other.max);
-        fieldSetFlags()[9] = true;
+        fieldSetFlags()[9] = other.fieldSetFlags()[9];
       }
     }
 
@@ -322,7 +361,7 @@ public class HourOfWeekActivePowerRecord extends org.apache.avro.specific.Specif
      * @param other The existing instance to copy.
      */
     private Builder(titan.ccp.model.records.HourOfWeekActivePowerRecord other) {
-            super(SCHEMA$);
+      super(SCHEMA$);
       if (isValidValue(fields()[0], other.identifier)) {
         this.identifier = data().deepCopy(fields()[0].schema(), other.identifier);
         fieldSetFlags()[0] = true;
@@ -373,6 +412,7 @@ public class HourOfWeekActivePowerRecord extends org.apache.avro.specific.Specif
       return identifier;
     }
 
+
     /**
       * Sets the value of the 'identifier' field.
       * @param value The value of 'identifier'.
@@ -408,9 +448,10 @@ public class HourOfWeekActivePowerRecord extends org.apache.avro.specific.Specif
       * Gets the value of the 'dayOfWeek' field.
       * @return The value.
       */
-    public java.lang.Integer getDayOfWeek() {
+    public int getDayOfWeek() {
       return dayOfWeek;
     }
+
 
     /**
       * Sets the value of the 'dayOfWeek' field.
@@ -446,9 +487,10 @@ public class HourOfWeekActivePowerRecord extends org.apache.avro.specific.Specif
       * Gets the value of the 'hourOfDay' field.
       * @return The value.
       */
-    public java.lang.Integer getHourOfDay() {
+    public int getHourOfDay() {
       return hourOfDay;
     }
+
 
     /**
       * Sets the value of the 'hourOfDay' field.
@@ -484,9 +526,10 @@ public class HourOfWeekActivePowerRecord extends org.apache.avro.specific.Specif
       * Gets the value of the 'periodStart' field.
       * @return The value.
       */
-    public java.lang.Long getPeriodStart() {
+    public long getPeriodStart() {
       return periodStart;
     }
+
 
     /**
       * Sets the value of the 'periodStart' field.
@@ -522,9 +565,10 @@ public class HourOfWeekActivePowerRecord extends org.apache.avro.specific.Specif
       * Gets the value of the 'periodEnd' field.
       * @return The value.
       */
-    public java.lang.Long getPeriodEnd() {
+    public long getPeriodEnd() {
       return periodEnd;
     }
+
 
     /**
       * Sets the value of the 'periodEnd' field.
@@ -560,9 +604,10 @@ public class HourOfWeekActivePowerRecord extends org.apache.avro.specific.Specif
       * Gets the value of the 'count' field.
       * @return The value.
       */
-    public java.lang.Long getCount() {
+    public long getCount() {
       return count;
     }
+
 
     /**
       * Sets the value of the 'count' field.
@@ -598,9 +643,10 @@ public class HourOfWeekActivePowerRecord extends org.apache.avro.specific.Specif
       * Gets the value of the 'mean' field.
       * @return The value.
       */
-    public java.lang.Double getMean() {
+    public double getMean() {
       return mean;
     }
+
 
     /**
       * Sets the value of the 'mean' field.
@@ -636,9 +682,10 @@ public class HourOfWeekActivePowerRecord extends org.apache.avro.specific.Specif
       * Gets the value of the 'populationVariance' field.
       * @return The value.
       */
-    public java.lang.Double getPopulationVariance() {
+    public double getPopulationVariance() {
       return populationVariance;
     }
+
 
     /**
       * Sets the value of the 'populationVariance' field.
@@ -674,9 +721,10 @@ public class HourOfWeekActivePowerRecord extends org.apache.avro.specific.Specif
       * Gets the value of the 'min' field.
       * @return The value.
       */
-    public java.lang.Double getMin() {
+    public double getMin() {
       return min;
     }
+
 
     /**
       * Sets the value of the 'min' field.
@@ -712,9 +760,10 @@ public class HourOfWeekActivePowerRecord extends org.apache.avro.specific.Specif
       * Gets the value of the 'max' field.
       * @return The value.
       */
-    public java.lang.Double getMax() {
+    public double getMax() {
       return max;
     }
+
 
     /**
       * Sets the value of the 'max' field.
@@ -762,6 +811,8 @@ public class HourOfWeekActivePowerRecord extends org.apache.avro.specific.Specif
         record.min = fieldSetFlags()[8] ? this.min : (java.lang.Double) defaultValue(fields()[8]);
         record.max = fieldSetFlags()[9] ? this.max : (java.lang.Double) defaultValue(fields()[9]);
         return record;
+      } catch (org.apache.avro.AvroMissingFieldException e) {
+        throw e;
       } catch (java.lang.Exception e) {
         throw new org.apache.avro.AvroRuntimeException(e);
       }
@@ -786,4 +837,115 @@ public class HourOfWeekActivePowerRecord extends org.apache.avro.specific.Specif
     READER$.read(this, SpecificData.getDecoder(in));
   }
 
+  @Override protected boolean hasCustomCoders() { return true; }
+
+  @Override public void customEncode(org.apache.avro.io.Encoder out)
+    throws java.io.IOException
+  {
+    out.writeString(this.identifier);
+
+    out.writeInt(this.dayOfWeek);
+
+    out.writeInt(this.hourOfDay);
+
+    out.writeLong(this.periodStart);
+
+    out.writeLong(this.periodEnd);
+
+    out.writeLong(this.count);
+
+    out.writeDouble(this.mean);
+
+    out.writeDouble(this.populationVariance);
+
+    out.writeDouble(this.min);
+
+    out.writeDouble(this.max);
+
+  }
+
+  @Override public void customDecode(org.apache.avro.io.ResolvingDecoder in)
+    throws java.io.IOException
+  {
+    org.apache.avro.Schema.Field[] fieldOrder = in.readFieldOrderIfDiff();
+    if (fieldOrder == null) {
+      this.identifier = in.readString();
+
+      this.dayOfWeek = in.readInt();
+
+      this.hourOfDay = in.readInt();
+
+      this.periodStart = in.readLong();
+
+      this.periodEnd = in.readLong();
+
+      this.count = in.readLong();
+
+      this.mean = in.readDouble();
+
+      this.populationVariance = in.readDouble();
+
+      this.min = in.readDouble();
+
+      this.max = in.readDouble();
+
+    } else {
+      for (int i = 0; i < 10; i++) {
+        switch (fieldOrder[i].pos()) {
+        case 0:
+          this.identifier = in.readString();
+          break;
+
+        case 1:
+          this.dayOfWeek = in.readInt();
+          break;
+
+        case 2:
+          this.hourOfDay = in.readInt();
+          break;
+
+        case 3:
+          this.periodStart = in.readLong();
+          break;
+
+        case 4:
+          this.periodEnd = in.readLong();
+          break;
+
+        case 5:
+          this.count = in.readLong();
+          break;
+
+        case 6:
+          this.mean = in.readDouble();
+          break;
+
+        case 7:
+          this.populationVariance = in.readDouble();
+          break;
+
+        case 8:
+          this.min = in.readDouble();
+          break;
+
+        case 9:
+          this.max = in.readDouble();
+          break;
+
+        default:
+          throw new java.io.IOException("Corrupt ResolvingDecoder.");
+        }
+      }
+    }
+  }
 }
+
+
+
+
+
+
+
+
+
+
