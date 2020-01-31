@@ -75,7 +75,7 @@ publishing {
 	    mavenJava(MavenPublication) {
 	        groupId 'org.industrial-devops'
 	        artifactId 'titan-ccp-common-kafka'
-	        version '0.0.1-SNAPSHOT'
+	        version '0.0.2-SNAPSHOT'
 	
 	        from components.java
 	
