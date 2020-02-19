@@ -13,14 +13,6 @@ protocol AggregatedActivePower {
     /**
      * 
      */
-    double minInW;
-    /**
-     * 
-     */
-    double maxInW;
-    /**
-     * 
-     */
     long count;
     /**
      * 
