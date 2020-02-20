@@ -14,8 +14,8 @@ import org.apache.avro.message.SchemaStore;
 
 @org.apache.avro.specific.AvroGenerated
 public class AggregatedActivePowerRecord extends org.apache.avro.specific.SpecificRecordBase implements org.apache.avro.specific.SpecificRecord {
-  private static final long serialVersionUID = 4492063818442833648L;
-  public static final org.apache.avro.Schema SCHEMA$ = new org.apache.avro.Schema.Parser().parse("{\"type\":\"record\",\"name\":\"AggregatedActivePowerRecord\",\"namespace\":\"titan.ccp.model.records\",\"fields\":[{\"name\":\"identifier\",\"type\":{\"type\":\"string\",\"avro.java.string\":\"String\"},\"doc\":\"*\"},{\"name\":\"timestamp\",\"type\":\"long\",\"doc\":\"*\"},{\"name\":\"minInW\",\"type\":\"double\",\"doc\":\"*\"},{\"name\":\"maxInW\",\"type\":\"double\",\"doc\":\"*\"},{\"name\":\"count\",\"type\":\"long\",\"doc\":\"*\"},{\"name\":\"sumInW\",\"type\":\"double\",\"doc\":\"*\"},{\"name\":\"averageInW\",\"type\":\"double\",\"doc\":\"*\"}]}");
+  private static final long serialVersionUID = 7835087803663896279L;
+  public static final org.apache.avro.Schema SCHEMA$ = new org.apache.avro.Schema.Parser().parse("{\"type\":\"record\",\"name\":\"AggregatedActivePowerRecord\",\"namespace\":\"titan.ccp.model.records\",\"fields\":[{\"name\":\"identifier\",\"type\":{\"type\":\"string\",\"avro.java.string\":\"String\"},\"doc\":\"*\"},{\"name\":\"timestamp\",\"type\":\"long\",\"doc\":\"*\"},{\"name\":\"count\",\"type\":\"long\",\"doc\":\"*\"},{\"name\":\"sumInW\",\"type\":\"double\",\"doc\":\"*\"},{\"name\":\"averageInW\",\"type\":\"double\",\"doc\":\"*\"}]}");
   public static org.apache.avro.Schema getClassSchema() { return SCHEMA$; }
 
   private static SpecificData MODEL$ = new SpecificData();
@@ -76,10 +76,6 @@ public class AggregatedActivePowerRecord extends org.apache.avro.specific.Specif
   /** * */
    private long timestamp;
   /** * */
-   private double minInW;
-  /** * */
-   private double maxInW;
-  /** * */
    private long count;
   /** * */
    private double sumInW;
@@ -97,17 +93,13 @@ public class AggregatedActivePowerRecord extends org.apache.avro.specific.Specif
    * All-args constructor.
    * @param identifier *
    * @param timestamp *
-   * @param minInW *
-   * @param maxInW *
    * @param count *
    * @param sumInW *
    * @param averageInW *
    */
-  public AggregatedActivePowerRecord(java.lang.String identifier, java.lang.Long timestamp, java.lang.Double minInW, java.lang.Double maxInW, java.lang.Long count, java.lang.Double sumInW, java.lang.Double averageInW) {
+  public AggregatedActivePowerRecord(java.lang.String identifier, java.lang.Long timestamp, java.lang.Long count, java.lang.Double sumInW, java.lang.Double averageInW) {
     this.identifier = identifier;
     this.timestamp = timestamp;
-    this.minInW = minInW;
-    this.maxInW = maxInW;
     this.count = count;
     this.sumInW = sumInW;
     this.averageInW = averageInW;
@@ -120,11 +112,9 @@ public class AggregatedActivePowerRecord extends org.apache.avro.specific.Specif
     switch (field$) {
     case 0: return identifier;
     case 1: return timestamp;
-    case 2: return minInW;
-    case 3: return maxInW;
-    case 4: return count;
-    case 5: return sumInW;
-    case 6: return averageInW;
+    case 2: return count;
+    case 3: return sumInW;
+    case 4: return averageInW;
     default: throw new org.apache.avro.AvroRuntimeException("Bad index");
     }
   }
@@ -135,11 +125,9 @@ public class AggregatedActivePowerRecord extends org.apache.avro.specific.Specif
     switch (field$) {
     case 0: identifier = (java.lang.String)value$; break;
     case 1: timestamp = (java.lang.Long)value$; break;
-    case 2: minInW = (java.lang.Double)value$; break;
-    case 3: maxInW = (java.lang.Double)value$; break;
-    case 4: count = (java.lang.Long)value$; break;
-    case 5: sumInW = (java.lang.Double)value$; break;
-    case 6: averageInW = (java.lang.Double)value$; break;
+    case 2: count = (java.lang.Long)value$; break;
+    case 3: sumInW = (java.lang.Double)value$; break;
+    case 4: averageInW = (java.lang.Double)value$; break;
     default: throw new org.apache.avro.AvroRuntimeException("Bad index");
     }
   }
@@ -160,26 +148,6 @@ public class AggregatedActivePowerRecord extends org.apache.avro.specific.Specif
    */
   public long getTimestamp() {
     return timestamp;
-  }
-
-
-
-  /**
-   * Gets the value of the 'minInW' field.
-   * @return *
-   */
-  public double getMinInW() {
-    return minInW;
-  }
-
-
-
-  /**
-   * Gets the value of the 'maxInW' field.
-   * @return *
-   */
-  public double getMaxInW() {
-    return maxInW;
   }
 
 
@@ -259,10 +227,6 @@ public class AggregatedActivePowerRecord extends org.apache.avro.specific.Specif
     /** * */
     private long timestamp;
     /** * */
-    private double minInW;
-    /** * */
-    private double maxInW;
-    /** * */
     private long count;
     /** * */
     private double sumInW;
@@ -288,25 +252,17 @@ public class AggregatedActivePowerRecord extends org.apache.avro.specific.Specif
         this.timestamp = data().deepCopy(fields()[1].schema(), other.timestamp);
         fieldSetFlags()[1] = other.fieldSetFlags()[1];
       }
-      if (isValidValue(fields()[2], other.minInW)) {
-        this.minInW = data().deepCopy(fields()[2].schema(), other.minInW);
+      if (isValidValue(fields()[2], other.count)) {
+        this.count = data().deepCopy(fields()[2].schema(), other.count);
         fieldSetFlags()[2] = other.fieldSetFlags()[2];
       }
-      if (isValidValue(fields()[3], other.maxInW)) {
-        this.maxInW = data().deepCopy(fields()[3].schema(), other.maxInW);
+      if (isValidValue(fields()[3], other.sumInW)) {
+        this.sumInW = data().deepCopy(fields()[3].schema(), other.sumInW);
         fieldSetFlags()[3] = other.fieldSetFlags()[3];
       }
-      if (isValidValue(fields()[4], other.count)) {
-        this.count = data().deepCopy(fields()[4].schema(), other.count);
+      if (isValidValue(fields()[4], other.averageInW)) {
+        this.averageInW = data().deepCopy(fields()[4].schema(), other.averageInW);
         fieldSetFlags()[4] = other.fieldSetFlags()[4];
-      }
-      if (isValidValue(fields()[5], other.sumInW)) {
-        this.sumInW = data().deepCopy(fields()[5].schema(), other.sumInW);
-        fieldSetFlags()[5] = other.fieldSetFlags()[5];
-      }
-      if (isValidValue(fields()[6], other.averageInW)) {
-        this.averageInW = data().deepCopy(fields()[6].schema(), other.averageInW);
-        fieldSetFlags()[6] = other.fieldSetFlags()[6];
       }
     }
 
@@ -324,25 +280,17 @@ public class AggregatedActivePowerRecord extends org.apache.avro.specific.Specif
         this.timestamp = data().deepCopy(fields()[1].schema(), other.timestamp);
         fieldSetFlags()[1] = true;
       }
-      if (isValidValue(fields()[2], other.minInW)) {
-        this.minInW = data().deepCopy(fields()[2].schema(), other.minInW);
+      if (isValidValue(fields()[2], other.count)) {
+        this.count = data().deepCopy(fields()[2].schema(), other.count);
         fieldSetFlags()[2] = true;
       }
-      if (isValidValue(fields()[3], other.maxInW)) {
-        this.maxInW = data().deepCopy(fields()[3].schema(), other.maxInW);
+      if (isValidValue(fields()[3], other.sumInW)) {
+        this.sumInW = data().deepCopy(fields()[3].schema(), other.sumInW);
         fieldSetFlags()[3] = true;
       }
-      if (isValidValue(fields()[4], other.count)) {
-        this.count = data().deepCopy(fields()[4].schema(), other.count);
+      if (isValidValue(fields()[4], other.averageInW)) {
+        this.averageInW = data().deepCopy(fields()[4].schema(), other.averageInW);
         fieldSetFlags()[4] = true;
-      }
-      if (isValidValue(fields()[5], other.sumInW)) {
-        this.sumInW = data().deepCopy(fields()[5].schema(), other.sumInW);
-        fieldSetFlags()[5] = true;
-      }
-      if (isValidValue(fields()[6], other.averageInW)) {
-        this.averageInW = data().deepCopy(fields()[6].schema(), other.averageInW);
-        fieldSetFlags()[6] = true;
       }
     }
 
@@ -434,92 +382,6 @@ public class AggregatedActivePowerRecord extends org.apache.avro.specific.Specif
     }
 
     /**
-      * Gets the value of the 'minInW' field.
-      * *
-      * @return The value.
-      */
-    public double getMinInW() {
-      return minInW;
-    }
-
-
-    /**
-      * Sets the value of the 'minInW' field.
-      * *
-      * @param value The value of 'minInW'.
-      * @return This builder.
-      */
-    public titan.ccp.model.records.AggregatedActivePowerRecord.Builder setMinInW(double value) {
-      validate(fields()[2], value);
-      this.minInW = value;
-      fieldSetFlags()[2] = true;
-      return this;
-    }
-
-    /**
-      * Checks whether the 'minInW' field has been set.
-      * *
-      * @return True if the 'minInW' field has been set, false otherwise.
-      */
-    public boolean hasMinInW() {
-      return fieldSetFlags()[2];
-    }
-
-
-    /**
-      * Clears the value of the 'minInW' field.
-      * *
-      * @return This builder.
-      */
-    public titan.ccp.model.records.AggregatedActivePowerRecord.Builder clearMinInW() {
-      fieldSetFlags()[2] = false;
-      return this;
-    }
-
-    /**
-      * Gets the value of the 'maxInW' field.
-      * *
-      * @return The value.
-      */
-    public double getMaxInW() {
-      return maxInW;
-    }
-
-
-    /**
-      * Sets the value of the 'maxInW' field.
-      * *
-      * @param value The value of 'maxInW'.
-      * @return This builder.
-      */
-    public titan.ccp.model.records.AggregatedActivePowerRecord.Builder setMaxInW(double value) {
-      validate(fields()[3], value);
-      this.maxInW = value;
-      fieldSetFlags()[3] = true;
-      return this;
-    }
-
-    /**
-      * Checks whether the 'maxInW' field has been set.
-      * *
-      * @return True if the 'maxInW' field has been set, false otherwise.
-      */
-    public boolean hasMaxInW() {
-      return fieldSetFlags()[3];
-    }
-
-
-    /**
-      * Clears the value of the 'maxInW' field.
-      * *
-      * @return This builder.
-      */
-    public titan.ccp.model.records.AggregatedActivePowerRecord.Builder clearMaxInW() {
-      fieldSetFlags()[3] = false;
-      return this;
-    }
-
-    /**
       * Gets the value of the 'count' field.
       * *
       * @return The value.
@@ -536,9 +398,9 @@ public class AggregatedActivePowerRecord extends org.apache.avro.specific.Specif
       * @return This builder.
       */
     public titan.ccp.model.records.AggregatedActivePowerRecord.Builder setCount(long value) {
-      validate(fields()[4], value);
+      validate(fields()[2], value);
       this.count = value;
-      fieldSetFlags()[4] = true;
+      fieldSetFlags()[2] = true;
       return this;
     }
 
@@ -548,7 +410,7 @@ public class AggregatedActivePowerRecord extends org.apache.avro.specific.Specif
       * @return True if the 'count' field has been set, false otherwise.
       */
     public boolean hasCount() {
-      return fieldSetFlags()[4];
+      return fieldSetFlags()[2];
     }
 
 
@@ -558,7 +420,7 @@ public class AggregatedActivePowerRecord extends org.apache.avro.specific.Specif
       * @return This builder.
       */
     public titan.ccp.model.records.AggregatedActivePowerRecord.Builder clearCount() {
-      fieldSetFlags()[4] = false;
+      fieldSetFlags()[2] = false;
       return this;
     }
 
@@ -579,9 +441,9 @@ public class AggregatedActivePowerRecord extends org.apache.avro.specific.Specif
       * @return This builder.
       */
     public titan.ccp.model.records.AggregatedActivePowerRecord.Builder setSumInW(double value) {
-      validate(fields()[5], value);
+      validate(fields()[3], value);
       this.sumInW = value;
-      fieldSetFlags()[5] = true;
+      fieldSetFlags()[3] = true;
       return this;
     }
 
@@ -591,7 +453,7 @@ public class AggregatedActivePowerRecord extends org.apache.avro.specific.Specif
       * @return True if the 'sumInW' field has been set, false otherwise.
       */
     public boolean hasSumInW() {
-      return fieldSetFlags()[5];
+      return fieldSetFlags()[3];
     }
 
 
@@ -601,7 +463,7 @@ public class AggregatedActivePowerRecord extends org.apache.avro.specific.Specif
       * @return This builder.
       */
     public titan.ccp.model.records.AggregatedActivePowerRecord.Builder clearSumInW() {
-      fieldSetFlags()[5] = false;
+      fieldSetFlags()[3] = false;
       return this;
     }
 
@@ -622,9 +484,9 @@ public class AggregatedActivePowerRecord extends org.apache.avro.specific.Specif
       * @return This builder.
       */
     public titan.ccp.model.records.AggregatedActivePowerRecord.Builder setAverageInW(double value) {
-      validate(fields()[6], value);
+      validate(fields()[4], value);
       this.averageInW = value;
-      fieldSetFlags()[6] = true;
+      fieldSetFlags()[4] = true;
       return this;
     }
 
@@ -634,7 +496,7 @@ public class AggregatedActivePowerRecord extends org.apache.avro.specific.Specif
       * @return True if the 'averageInW' field has been set, false otherwise.
       */
     public boolean hasAverageInW() {
-      return fieldSetFlags()[6];
+      return fieldSetFlags()[4];
     }
 
 
@@ -644,7 +506,7 @@ public class AggregatedActivePowerRecord extends org.apache.avro.specific.Specif
       * @return This builder.
       */
     public titan.ccp.model.records.AggregatedActivePowerRecord.Builder clearAverageInW() {
-      fieldSetFlags()[6] = false;
+      fieldSetFlags()[4] = false;
       return this;
     }
 
@@ -655,11 +517,9 @@ public class AggregatedActivePowerRecord extends org.apache.avro.specific.Specif
         AggregatedActivePowerRecord record = new AggregatedActivePowerRecord();
         record.identifier = fieldSetFlags()[0] ? this.identifier : (java.lang.String) defaultValue(fields()[0]);
         record.timestamp = fieldSetFlags()[1] ? this.timestamp : (java.lang.Long) defaultValue(fields()[1]);
-        record.minInW = fieldSetFlags()[2] ? this.minInW : (java.lang.Double) defaultValue(fields()[2]);
-        record.maxInW = fieldSetFlags()[3] ? this.maxInW : (java.lang.Double) defaultValue(fields()[3]);
-        record.count = fieldSetFlags()[4] ? this.count : (java.lang.Long) defaultValue(fields()[4]);
-        record.sumInW = fieldSetFlags()[5] ? this.sumInW : (java.lang.Double) defaultValue(fields()[5]);
-        record.averageInW = fieldSetFlags()[6] ? this.averageInW : (java.lang.Double) defaultValue(fields()[6]);
+        record.count = fieldSetFlags()[2] ? this.count : (java.lang.Long) defaultValue(fields()[2]);
+        record.sumInW = fieldSetFlags()[3] ? this.sumInW : (java.lang.Double) defaultValue(fields()[3]);
+        record.averageInW = fieldSetFlags()[4] ? this.averageInW : (java.lang.Double) defaultValue(fields()[4]);
         return record;
       } catch (org.apache.avro.AvroMissingFieldException e) {
         throw e;
@@ -696,10 +556,6 @@ public class AggregatedActivePowerRecord extends org.apache.avro.specific.Specif
 
     out.writeLong(this.timestamp);
 
-    out.writeDouble(this.minInW);
-
-    out.writeDouble(this.maxInW);
-
     out.writeLong(this.count);
 
     out.writeDouble(this.sumInW);
@@ -717,10 +573,6 @@ public class AggregatedActivePowerRecord extends org.apache.avro.specific.Specif
 
       this.timestamp = in.readLong();
 
-      this.minInW = in.readDouble();
-
-      this.maxInW = in.readDouble();
-
       this.count = in.readLong();
 
       this.sumInW = in.readDouble();
@@ -728,7 +580,7 @@ public class AggregatedActivePowerRecord extends org.apache.avro.specific.Specif
       this.averageInW = in.readDouble();
 
     } else {
-      for (int i = 0; i < 7; i++) {
+      for (int i = 0; i < 5; i++) {
         switch (fieldOrder[i].pos()) {
         case 0:
           this.identifier = in.readString();
@@ -739,22 +591,14 @@ public class AggregatedActivePowerRecord extends org.apache.avro.specific.Specif
           break;
 
         case 2:
-          this.minInW = in.readDouble();
-          break;
-
-        case 3:
-          this.maxInW = in.readDouble();
-          break;
-
-        case 4:
           this.count = in.readLong();
           break;
 
-        case 5:
+        case 3:
           this.sumInW = in.readDouble();
           break;
 
-        case 6:
+        case 4:
           this.averageInW = in.readDouble();
           break;
 
