@@ -13,7 +13,6 @@ import titan.ccp.model.sensorregistry.serialization.MachineSensorSerializer;
 import titan.ccp.model.sensorregistry.serialization.SensorRegistryDeserializer;
 import titan.ccp.model.sensorregistry.serialization.SensorRegistrySerializer;
 
-
 public final class ImmutableSensorRegistry implements SensorRegistry {
 
   private static final Gson GSON = new GsonBuilder()
