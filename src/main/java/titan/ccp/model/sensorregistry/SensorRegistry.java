@@ -11,7 +11,9 @@ public interface SensorRegistry {
 
   public Collection<MachineSensor> getMachineSensors();
 
-  public Collection<Sensor> flat();
+  public default Collection<Sensor> flatten() {
+    return this.getTopLevelSensor().flatten();
+  };
 
   /**
    * Converts this sensor registry into a json string.

@@ -24,7 +24,7 @@ public interface AggregatedSensor extends Sensor {
     return allChildren;
   }
 
-  public default Collection<Sensor> flat() {
+  public default Collection<Sensor> flatten() {
     final List<Sensor> accumulator = new ArrayList<>();
     final Queue<Sensor> untraversedSensors = new LinkedList<>();
     untraversedSensors.add(this);

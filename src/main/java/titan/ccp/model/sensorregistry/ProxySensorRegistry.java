@@ -45,10 +45,4 @@ public class ProxySensorRegistry implements SensorRegistry {
     return this.backingSensorRegisty.equals(obj);
   }
 
-  @Override
-  public Collection<Sensor> flat() {
-    // TODO Auto-generated method stub
-    return null;
-  }
-
 }

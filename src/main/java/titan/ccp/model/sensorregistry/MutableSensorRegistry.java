@@ -78,10 +78,4 @@ public class MutableSensorRegistry implements SensorRegistry {
     return GSON.toJson(this);
   }
 
-  @Override
-  public Collection<Sensor> flat() {
-    // TODO Auto-generated method stub
-    return null;
-  }
-
 }

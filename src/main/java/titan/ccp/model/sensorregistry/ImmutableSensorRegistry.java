@@ -50,11 +50,6 @@ public final class ImmutableSensorRegistry implements SensorRegistry {
   }
 
   @Override
-  public Collection<Sensor> flat() {
-    return this.topLevelSensor.flat();
-  }
-
-  @Override
   public String toJson() {
     // Necessary method. Deletion would cause SensorRegistry.toJson() to fail.
     return GSON.toJson(this);
