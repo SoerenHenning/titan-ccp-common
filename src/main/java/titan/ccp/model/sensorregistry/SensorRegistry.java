@@ -12,9 +12,9 @@ public interface SensorRegistry {
   public Collection<MachineSensor> getMachineSensors();
 
   /**
-   * Flattens the hierarchy to a collection of sensors.
+   * Flattens the hierarchy to a collection of all contained {@link Sensor}s.
    *
-   * @return The collection of sensors contained in the hierarchy.
+   * @return A collection of all {@link Sensor}s contained in the hierarchy.
    */
   public default Collection<Sensor> flatten() {
     return this.getTopLevelSensor().flatten();
