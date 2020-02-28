@@ -2,10 +2,10 @@ package titan.ccp.model.sensorregistry;
 
 import java.util.Objects;
 
-// Not really mutable but belongs to the others, consider renaming
-public class MutableMachineSensor extends AbstractSensor implements MachineSensor {
+// Only public to allow for GSON unit testing
+public class MachineSensorImpl extends AbstractSensor implements MachineSensor {
 
-  protected MutableMachineSensor(final AggregatedSensor parent, final String identifier,
+  protected MachineSensorImpl(final AggregatedSensor parent, final String identifier,
       final String name) {
     super(parent, identifier, name);
   }

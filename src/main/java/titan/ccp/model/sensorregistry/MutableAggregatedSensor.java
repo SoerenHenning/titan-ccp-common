@@ -44,7 +44,7 @@ public class MutableAggregatedSensor extends AbstractSensor implements Aggregate
   }
 
   public MachineSensor addChildMachineSensor(final String identifier, final String name) {
-    final MutableMachineSensor machineSensor = new MutableMachineSensor(this, identifier, name);
+    final MachineSensorImpl machineSensor = new MachineSensorImpl(this, identifier, name);
     final boolean registerResult = this.sensorRegistry.register(machineSensor);
     if (!registerResult) {
       throw new IllegalArgumentException(

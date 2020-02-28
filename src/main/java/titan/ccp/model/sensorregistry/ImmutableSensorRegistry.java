@@ -19,8 +19,7 @@ public final class ImmutableSensorRegistry implements SensorRegistry {
       .registerTypeAdapter(ImmutableSensorRegistry.class, new SensorRegistrySerializer())
       .registerTypeAdapter(ImmutableSensorRegistry.ImmutableAggregatatedSensor.class,
           new AggregatedSensorSerializer())
-      .registerTypeAdapter(ImmutableSensorRegistry.ImmutableMachineSensor.class,
-          new MachineSensorSerializer())
+      .registerTypeAdapter(MachineSensorImpl.class, new MachineSensorSerializer())
       .registerTypeAdapter(SensorRegistry.class, new SensorRegistryDeserializer()).create();
 
   private final ImmutableMap<String, MachineSensor> machineSensors;
@@ -79,37 +78,7 @@ public final class ImmutableSensorRegistry implements SensorRegistry {
     return GSON.fromJson(json, SensorRegistry.class);
   }
 
-  private static class AbstractImmutableSensor implements Sensor {
-
-    private final AggregatedSensor parent;
-    private final String identifier;
-    private final String name;
-
-    private AbstractImmutableSensor(final AggregatedSensor newParent, final Sensor sensorToCopy) {
-      this.parent = newParent;
-      this.identifier = sensorToCopy.getIdentifier();
-      this.name = sensorToCopy.getName();
-    }
-
-    @Override
-    public Optional<AggregatedSensor> getParent() {
-      return Optional.ofNullable(this.parent);
-    }
-
-    @Override
-    public String getIdentifier() {
-      return this.identifier;
-    }
-
-    @Override
-    public String getName() {
-      return this.name;
-    }
-
-  }
-
-  // TODO visibility
-  public static final class ImmutableAggregatatedSensor extends AbstractImmutableSensor
+  private static final class ImmutableAggregatatedSensor extends AbstractSensor
       implements AggregatedSensor {
 
     private final ImmutableList<Sensor> children;
@@ -117,17 +86,23 @@ public final class ImmutableSensorRegistry implements SensorRegistry {
     private ImmutableAggregatatedSensor(final AggregatedSensor newParent,
         final AggregatedSensor sensorToCopy,
         final ImmutableMap.Builder<String, MachineSensor> sensorRegistryMapBuilder) {
-      super(newParent, sensorToCopy);
+      super(newParent, sensorToCopy.getIdentifier(), sensorToCopy.getName());
       final Builder<Sensor> childrenBuilder = ImmutableList.builder();
-      for (final Sensor children : sensorToCopy.getChildren()) {
-        if (children instanceof MachineSensor) {
-          final MachineSensor newChild = new ImmutableMachineSensor(this, (MachineSensor) children);
+      for (final Sensor child : sensorToCopy.getChildren()) {
+        if (child instanceof MachineSensor) {
+          final MachineSensor newChild =
+              new MachineSensorImpl(this, child.getIdentifier(), child.getName());
           childrenBuilder.add(newChild);
           sensorRegistryMapBuilder.put(newChild.getIdentifier(), newChild);
-        } else if (children instanceof AggregatedSensor) {
+        } else if (child instanceof AggregatedSensor) {
           final AggregatedSensor newChild = new ImmutableAggregatatedSensor(this,
-              (AggregatedSensor) children, sensorRegistryMapBuilder);
+              (AggregatedSensor) child, sensorRegistryMapBuilder);
           childrenBuilder.add(newChild);
+        } else {
+          throw new IllegalStateException(
+              "Sensor " + child + " is neither of type '"
+                  + MachineSensor.class.getSimpleName() + "' nor "
+                  + AggregatedSensor.class.getSimpleName() + "' and thus not supported.");
         }
       }
       this.children = childrenBuilder.build();
@@ -160,39 +135,6 @@ public final class ImmutableSensorRegistry implements SensorRegistry {
     public String toString() {
       return this.getName() + '[' + this.getIdentifier() + "] (" + this.children.size()
           + " children)";
-    }
-
-  }
-
-  // TODO visibility
-  public static final class ImmutableMachineSensor extends AbstractImmutableSensor
-      implements MachineSensor {
-
-    private ImmutableMachineSensor(final AggregatedSensor newParent,
-        final MachineSensor SensorToCopy) {
-      super(newParent, SensorToCopy);
-    }
-
-    @Override
-    public int hashCode() {
-      return Objects.hashCode(this.getIdentifier());
-    }
-
-    @Override
-    public boolean equals(final Object obj) {
-      if (obj == this) {
-        return true;
-      }
-      if (obj instanceof MachineSensor) {
-        final MachineSensor other = (MachineSensor) obj;
-        return Objects.equals(this.getIdentifier(), other.getIdentifier());
-      }
-      return false;
-    }
-
-    @Override
-    public String toString() {
-      return this.getName() + '[' + this.getIdentifier() + ']';
     }
 
   }
