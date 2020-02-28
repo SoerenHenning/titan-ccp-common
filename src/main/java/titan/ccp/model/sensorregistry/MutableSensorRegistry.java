@@ -17,10 +17,10 @@ public class MutableSensorRegistry implements SensorRegistry {
   private static final Gson GSON = new GsonBuilder()
       .registerTypeAdapter(MutableSensorRegistry.class, new SensorRegistrySerializer())
       .registerTypeAdapter(MutableAggregatedSensor.class, new AggregatedSensorSerializer())
-      .registerTypeAdapter(MutableMachineSensor.class, new MachineSensorSerializer()).create();
+      .registerTypeAdapter(MachineSensorImpl.class, new MachineSensorSerializer()).create();
 
   // TODO HashMap for efficient access to machine sensors
-  private final Map<String, MutableMachineSensor> machineSensors = new HashMap<>();
+  private final Map<String, MachineSensorImpl> machineSensors = new HashMap<>();
 
   // TODO maybe access to root
   private final MutableAggregatedSensor topLevelSensor;
@@ -50,7 +50,7 @@ public class MutableSensorRegistry implements SensorRegistry {
     return Collections.unmodifiableCollection(this.machineSensors.values());
   }
 
-  protected boolean register(final MutableMachineSensor machineSensor) {
+  protected boolean register(final MachineSensorImpl machineSensor) {
     final Object oldValue =
         this.machineSensors.putIfAbsent(machineSensor.getIdentifier(), machineSensor);
     return oldValue == null;
