@@ -2,8 +2,7 @@ package titan.ccp.model.sensorregistry;
 
 import java.util.Objects;
 
-// Only public to allow for GSON unit testing
-public class MachineSensorImpl extends AbstractSensor implements MachineSensor {
+class MachineSensorImpl extends AbstractSensor implements MachineSensor {
 
   protected MachineSensorImpl(final AggregatedSensor parent, final String identifier,
       final String name) {

@@ -6,8 +6,8 @@ import com.google.gson.GsonBuilder;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
+import titan.ccp.model.sensorregistry.MaschineSensorImplExposer;
 import titan.ccp.model.sensorregistry.MutableAggregatedSensor;
-import titan.ccp.model.sensorregistry.MachineSensorImpl;
 import titan.ccp.model.sensorregistry.MutableSensorRegistry;
 
 public class SensorRegistrySerializerTest {
@@ -19,7 +19,8 @@ public class SensorRegistrySerializerTest {
     this.gson = new GsonBuilder()
         .registerTypeAdapter(MutableSensorRegistry.class, new SensorRegistrySerializer())
         .registerTypeAdapter(MutableAggregatedSensor.class, new AggregatedSensorSerializer())
-        .registerTypeAdapter(MachineSensorImpl.class, new MachineSensorSerializer())
+        .registerTypeAdapter(MaschineSensorImplExposer.MACHINE_SENSOR_IMPL_CLASS,
+            new MachineSensorSerializer())
         .create();
   }
 
