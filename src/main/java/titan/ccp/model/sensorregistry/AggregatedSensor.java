@@ -24,4 +24,23 @@ public interface AggregatedSensor extends Sensor {
     return allChildren;
   }
 
+  /**
+   * Flattens and all its child sensors to a collection of sensors.
+   *
+   * @return The collection containing the sensor and all of its children.
+   */
+  public default Collection<Sensor> flatten() {
+    final List<Sensor> accumulator = new ArrayList<>();
+    final Queue<Sensor> untraversedSensors = new LinkedList<>();
+    untraversedSensors.add(this);
+    while (!untraversedSensors.isEmpty()) {
+      final Sensor sensor = untraversedSensors.poll();
+      accumulator.add(sensor);
+      if (sensor instanceof AggregatedSensor) {
+        untraversedSensors.addAll(((AggregatedSensor) sensor).getChildren());
+      }
+    }
+    return accumulator;
+  }
+
 }

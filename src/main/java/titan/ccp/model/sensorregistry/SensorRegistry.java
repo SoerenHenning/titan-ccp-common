@@ -12,6 +12,15 @@ public interface SensorRegistry {
   public Collection<MachineSensor> getMachineSensors();
 
   /**
+   * Flattens the hierarchy to a collection of sensors.
+   *
+   * @return The collection of sensors contained in the hierarchy.
+   */
+  public default Collection<Sensor> flatten() {
+    return this.getTopLevelSensor().flatten();
+  };
+
+  /**
    * Converts this sensor registry into a json string.
    *
    * Per default a copy of this sensor registry is created to ensure that proper (de)serializers

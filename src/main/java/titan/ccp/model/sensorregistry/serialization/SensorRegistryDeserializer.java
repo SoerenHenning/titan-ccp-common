@@ -74,13 +74,13 @@ public final class SensorRegistryDeserializer implements JsonDeserializer<Sensor
         final JsonElement identifierJsonElement = jsonObject.get(IDENTIFIER_KEY);
         final JsonElement nameJsonElement = jsonObject.get(NAME_KEY);
         if (identifierJsonElement.isJsonPrimitive() && nameJsonElement.isJsonPrimitive()) {
-          final JsonPrimitive identfierJsonPrimitive = identifierJsonElement.getAsJsonPrimitive();
+          final JsonPrimitive identifierJsonPrimitive = identifierJsonElement.getAsJsonPrimitive();
           final JsonPrimitive nameJsonPrimitive = nameJsonElement.getAsJsonPrimitive();
-          if (identfierJsonPrimitive.isString()) {
-            final String identfierString = identfierJsonPrimitive.getAsString();
+          if (identifierJsonPrimitive.isString()) {
+            final String identifierString = identifierJsonPrimitive.getAsString();
             final String nameString = nameJsonPrimitive.getAsString();
             final JsonArray childrenJsonArray = this.parseChildren(jsonObject);
-            return new SensorParseResult(identfierString, nameString, childrenJsonArray);
+            return new SensorParseResult(identifierString, nameString, childrenJsonArray);
           }
         }
       }
