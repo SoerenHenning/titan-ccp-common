@@ -25,9 +25,10 @@ public interface AggregatedSensor extends Sensor {
   }
 
   /**
-   * Flattens and all its child sensors to a collection of sensors.
+   * Flattens this {@link AggregatedSensor} and all of its children to a collection of
+   * {@link Sensor}s.
    *
-   * @return The collection containing the sensor and all of its children.
+   * @return A collection containing this {@link AggregatedSensor} and all of its children.
    */
   public default Collection<Sensor> flatten() {
     final List<Sensor> accumulator = new ArrayList<>();
