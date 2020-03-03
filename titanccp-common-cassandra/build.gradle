@@ -70,7 +70,7 @@ publishing {
 	publications {
 	    mavenJava(MavenPublication) {
 	        groupId 'org.industrial-devops'
-	        artifactId 'titan-ccp-common-kafka'
+	        artifactId 'titan-ccp-common-cassandra'
 	        version '0.0.1-SNAPSHOT'
 	
 	        from components.java
