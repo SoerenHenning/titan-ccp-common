@@ -10,14 +10,14 @@ import org.apache.commons.configuration2.ex.ConfigurationException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-public final class ServiceConfiguration {
+public final class ServiceConfigurations {
 
-  private static final Logger LOGGER = LoggerFactory.getLogger(ServiceConfiguration.class);
+  private static final Logger LOGGER = LoggerFactory.getLogger(ServiceConfigurations.class);
 
   private final static String DEFAULT_PROPERTIES_LOCATION = "META-INF/application.properties";
   private final static String USER_PROPERTIES_LOCATION = "config/application.properties";
 
-  private ServiceConfiguration() {}
+  private ServiceConfigurations() {}
 
   public static Configuration createWithDefaults() {
     return builder()
