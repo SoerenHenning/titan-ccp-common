@@ -33,7 +33,7 @@ public final class ServiceConfigurations {
 
   public static class Builder {
 
-    final CompositeConfiguration configuration = new CompositeConfiguration();
+    private final CompositeConfiguration configuration = new CompositeConfiguration();
 
     private Builder() {}
 
