@@ -2,9 +2,17 @@ package titan.ccp.model.sensorregistry;
 
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
+import java.util.Optional;
 import org.junit.Test;
 
 public class MutableSensorRegistryTest {
+
+  @Test
+  public void parentOfTopLevelShouldBeNotPresent() {
+    final MutableSensorRegistry sensorRegistry = new MutableSensorRegistry("root");
+    final Optional<AggregatedSensor> parent = sensorRegistry.getTopLevelSensor().getParent();
+    assertFalse(parent.isPresent());
+  }
 
   @Test
   public void testEqualsIdentity() {

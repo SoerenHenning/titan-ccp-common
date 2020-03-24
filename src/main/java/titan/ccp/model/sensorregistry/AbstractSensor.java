@@ -19,7 +19,7 @@ abstract class AbstractSensor implements Sensor {
 
   @Override
   public Optional<AggregatedSensor> getParent() {
-    return Optional.of(this.parent);
+    return Optional.ofNullable(this.parent);
   }
 
   @Override
