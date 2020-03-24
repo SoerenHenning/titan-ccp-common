@@ -29,7 +29,7 @@ public class CassandraReader {
     return (row) -> {
       // Decoder for the row
       RowDecoder rowDecoder = new RowDecoder(row, schemaFields);
-      T avro = factory.get();;
+      T avro = factory.get();
       
       try {
          avro = specificDatumReader.read(avro, rowDecoder);
