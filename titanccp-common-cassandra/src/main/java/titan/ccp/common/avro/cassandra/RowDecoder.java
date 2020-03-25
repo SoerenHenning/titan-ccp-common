@@ -1,4 +1,4 @@
-package titan.ccp.common.cassandra;
+package titan.ccp.common.avro.cassandra;
 
 import com.datastax.driver.core.Row;
 import java.io.IOException;
@@ -7,6 +7,13 @@ import java.util.List;
 import org.apache.avro.io.Decoder;
 import org.apache.avro.util.Utf8;
 
+/**
+ * Decoder for de-serializing Avro values from a cassandra {@code Row}.
+ * The class uses the column order from the target Avro schema and uses the fact
+ * that the {@code Row} contains the values with the same name.
+ * @author bjoern
+ *
+ */
 public class RowDecoder extends Decoder {
   
   private final Row row;
