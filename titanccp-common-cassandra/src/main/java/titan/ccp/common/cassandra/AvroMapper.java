@@ -54,8 +54,7 @@ public class AvroMapper<T extends SpecificRecordBase> implements Function<Row, T
       //Read in the data into the Avro object
       avro = specificDatumReader.read(avro, rowDecoder);
     } catch (IOException e) {
-      // TODO Auto-generated catch block
-      e.printStackTrace();
+      throw new IllegalStateException("Could not map a cassandra row to an Avro object.", e);
     }
     
     return avro;
