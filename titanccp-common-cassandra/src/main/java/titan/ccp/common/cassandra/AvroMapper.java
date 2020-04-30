@@ -11,7 +11,7 @@ import org.apache.avro.specific.SpecificRecordBase;
 import titan.ccp.common.avro.cassandra.AvroDataAdapter;
 import titan.ccp.common.avro.cassandra.RowDecoder;
 
-public class CassandraReader {
+public class AvroMapper {
   
   /**
    * Creates a mapping function from a {@code Row} to an Avro object.
