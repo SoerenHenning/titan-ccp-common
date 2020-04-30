@@ -11,15 +11,19 @@ import org.apache.avro.specific.SpecificRecordBase;
 import titan.ccp.common.avro.cassandra.AvroDataAdapter;
 import titan.ccp.common.avro.cassandra.RowDecoder;
 
-public class AvroMapper {
+public class AvroMapper<T extends SpecificRecordBase> implements Function<Row, T> {
   
+  private final Supplier<T> factory;
+  private final List<String> schemaFields;
+  private final SpecificDatumReader<T> specificDatumReader;
+  
+
   /**
-   * Creates a mapping function from a {@code Row} to an Avro object.
-   * @param <T> The type of the Avro object.
-   * @param factory A function for creating new Avro objects.
-   * @return A new Avro object.
+   * Creates a new {@code AvroMapper} that contains a mapping function from a Cassandra {@code Row} to an Avro Object.
+   * @param factory The function for creating a new avro Object.
    */
-  public static <T extends SpecificRecordBase> Function<Row, T> recordFactory(Supplier<T> factory) {
+  public AvroMapper(Supplier<T> factory) {
+    this.factory = factory;
     
     // Prepare for getting Avro details
     AvroDataAdapter dataAdapter = new AvroDataAdapter();
@@ -27,29 +31,33 @@ public class AvroMapper {
     
     // Schema and Fields of Avro object
     Schema schema = template.getSchema();
-    List<String> schemaFields = dataAdapter.getFieldNames(template);
+    schemaFields = dataAdapter.getFieldNames(template);
     
-    // For reading data of a schema.
-    SpecificDatumReader<T> specificDatumReader = new SpecificDatumReader<T>(schema);
+    // Creates later avro object
+    specificDatumReader = new SpecificDatumReader<T>(schema);
+  }
+  
+  /**
+   * A mapping function from a {@code Row} to an Avro object.
+   * @param row The cassandra {@code Row} where the function should be applied to.
+   * @return A new Avro object.
+   */
+  @Override
+  public T apply(Row row) {
+    // Decoder for the row
+    RowDecoder rowDecoder = new RowDecoder(row, schemaFields);
     
+    //New Object
+    T avro = factory.get();
     
-    // Function for mapping from a row to a Avro object
-    return (row) -> {
-      // Decoder for the row
-      RowDecoder rowDecoder = new RowDecoder(row, schemaFields);
-      
-      //New Object
-      T avro = factory.get();
-      
-      try {
-        //Read in the data into the Avro object
-        avro = specificDatumReader.read(avro, rowDecoder);
-      } catch (IOException e) {
-        // TODO Auto-generated catch block
-        e.printStackTrace();
-      }
-      
-      return avro;
-    };
+    try {
+      //Read in the data into the Avro object
+      avro = specificDatumReader.read(avro, rowDecoder);
+    } catch (IOException e) {
+      // TODO Auto-generated catch block
+      e.printStackTrace();
+    }
+    
+    return avro;
   }
 }
