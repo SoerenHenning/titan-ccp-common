@@ -1,6 +1,7 @@
 package titan.ccp.common.cassandra;
 
 import com.datastax.driver.core.Row;
+import io.netty.handler.codec.DecoderException;
 import java.io.IOException;
 import java.util.List;
 import java.util.function.Function;
@@ -62,7 +63,7 @@ public class AvroMapper<T extends SpecificRecordBase> implements Function<Row, T
       // Read in the data into the Avro object
       return specificDatumReader.read(avro, rowDecoder);
     } catch (IOException e) {
-      throw new IllegalStateException("Could not map a cassandra row to an Avro object.", e);
+      throw new DecoderException("Could not map a cassandra row to an Avro object.", e);
     }
   }
 }
