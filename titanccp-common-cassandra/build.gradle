@@ -114,6 +114,39 @@ publishing {
 	}
 }
 
+pmd {
+  ruleSets = [] // Gradle requires to clean the rule sets first
+  ruleSetFiles = files("config/pmd.xml")
+  ignoreFailures = false
+  toolVersion = "6.7.0"
+}
+
+checkstyle {
+  configDir = file("config")
+  configFile = file("config/checkstyle.xml")
+  maxWarnings = 0
+  ignoreFailures = false
+  toolVersion = "8.12"
+}
+
+spotbugs {
+  excludeFilter = file("config/spotbugs-exclude-filter.xml")
+  reportLevel = "low"
+  effort = "max"
+  ignoreFailures = false
+  toolVersion = '3.1.7'
+}
+
+// Per default XML reports for SpotBugs are generated
+// Include this to generate HTML reports
+tasks.withType(com.github.spotbugs.SpotBugsTask) {
+  reports {
+    // Either HTML or XML reports can be activated
+    html.enabled true
+    xml.enabled false
+  }
+}
+
 eclipse {
     classpath {
        downloadSources=true
