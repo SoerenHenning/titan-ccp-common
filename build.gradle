@@ -1,3 +1,4 @@
+// Inherited to all subprojects
 buildscript {
   repositories {
     maven {
@@ -10,21 +11,24 @@ buildscript {
   }
 }
 
+// Local plugin
+apply plugin: "com.commercehub.gradle.plugin.avro-base" // for avro generation
 
-apply plugin: 'java-library'
-apply plugin: 'maven-publish'
-apply plugin: "com.commercehub.gradle.plugin.avro-base"
-apply plugin: 'eclipse'
-
+// Plugins for all master and subprojects
 allprojects { 
+	apply plugin: 'java-library'
+	apply plugin: 'maven-publish'
+	apply plugin: 'eclipse'
 	apply plugin: 'pmd'
 	apply plugin: 'checkstyle'
 	apply plugin: 'com.github.spotbugs'
 }
 
+// Local Java version setting
 sourceCompatibility = "1.11"
 targetCompatibility = "1.11"
 
+// All repositories 
 allprojects { 
     repositories {
         jcenter()
@@ -34,6 +38,7 @@ allprojects {
     }
 }
 
+// Local dependencies
 dependencies {
     // These dependencies is exported to consumers, that is to say found on their compile classpath.
     api 'org.apache.kafka:kafka-clients:2.4.0'
@@ -52,6 +57,7 @@ dependencies {
     testImplementation 'com.github.stefanbirkner:system-rules:1.17.0'
 }
 
+// Local sources
 sourceSets {
 	main {
 	    java {
@@ -61,22 +67,26 @@ sourceSets {
 	}
 }
 
-task sourceJar(type: Jar) {
-    classifier "sources"
-    from sourceSets.main.allJava
+// All jar creation
+allprojects {
+	task sourceJar(type: Jar) {
+	    classifier "sources"
+	    from sourceSets.main.allJava
+	}
+	
+	task javadocJar(type: Jar, dependsOn: javadoc) {
+	    classifier "javadoc"
+	    from javadoc.destinationDir
+	}
+	
+	artifacts {
+	    archives jar
+	    archives sourceJar
+	    archives javadocJar
+	}
 }
 
-task javadocJar(type: Jar, dependsOn: javadoc) {
-    classifier "javadoc"
-    from javadoc.destinationDir
-}
-
-artifacts {
-    archives jar
-    archives sourceJar
-    archives javadocJar
-}
-
+// Local avro creation
 avro {
     fieldVisibility = "PRIVATE"
     createSetters = false
@@ -105,6 +115,8 @@ task ("generateAvroJava", type: com.commercehub.gradle.plugin.avro.GenerateAvroJ
     outputDir = file("src-gen/main/java")
 }
 
+
+// Local publishing
 publishing {
 	publications {
 	    mavenJava(MavenPublication) {
@@ -153,6 +165,8 @@ publishing {
 	}
 }
 
+
+// Quality tools configuration
 pmd {
   ruleSets = [] // Gradle requires to clean the rule sets first
   ruleSetFiles = files("config/pmd.xml")
@@ -186,6 +200,7 @@ tasks.withType(com.github.spotbugs.SpotBugsTask) {
   }
 }
 
+// All quality tools tasks
 allprojects { 
 	task checkstyle {
 	  group 'Quality Assurance'
@@ -212,9 +227,11 @@ allprojects {
 	}
 }
 
-eclipse {
-    classpath {
-       downloadSources=true
-       downloadJavadoc=true
-    }
+allprojects { 
+	eclipse {
+	    classpath {
+	       downloadSources=true
+	       downloadJavadoc=true
+	    }
+	}
 }
