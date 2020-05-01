@@ -20,6 +20,7 @@ stages:
   - check
   - deploy
 
+# Build
 build:
   stage: build
   tags:
@@ -30,11 +31,12 @@ build:
       - target/
     expire_in: 1 day
 
-test-except-cassandra:
+# Tests
+test-root:
   stage: test
   tags:
     - dockerex
-  script: "./gradlew test -x titanccp-common-cassandra:test"
+  script: "./gradlew :test"
 
 test-cassandra:
   stage: test
@@ -43,6 +45,73 @@ test-cassandra:
   image: openjdk:8-jdk
   script: "./gradlew titanccp-common-cassandra:test"
 
+test-kafka:
+  stage: test
+  tags:
+    - dockerex
+  script: "./gradlew titanccp-common-kafka:test"
+
+# Check Root
+checkstyle-root:
+  stage: check
+  tags:
+    - dockerex
+  script: ./gradlew :checkstyle
+
+pmd-root:
+  stage: check
+  tags:
+    - dockerex
+  script: ./gradlew :pmd
+
+spotbugs-root:
+  stage: check
+  tags:
+    - dockerex
+  script: ./gradlew :spotbugs
+
+# Check Cassandra
+checkstyle-cassandra:
+  stage: check
+  tags:
+    - dockerex
+  image: openjdk:8-jdk
+  script: ./gradlew titanccp-common-cassandra:checkstyle
+
+pmd-cassandra:
+  stage: check
+  tags:
+    - dockerex
+  image: openjdk:8-jdk
+  script: ./gradlew titanccp-common-cassandra:pmd
+
+spotbugs-cassandra:
+  stage: check
+  tags:
+    - dockerex
+  image: openjdk:8-jdk
+  script: ./gradlew titanccp-common-cassandra:spotbugs
+
+# Check Kafka
+checkstyle-kafka:
+  stage: check
+  tags:
+    - dockerex
+  script: ./gradlew titanccp-common-kafka:checkstyle
+
+pmd-kafka:
+  stage: check
+  tags:
+    - dockerex
+  script: ./gradlew titanccp-common-kafka:pmd
+
+spotbugs-kafka:
+  stage: check
+  tags:
+    - dockerex
+  script: ./gradlew titanccp-common-kafka:spotbugs
+
+# Deploy
 deploy:
   stage: deploy
   tags:
