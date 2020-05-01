@@ -1,3 +1,7 @@
+// Version of common cassandra project
+version = '0.1.0-SNAPSHOT'
+
+// Local Java version setting
 sourceCompatibility = "1.11"
 targetCompatibility = "1.11"
 
@@ -38,7 +42,7 @@ publishing {
 	    mavenJava(MavenPublication) {
 	        groupId 'org.industrial-devops'
 	        artifactId 'titan-ccp-common-kafka'
-	        version '0.1.0-SNAPSHOT'
+	        // version is set at the top
 	
 	        from components.java
 	

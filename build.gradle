@@ -1,3 +1,10 @@
+// Version of common project
+version = '0.1.0-SNAPSHOT'
+
+// Local Java version setting
+sourceCompatibility = "1.11"
+targetCompatibility = "1.11"
+
 // Inherited to all subprojects
 buildscript {
   repositories {
@@ -23,10 +30,6 @@ allprojects {
 	apply plugin: 'checkstyle'
 	apply plugin: 'com.github.spotbugs'
 }
-
-// Local Java version setting
-sourceCompatibility = "1.11"
-targetCompatibility = "1.11"
 
 // All repositories 
 allprojects { 
@@ -122,7 +125,7 @@ publishing {
 	    mavenJava(MavenPublication) {
 	        groupId 'org.industrial-devops'
 	        artifactId 'titan-ccp-common'
-	        version '0.1.0-SNAPSHOT'
+	        // version is set at the top
 
 	        from components.java
 
