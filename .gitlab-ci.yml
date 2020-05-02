@@ -75,7 +75,7 @@ checkstyle:
     - dockerex
   script: ./gradlew --continue :checkstyle titanccp-common-cassandra:checkstyle titanccp-common-kafka:checkstyle
   artifacts:
-    reports:
+    paths:
       - build/reports/checkstyle/main.html
       - titanccp-common-cassandra/build/reports/checkstyle/main.html
       - titanccp-common-kafka/build/reports/checkstyle/main.html
@@ -88,7 +88,7 @@ pmd:
     - dockerex
   script: ./gradlew --continue :pmd titanccp-common-cassandra:pmd titanccp-common-kafka:pmd
   artifacts:
-    reports:
+    paths:
       - build/reports/pmd/*.html
       - titanccp-common-cassandra/build/reports/pmd/*.html
       - titanccp-common-kafka/build/reports/pmd/*.html
@@ -101,7 +101,7 @@ spotbugs:
     - dockerex
   script: ./gradlew --continue :spotbugs titanccp-common-cassandra:spotbugs titanccp-common-kafka:spotbugs
   artifacts:
-    reports:
+    paths:
       - build/reports/spotbugs/*.html
       - titanccp-common-cassandra/build/reports/spotbugs/*.html
       - titanccp-common-kafka/build/reports/spotbugs/*.html
