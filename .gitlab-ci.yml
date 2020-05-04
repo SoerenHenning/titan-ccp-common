@@ -34,17 +34,20 @@ build:
     expire_in: 1 day
 
 # Tests
-test-root:
+test-except-cassandra:
   stage: test
   tags:
     - dockerex
-  script: "./gradlew :test"
+  script: "./gradlew test --continue -x titanccp-common-cassandra:test"
   artifacts:
     reports:
-      junit: build/test-results/test/**/TEST-*.xml
+      junit:
+        - build/test-results/test/**/TEST-*.xml
+        - titanccp-common-kafka/build/test-results/test/**/TEST-*.xml
     when: on_failure
     expire_in: 1 day
 
+# Own test for cassandra, because it requires java 8
 test-cassandra:
   stage: test
   tags:
@@ -57,23 +60,12 @@ test-cassandra:
     when: on_failure
     expire_in: 1 day
 
-test-kafka:
-  stage: test
-  tags:
-    - dockerex
-  script: "./gradlew titanccp-common-kafka:test"
-  artifacts:
-    reports:
-      junit: titanccp-common-kafka/build/test-results/test/**/TEST-*.xml
-    when: on_failure
-    expire_in: 1 day
-
 # Checks
 .checkstyle:
   stage: check
   tags:
     - dockerex
-  script: ./gradlew --continue :checkstyle titanccp-common-cassandra:checkstyle titanccp-common-kafka:checkstyle
+  script: ./gradlew --continue checkstyle
   artifacts:
     paths:
       - build/reports/checkstyle/main.html
@@ -86,7 +78,7 @@ test-kafka:
   stage: check
   tags:
     - dockerex
-  script: ./gradlew --continue :pmd titanccp-common-cassandra:pmd titanccp-common-kafka:pmd
+  script: ./gradlew --continue pmd
   artifacts:
     paths:
       - build/reports/pmd/*.html
@@ -99,7 +91,7 @@ test-kafka:
   stage: check
   tags:
     - dockerex
-  script: ./gradlew --continue :spotbugs titanccp-common-cassandra:spotbugs titanccp-common-kafka:spotbugs
+  script: ./gradlew --continue spotbugs
   artifacts:
     paths:
       - build/reports/spotbugs/*.html
