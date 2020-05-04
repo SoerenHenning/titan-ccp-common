@@ -1,6 +1,3 @@
-// Version of common project
-version = '0.1.0-SNAPSHOT'
-
 // Inherited to all subprojects
 buildscript {
   repositories {
@@ -123,9 +120,8 @@ task ("generateAvroJava", type: com.commercehub.gradle.plugin.avro.GenerateAvroJ
 publishing {
 	publications {
 	    mavenJava(MavenPublication) {
-	        groupId 'org.industrial-devops'
-	        artifactId 'titan-ccp-common'
-	        // version is set at the top
+	    	// Set identity values in gradle.properties
+	        artifactId = "${artifcatId}"
 
 	        from components.java
 
