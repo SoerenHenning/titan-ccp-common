@@ -1,3 +1,4 @@
+// Inherited to all subprojects
 buildscript {
   repositories {
     maven {
@@ -10,15 +11,24 @@ buildscript {
   }
 }
 
-apply plugin: 'java-library'
-apply plugin: 'maven-publish'
-apply plugin: "com.commercehub.gradle.plugin.avro-base"
-apply plugin: 'eclipse'
+// Local plugin
+apply plugin: "com.commercehub.gradle.plugin.avro-base" // for avro generation
 
+// Plugins for all master and subprojects
+allprojects { 
+	apply plugin: 'java-library'
+	apply plugin: 'maven-publish'
+	apply plugin: 'eclipse'
+	apply plugin: 'pmd'
+	apply plugin: 'checkstyle'
+	apply plugin: 'com.github.spotbugs'
+}
 
+// Local Java version setting
 sourceCompatibility = "1.11"
 targetCompatibility = "1.11"
 
+// All repositories 
 allprojects { 
     repositories {
         jcenter()
@@ -28,6 +38,7 @@ allprojects {
     }
 }
 
+// Local dependencies
 dependencies {
     // These dependencies is exported to consumers, that is to say found on their compile classpath.
     api 'org.apache.kafka:kafka-clients:2.4.0'
@@ -46,6 +57,7 @@ dependencies {
     testImplementation 'com.github.stefanbirkner:system-rules:1.17.0'
 }
 
+// Local sources
 sourceSets {
 	main {
 	    java {
@@ -55,22 +67,26 @@ sourceSets {
 	}
 }
 
-task sourceJar(type: Jar) {
-    classifier "sources"
-    from sourceSets.main.allJava
+// All jar creation
+allprojects {
+	task sourceJar(type: Jar) {
+	    classifier "sources"
+	    from sourceSets.main.allJava
+	}
+	
+	task javadocJar(type: Jar, dependsOn: javadoc) {
+	    classifier "javadoc"
+	    from javadoc.destinationDir
+	}
+	
+	artifacts {
+	    archives jar
+	    archives sourceJar
+	    archives javadocJar
+	}
 }
 
-task javadocJar(type: Jar, dependsOn: javadoc) {
-    classifier "javadoc"
-    from javadoc.destinationDir
-}
-
-artifacts {
-    archives jar
-    archives sourceJar
-    archives javadocJar
-}
-
+// Local avro creation
 avro {
     fieldVisibility = "PRIVATE"
     createSetters = false
@@ -99,12 +115,13 @@ task ("generateAvroJava", type: com.commercehub.gradle.plugin.avro.GenerateAvroJ
     outputDir = file("src-gen/main/java")
 }
 
+
+// Local publishing
 publishing {
 	publications {
 	    mavenJava(MavenPublication) {
-	        groupId 'org.industrial-devops'
-	        artifactId 'titan-ccp-common'
-	        version '0.1.0-SNAPSHOT'
+	    	// Set identity values in gradle.properties
+	        artifactId = "${artifcatId}"
 
 	        from components.java
 
@@ -147,9 +164,73 @@ publishing {
 	}
 }
 
-eclipse {
-    classpath {
-       downloadSources=true
-       downloadJavadoc=true
-    }
+
+// Quality tools configuration
+pmd {
+  ruleSets = [] // Gradle requires to clean the rule sets first
+  ruleSetFiles = files("config/pmd.xml")
+  ignoreFailures = false
+  toolVersion = "6.7.0"
+}
+
+checkstyle {
+  configDir = file("config")
+  configFile = file("config/checkstyle.xml")
+  maxWarnings = 0
+  ignoreFailures = false
+  toolVersion = "8.12"
+}
+
+spotbugs {
+  excludeFilter = file("config/spotbugs-exclude-filter.xml")
+  reportLevel = "low"
+  effort = "max"
+  ignoreFailures = false
+  toolVersion = '3.1.7'
+}
+
+// Per default XML reports for SpotBugs are generated
+// Include this to generate HTML reports
+tasks.withType(com.github.spotbugs.SpotBugsTask) {
+  reports {
+    // Either HTML or XML reports can be activated
+    html.enabled true
+    xml.enabled false
+  }
+}
+
+// All quality tools tasks
+allprojects { 
+	task checkstyle {
+	  group 'Quality Assurance'
+	  description 'Run Checkstyle'
+	  
+	  dependsOn 'checkstyleMain'
+	  dependsOn 'checkstyleTest'
+	}
+	
+	task pmd {
+	  group 'Quality Assurance'
+	  description 'Run PMD'
+	
+	  dependsOn 'pmdMain'
+	  dependsOn 'pmdTest'
+	}
+	
+	task spotbugs {
+	  group 'Quality Assurance'
+	  description 'Run SpotBugs'
+	  
+	  dependsOn 'spotbugsMain'
+	  dependsOn 'spotbugsTest'
+	}
+}
+
+allprojects { 
+	eclipse {
+	    classpath {
+	       downloadSources=true
+	       downloadJavadoc=true
+	    }
+	}
 }

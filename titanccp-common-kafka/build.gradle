@@ -1,33 +1,12 @@
-buildscript {
-  repositories {
-    maven {
-      url "https://plugins.gradle.org/m2/"
-    }
-  }
-  dependencies {
-    classpath "gradle.plugin.com.github.spotbugs:spotbugs-gradle-plugin:1.6.3"
-    classpath "com.commercehub.gradle.plugin:gradle-avro-plugin:0.16.0"
-  }
-}
-
-apply plugin: 'java-library'
-apply plugin: 'maven-publish'
-apply plugin: 'eclipse'
-
-
+// Local Java version setting
 sourceCompatibility = "1.11"
 targetCompatibility = "1.11"
 
-allprojects { 
-	repositories {
-	    jcenter()
-	    maven {
-	        url "https://oss.sonatype.org/content/repositories/snapshots/"
-	    }
-        maven {
-            url 'https://packages.confluent.io/maven/'
-        }
-	}
+// Local repositories
+repositories {
+    maven {
+        url 'https://packages.confluent.io/maven/'
+    }
 }
 
 dependencies {
@@ -45,37 +24,21 @@ dependencies {
     testImplementation 'org.junit.jupiter:junit-jupiter-api:5.3.1'
 }
 
+// Local sources
 sourceSets {
 	main {
 	    java {
 	        srcDir 'src/main/java'
-	        srcDir 'src-gen/main/java'
 	    }
 	}
 }
 
-task sourceJar(type: Jar) {
-    classifier "sources"
-    from sourceSets.main.allJava
-}
-
-task javadocJar(type: Jar, dependsOn: javadoc) {
-    classifier "javadoc"
-    from javadoc.destinationDir
-}
-
-artifacts {
-    archives jar
-    archives sourceJar
-    archives javadocJar
-}
-
+// Local publishing
 publishing {
 	publications {
 	    mavenJava(MavenPublication) {
-	        groupId 'org.industrial-devops'
-	        artifactId 'titan-ccp-common-kafka'
-	        version '0.1.0-SNAPSHOT'
+	    	// Set identity values in gradle.properties
+	        artifactId = "${artifcatId}"
 	
 	        from components.java
 	
@@ -118,9 +81,36 @@ publishing {
 	}
 }
 
-eclipse {
-    classpath {
-       downloadSources=true
-       downloadJavadoc=true
-    }
+// Quality tools configuration
+pmd {
+  ruleSets = [] // Gradle requires to clean the rule sets first
+  ruleSetFiles = files("config/pmd.xml")
+  ignoreFailures = false
+  toolVersion = "6.7.0"
+}
+
+checkstyle {
+  configDir = file("config")
+  configFile = file("config/checkstyle.xml")
+  maxWarnings = 0
+  ignoreFailures = false
+  toolVersion = "8.12"
+}
+
+spotbugs {
+  excludeFilter = file("config/spotbugs-exclude-filter.xml")
+  reportLevel = "low"
+  effort = "max"
+  ignoreFailures = false
+  toolVersion = '3.1.7'
+}
+
+// Per default XML reports for SpotBugs are generated
+// Include this to generate HTML reports
+tasks.withType(com.github.spotbugs.SpotBugsTask) {
+  reports {
+    // Either HTML or XML reports can be activated
+    html.enabled true
+    xml.enabled false
+  }
 }

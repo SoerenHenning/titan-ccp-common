@@ -20,6 +20,7 @@ stages:
   - check
   - deploy
 
+# Build
 build:
   stage: build
   tags:
@@ -27,22 +28,82 @@ build:
   script: ./gradlew --build-cache assemble
   artifacts:
     paths:
-      - target/
+      - build/libs
+      - titanccp-common-cassandra/build/libs
+      - titanccp-common-kafka/build/libs
     expire_in: 1 day
 
+# Tests
 test-except-cassandra:
   stage: test
   tags:
     - dockerex
-  script: "./gradlew test -x titanccp-common-cassandra:test"
+  script: "./gradlew test --continue -x titanccp-common-cassandra:test"
+  artifacts:
+    reports:
+      junit:
+        - build/test-results/test/**/TEST-*.xml
+        - titanccp-common-kafka/build/test-results/test/**/TEST-*.xml
+    when: on_failure
+    expire_in: 1 day
 
+# Own test for cassandra, because it requires java 8
 test-cassandra:
   stage: test
   tags:
     - dockerex
   image: openjdk:8-jdk
   script: "./gradlew titanccp-common-cassandra:test"
+  artifacts:
+    reports:
+      junit: titanccp-common-cassandra/build/test-results/test/**/TEST-*.xml
+    when: on_failure
+    expire_in: 1 day
 
+# Checks
+checkstyle:
+  stage: check
+  tags:
+    - dockerex
+  script: ./gradlew --continue checkstyle
+  allow_failure: true
+  artifacts:
+    paths:
+      - build/reports/checkstyle/main.html
+      - titanccp-common-cassandra/build/reports/checkstyle/main.html
+      - titanccp-common-kafka/build/reports/checkstyle/main.html
+    when: on_failure
+    expire_in: 1 day
+
+pmd:
+  stage: check
+  tags:
+    - dockerex
+  script: ./gradlew --continue pmd
+  allow_failure: true
+  artifacts:
+    paths:
+      - build/reports/pmd/*.html
+      - titanccp-common-cassandra/build/reports/pmd/*.html
+      - titanccp-common-kafka/build/reports/pmd/*.html
+    when: on_failure
+    expire_in: 1 day
+
+spotbugs:
+  stage: check
+  tags:
+    - dockerex
+  script: ./gradlew --continue spotbugs
+  allow_failure: true
+  artifacts:
+    paths:
+      - build/reports/spotbugs/*.html
+      - titanccp-common-cassandra/build/reports/spotbugs/*.html
+      - titanccp-common-kafka/build/reports/spotbugs/*.html
+    when: on_failure
+    expire_in: 1 day
+
+# Deploy
 deploy:
   stage: deploy
   tags:
