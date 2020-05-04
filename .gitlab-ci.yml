@@ -69,7 +69,7 @@ test-kafka:
     expire_in: 1 day
 
 # Checks
-checkstyle:
+.checkstyle:
   stage: check
   tags:
     - dockerex
@@ -82,7 +82,7 @@ checkstyle:
     when: on_failure
     expire_in: 1 day
 
-pmd:
+.pmd:
   stage: check
   tags:
     - dockerex
@@ -95,7 +95,7 @@ pmd:
     when: on_failure
     expire_in: 1 day
 
-spotbugs:
+.spotbugs:
   stage: check
   tags:
     - dockerex
