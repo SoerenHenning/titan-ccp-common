@@ -61,11 +61,12 @@ test-cassandra:
     expire_in: 1 day
 
 # Checks
-.checkstyle:
+checkstyle:
   stage: check
   tags:
     - dockerex
   script: ./gradlew --continue checkstyle
+  allow_failure: true
   artifacts:
     paths:
       - build/reports/checkstyle/main.html
@@ -74,11 +75,12 @@ test-cassandra:
     when: on_failure
     expire_in: 1 day
 
-.pmd:
+pmd:
   stage: check
   tags:
     - dockerex
   script: ./gradlew --continue pmd
+  allow_failure: true
   artifacts:
     paths:
       - build/reports/pmd/*.html
@@ -87,11 +89,12 @@ test-cassandra:
     when: on_failure
     expire_in: 1 day
 
-.spotbugs:
+spotbugs:
   stage: check
   tags:
     - dockerex
   script: ./gradlew --continue spotbugs
+  allow_failure: true
   artifacts:
     paths:
       - build/reports/spotbugs/*.html
