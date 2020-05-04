@@ -30,7 +30,7 @@ allprojects {
 dependencies {
     // These dependencies is exported to consumers, that is to say found on their compile classpath.
     api 'com.datastax.cassandra:cassandra-driver-core:3.4.0'
-    api 'org.apache.avro:avro:1.8.2'
+    api 'org.apache.avro:avro:1.9.1'
 
     // These dependencies are used internally, and not exposed to consumers on their own compile classpath.
     implementation 'com.google.guava:guava:24.1-jre'
@@ -71,7 +71,7 @@ publishing {
 	    mavenJava(MavenPublication) {
 	        groupId 'org.industrial-devops'
 	        artifactId 'titan-ccp-common-cassandra'
-	        version '0.0.1-SNAPSHOT'
+	        version '0.0.2-SNAPSHOT'
 	
 	        from components.java
 	
