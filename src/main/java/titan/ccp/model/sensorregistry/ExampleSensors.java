@@ -5,7 +5,7 @@ import java.util.stream.Collectors;
 
 public final class ExampleSensors {
 
-  private static SensorRegistry REGISTRY;
+  private static final SensorRegistry REGISTRY;
 
   static {
     final MutableSensorRegistry sensorRegistry = new MutableSensorRegistry("root");
@@ -21,6 +21,8 @@ public final class ExampleSensors {
 
     REGISTRY = ImmutableSensorRegistry.copyOf(sensorRegistry);
   }
+
+  private ExampleSensors() {}
 
   public static List<String> machineSensorNames() {
     return REGISTRY.getMachineSensors().stream().map(s -> s.getIdentifier())

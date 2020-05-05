@@ -11,6 +11,8 @@ import org.apache.kafka.common.serialization.Serializer;
 
 public final class EventSerde {
 
+  private EventSerde() {}
+
   public static Serde<Event> serde() {
     return Serdes.serdeFrom(new EventSerializer(), new EventDeserializer());
   }
@@ -25,6 +27,8 @@ public final class EventSerde {
 
   private static class EventSerializer implements Serializer<Event> {
 
+    private static final int INT_SIZE = 4;
+
     private final ByteBufferSerializer byteBufferSerializer = new ByteBufferSerializer();
 
     @Override
@@ -35,7 +39,7 @@ public final class EventSerde {
     @Override
     public byte[] serialize(final String topic, final Event event) {
       return this.byteBufferSerializer.serialize(topic,
-          ByteBuffer.allocate(4).putInt(event.ordinal()));
+          ByteBuffer.allocate(INT_SIZE).putInt(event.ordinal()));
     }
 
     @Override

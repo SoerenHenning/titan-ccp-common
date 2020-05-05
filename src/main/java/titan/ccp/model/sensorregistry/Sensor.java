@@ -4,10 +4,10 @@ import java.util.Optional;
 
 public interface Sensor {
 
-  public Optional<AggregatedSensor> getParent();
+  Optional<AggregatedSensor> getParent();
 
-  public String getIdentifier();
+  String getIdentifier();
 
-  public String getName();
+  String getName();
 
 }

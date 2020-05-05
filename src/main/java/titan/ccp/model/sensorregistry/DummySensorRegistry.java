@@ -31,8 +31,6 @@ public class DummySensorRegistry implements SensorRegistry {
   // TODO move
   private static class EmptyTopLevelSensor implements AggregatedSensor {
 
-    private EmptyTopLevelSensor() {}
-
     @Override
     public Optional<AggregatedSensor> getParent() {
       return Optional.empty();

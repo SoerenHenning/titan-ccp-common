@@ -8,9 +8,9 @@ import java.util.Queue;
 
 public interface AggregatedSensor extends Sensor {
 
-  public Collection<Sensor> getChildren();
+  Collection<Sensor> getChildren();
 
-  public default Collection<MachineSensor> getAllChildren() {
+  default Collection<MachineSensor> getAllChildren() {
     final List<MachineSensor> allChildren = new ArrayList<>();
     final Queue<Sensor> untraversedSensors = new LinkedList<>(this.getChildren());
     while (!untraversedSensors.isEmpty()) {
@@ -30,7 +30,7 @@ public interface AggregatedSensor extends Sensor {
    *
    * @return A collection containing this {@link AggregatedSensor} and all of its children.
    */
-  public default Collection<Sensor> flatten() {
+  default Collection<Sensor> flatten() {
     final List<Sensor> accumulator = new ArrayList<>();
     final Queue<Sensor> untraversedSensors = new LinkedList<>();
     untraversedSensors.add(this);

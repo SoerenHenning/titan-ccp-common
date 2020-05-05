@@ -14,8 +14,8 @@ public final class ServiceConfigurations {
 
   private static final Logger LOGGER = LoggerFactory.getLogger(ServiceConfigurations.class);
 
-  private final static String DEFAULT_PROPERTIES_LOCATION = "META-INF/application.properties";
-  private final static String USER_PROPERTIES_LOCATION = "config/application.properties";
+  private static final String DEFAULT_PROPERTIES_LOCATION = "META-INF/application.properties";
+  private static final String USER_PROPERTIES_LOCATION = "config/application.properties";
 
   private ServiceConfigurations() {}
 
@@ -79,7 +79,7 @@ public final class ServiceConfigurations {
   }
 
   /**
-   * Shortcut for long class name
+   * Shortcut for long class name.
    */
   private static org.apache.commons.configuration2.builder.fluent.Configurations configurations() {
     // TODO Refactor when Configurations class is removed

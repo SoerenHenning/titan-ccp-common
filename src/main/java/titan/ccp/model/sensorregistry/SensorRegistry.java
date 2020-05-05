@@ -5,33 +5,35 @@ import java.util.Optional;
 
 public interface SensorRegistry {
 
-  public Optional<MachineSensor> getSensorForIdentifier(final String identifier);
+  Optional<MachineSensor> getSensorForIdentifier(final String identifier);
 
-  public AggregatedSensor getTopLevelSensor();
+  AggregatedSensor getTopLevelSensor();
 
-  public Collection<MachineSensor> getMachineSensors();
+  Collection<MachineSensor> getMachineSensors();
 
   /**
    * Flattens the hierarchy to a collection of all contained {@link Sensor}s.
    *
    * @return A collection of all {@link Sensor}s contained in the hierarchy.
    */
-  public default Collection<Sensor> flatten() {
+  default Collection<Sensor> flatten() {
     return this.getTopLevelSensor().flatten();
-  };
+  }
 
   /**
    * Converts this sensor registry into a json string.
    *
+   * <p>
    * Per default a copy of this sensor registry is created to ensure that proper (de)serializers
    * exist. If subclasses have appropriate serdes, they should override this method.
+   * </p>
    */
-  public default String toJson() {
+  default String toJson() {
     final ImmutableSensorRegistry immutableSensorRegistry = ImmutableSensorRegistry.copyOf(this);
     return immutableSensorRegistry.toJson();
   }
 
-  public static SensorRegistry fromJson(final String json) {
+  static SensorRegistry fromJson(final String json) {
     return ImmutableSensorRegistry.fromJson(json);
   }
 

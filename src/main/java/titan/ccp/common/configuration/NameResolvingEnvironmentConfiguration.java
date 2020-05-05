@@ -3,11 +3,11 @@ package titan.ccp.common.configuration;
 import java.util.Locale;
 import org.apache.commons.configuration2.EnvironmentConfiguration;
 
+/**
+ * {@link EnvironmentConfiguration} that automatically translates Java property file style variables
+ * ({@code my.variable.name}) to environment style variables ({@code MY__VARIABLE_NAME}).
+ */
 public class NameResolvingEnvironmentConfiguration extends EnvironmentConfiguration {
-
-  public NameResolvingEnvironmentConfiguration() {
-    super();
-  }
 
   @Override
   protected Object getPropertyInternal(final String key) {
@@ -21,7 +21,7 @@ public class NameResolvingEnvironmentConfiguration extends EnvironmentConfigurat
   @Override
   protected boolean containsKeyInternal(final String key) {
     final boolean value = super.containsKeyInternal(key);
-    if (value == false) {
+    if (!value) {
       return super.containsKeyInternal(formatKeyAsEnvVariable(key));
     }
     return value;
