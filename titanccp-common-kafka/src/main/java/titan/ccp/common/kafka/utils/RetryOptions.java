@@ -11,11 +11,9 @@ public class RetryOptions {
   private static final Duration RETRY_DELAY_DEFAULT = Duration.ofSeconds(1);
   private static final Duration KAFKA_TIMEOUT_DEFAULT = Duration.ofSeconds(1);
 
-  private int maxRetries = MAX_RETRIES_DEFAULT;
-  private Duration retryDelay;
-  private Duration kafkaTimeout;
-
-  public RetryOptions() {}
+  private int maxRetries = MAX_RETRIES_DEFAULT; // NOPMD
+  private Duration retryDelay; // NOPMD
+  private Duration kafkaTimeout; // NOPMD
 
   public int maxRetries() {
     return this.maxRetries;
