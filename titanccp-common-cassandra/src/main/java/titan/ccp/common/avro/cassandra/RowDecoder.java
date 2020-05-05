@@ -8,19 +8,22 @@ import org.apache.avro.io.Decoder;
 import org.apache.avro.util.Utf8;
 
 /**
- * Decoder for de-serializing Avro values from a cassandra {@code Row}.
- * The class uses the column order from the target Avro schema and uses the fact
- * that the {@code Row} contains the values with the same name.
- * @author bjoern
+ * Decoder for de-serializing Avro values from a cassandra {@code Row}. The class uses the column
+ * order from the target Avro schema and uses the fact that the {@code Row} contains the values with
+ * the same name.
  *
  */
-public class RowDecoder extends Decoder {
-  
+public class RowDecoder extends Decoder { // NOPMD
+
   private final Row row;
   private int lastIndex = -1;
   private final List<String> columnNames;
-  
-  public RowDecoder(Row row, List<String> columnNames) {
+
+  /**
+   * Create an Avro {@link Decoder} for the given row and columns.
+   */
+  public RowDecoder(final Row row, final List<String> columnNames) {
+    super();
     this.row = row;
     this.columnNames = columnNames;
   }
@@ -32,61 +35,61 @@ public class RowDecoder extends Decoder {
 
   @Override
   public boolean readBoolean() throws IOException {
-    return row.getBool(getCurrentColumnName());
+    return this.row.getBool(this.getCurrentColumnName());
   }
 
   @Override
   public int readInt() throws IOException {
-    return row.getInt(getCurrentColumnName());
+    return this.row.getInt(this.getCurrentColumnName());
   }
 
   @Override
   public long readLong() throws IOException {
-    return row.getLong(getCurrentColumnName());
+    return this.row.getLong(this.getCurrentColumnName());
   }
 
   @Override
   public float readFloat() throws IOException {
-    return row.getFloat(getCurrentColumnName());
+    return this.row.getFloat(this.getCurrentColumnName());
   }
 
   @Override
   public double readDouble() throws IOException {
-    return row.getDouble(getCurrentColumnName());
+    return this.row.getDouble(this.getCurrentColumnName());
   }
 
   @Override
-  public Utf8 readString(Utf8 old) throws IOException {
-    return new Utf8(row.getString(getCurrentColumnName()));
+  public Utf8 readString(final Utf8 old) throws IOException {
+    return new Utf8(this.row.getString(this.getCurrentColumnName()));
   }
 
   @Override
   public String readString() throws IOException {
-    return row.getString(getCurrentColumnName());
+    return this.row.getString(this.getCurrentColumnName());
   }
 
   @Override
   public void skipString() throws IOException {
-    row.getString(getCurrentColumnName());
+    this.row.getString(this.getCurrentColumnName());
   }
 
   @Override
-  public ByteBuffer readBytes(ByteBuffer old) throws IOException {
-    return row.getBytes(getCurrentColumnName());
+  public ByteBuffer readBytes(final ByteBuffer old) throws IOException {
+    return this.row.getBytes(this.getCurrentColumnName());
   }
 
   @Override
   public void skipBytes() throws IOException {
-    row.getBytes(getCurrentColumnName());
+    this.row.getBytes(this.getCurrentColumnName());
   }
 
   @Override
-  public void readFixed(byte[] bytes, int start, int length) throws IOException {
+  public void readFixed(final byte[] bytes, final int start, final int length) throws IOException {
     throw new UnsupportedOperationException("");
   }
 
   @Override
-  public void skipFixed(int length) throws IOException {
+  public void skipFixed(final int length) throws IOException {
     throw new UnsupportedOperationException("");
   }
 
@@ -132,6 +135,6 @@ public class RowDecoder extends Decoder {
 
   private String getCurrentColumnName() {
     this.lastIndex += 1;
-    return this.columnNames.get(lastIndex);
+    return this.columnNames.get(this.lastIndex);
   }
 }
