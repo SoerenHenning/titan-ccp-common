@@ -29,8 +29,7 @@ build:
   artifacts:
     paths:
       - build/libs
-      - titanccp-common-cassandra/build/libs
-      - titanccp-common-kafka/build/libs
+      - "*/build/libs"
     expire_in: 1 day
 
 # Tests
@@ -42,9 +41,8 @@ test-except-cassandra:
   artifacts:
     reports:
       junit:
-        - build/test-results/test/**/TEST-*.xml
-        - titanccp-common-kafka/build/test-results/test/**/TEST-*.xml
-    when: on_failure
+        - "build/test-results/test/TEST-*.xml"
+        - "**/build/test-results/test/TEST-*.xml"
     expire_in: 1 day
 
 # Own test for cassandra, because it requires java 8
@@ -56,8 +54,7 @@ test-cassandra:
   script: "./gradlew titanccp-common-cassandra:test"
   artifacts:
     reports:
-      junit: titanccp-common-cassandra/build/test-results/test/**/TEST-*.xml
-    when: on_failure
+      junit: titanccp-common-cassandra/build/test-results/test/TEST-*.xml
     expire_in: 1 day
 
 # Checks
@@ -70,8 +67,7 @@ checkstyle:
   artifacts:
     paths:
       - build/reports/checkstyle/main.html
-      - titanccp-common-cassandra/build/reports/checkstyle/main.html
-      - titanccp-common-kafka/build/reports/checkstyle/main.html
+      - "*/build/reports/checkstyle/main.html"
     when: on_failure
     expire_in: 1 day
 
@@ -84,8 +80,7 @@ pmd:
   artifacts:
     paths:
       - build/reports/pmd/*.html
-      - titanccp-common-cassandra/build/reports/pmd/*.html
-      - titanccp-common-kafka/build/reports/pmd/*.html
+      - "*/build/reports/pmd/*.html"
     when: on_failure
     expire_in: 1 day
 
@@ -98,8 +93,7 @@ spotbugs:
   artifacts:
     paths:
       - build/reports/spotbugs/*.html
-      - titanccp-common-cassandra/build/reports/spotbugs/*.html
-      - titanccp-common-kafka/build/reports/spotbugs/*.html
+      - "*/build/reports/spotbugs/*.html"
     when: on_failure
     expire_in: 1 day
 
