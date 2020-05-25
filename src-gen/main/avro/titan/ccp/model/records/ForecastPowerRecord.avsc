@@ -11,11 +11,11 @@
     "type" : "long",
     "doc" : "predicted timestamp"
   }, {
-    "name" : "predictionBasedOnTimestamp",
+    "name" : "triggerTimestamp",
     "type" : "long",
     "doc" : "Timestamp of the record on which this prediction is based."
   }, {
-    "name" : "valueInW",
+    "name" : "forecastInW",
     "type" : "double",
     "doc" : "*"
   } ]

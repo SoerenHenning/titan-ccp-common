@@ -14,8 +14,8 @@ import org.apache.avro.message.SchemaStore;
 
 @org.apache.avro.specific.AvroGenerated
 public class ForecastPowerRecord extends org.apache.avro.specific.SpecificRecordBase implements org.apache.avro.specific.SpecificRecord {
-  private static final long serialVersionUID = 2347298079133601210L;
-  public static final org.apache.avro.Schema SCHEMA$ = new org.apache.avro.Schema.Parser().parse("{\"type\":\"record\",\"name\":\"ForecastPowerRecord\",\"namespace\":\"titan.ccp.model.records\",\"fields\":[{\"name\":\"identifier\",\"type\":{\"type\":\"string\",\"avro.java.string\":\"String\"},\"doc\":\"*\"},{\"name\":\"forecastTimestamp\",\"type\":\"long\",\"doc\":\"predicted timestamp\"},{\"name\":\"predictionBasedOnTimestamp\",\"type\":\"long\",\"doc\":\"Timestamp of the record on which this prediction is based.\"},{\"name\":\"valueInW\",\"type\":\"double\",\"doc\":\"*\"}]}");
+  private static final long serialVersionUID = -6098778880823004607L;
+  public static final org.apache.avro.Schema SCHEMA$ = new org.apache.avro.Schema.Parser().parse("{\"type\":\"record\",\"name\":\"ForecastPowerRecord\",\"namespace\":\"titan.ccp.model.records\",\"fields\":[{\"name\":\"identifier\",\"type\":{\"type\":\"string\",\"avro.java.string\":\"String\"},\"doc\":\"*\"},{\"name\":\"forecastTimestamp\",\"type\":\"long\",\"doc\":\"predicted timestamp\"},{\"name\":\"triggerTimestamp\",\"type\":\"long\",\"doc\":\"Timestamp of the record on which this prediction is based.\"},{\"name\":\"forecastInW\",\"type\":\"double\",\"doc\":\"*\"}]}");
   public static org.apache.avro.Schema getClassSchema() { return SCHEMA$; }
 
   private static SpecificData MODEL$ = new SpecificData();
@@ -76,9 +76,9 @@ public class ForecastPowerRecord extends org.apache.avro.specific.SpecificRecord
   /** predicted timestamp */
    private long forecastTimestamp;
   /** Timestamp of the record on which this prediction is based. */
-   private long predictionBasedOnTimestamp;
+   private long triggerTimestamp;
   /** * */
-   private double valueInW;
+   private double forecastInW;
 
   /**
    * Default constructor.  Note that this does not initialize fields
@@ -91,14 +91,14 @@ public class ForecastPowerRecord extends org.apache.avro.specific.SpecificRecord
    * All-args constructor.
    * @param identifier *
    * @param forecastTimestamp predicted timestamp
-   * @param predictionBasedOnTimestamp Timestamp of the record on which this prediction is based.
-   * @param valueInW *
+   * @param triggerTimestamp Timestamp of the record on which this prediction is based.
+   * @param forecastInW *
    */
-  public ForecastPowerRecord(java.lang.String identifier, java.lang.Long forecastTimestamp, java.lang.Long predictionBasedOnTimestamp, java.lang.Double valueInW) {
+  public ForecastPowerRecord(java.lang.String identifier, java.lang.Long forecastTimestamp, java.lang.Long triggerTimestamp, java.lang.Double forecastInW) {
     this.identifier = identifier;
     this.forecastTimestamp = forecastTimestamp;
-    this.predictionBasedOnTimestamp = predictionBasedOnTimestamp;
-    this.valueInW = valueInW;
+    this.triggerTimestamp = triggerTimestamp;
+    this.forecastInW = forecastInW;
   }
 
   public org.apache.avro.specific.SpecificData getSpecificData() { return MODEL$; }
@@ -108,8 +108,8 @@ public class ForecastPowerRecord extends org.apache.avro.specific.SpecificRecord
     switch (field$) {
     case 0: return identifier;
     case 1: return forecastTimestamp;
-    case 2: return predictionBasedOnTimestamp;
-    case 3: return valueInW;
+    case 2: return triggerTimestamp;
+    case 3: return forecastInW;
     default: throw new org.apache.avro.AvroRuntimeException("Bad index");
     }
   }
@@ -120,8 +120,8 @@ public class ForecastPowerRecord extends org.apache.avro.specific.SpecificRecord
     switch (field$) {
     case 0: identifier = (java.lang.String)value$; break;
     case 1: forecastTimestamp = (java.lang.Long)value$; break;
-    case 2: predictionBasedOnTimestamp = (java.lang.Long)value$; break;
-    case 3: valueInW = (java.lang.Double)value$; break;
+    case 2: triggerTimestamp = (java.lang.Long)value$; break;
+    case 3: forecastInW = (java.lang.Double)value$; break;
     default: throw new org.apache.avro.AvroRuntimeException("Bad index");
     }
   }
@@ -147,21 +147,21 @@ public class ForecastPowerRecord extends org.apache.avro.specific.SpecificRecord
 
 
   /**
-   * Gets the value of the 'predictionBasedOnTimestamp' field.
+   * Gets the value of the 'triggerTimestamp' field.
    * @return Timestamp of the record on which this prediction is based.
    */
-  public long getPredictionBasedOnTimestamp() {
-    return predictionBasedOnTimestamp;
+  public long getTriggerTimestamp() {
+    return triggerTimestamp;
   }
 
 
 
   /**
-   * Gets the value of the 'valueInW' field.
+   * Gets the value of the 'forecastInW' field.
    * @return *
    */
-  public double getValueInW() {
-    return valueInW;
+  public double getForecastInW() {
+    return forecastInW;
   }
 
 
@@ -211,9 +211,9 @@ public class ForecastPowerRecord extends org.apache.avro.specific.SpecificRecord
     /** predicted timestamp */
     private long forecastTimestamp;
     /** Timestamp of the record on which this prediction is based. */
-    private long predictionBasedOnTimestamp;
+    private long triggerTimestamp;
     /** * */
-    private double valueInW;
+    private double forecastInW;
 
     /** Creates a new Builder */
     private Builder() {
@@ -234,12 +234,12 @@ public class ForecastPowerRecord extends org.apache.avro.specific.SpecificRecord
         this.forecastTimestamp = data().deepCopy(fields()[1].schema(), other.forecastTimestamp);
         fieldSetFlags()[1] = other.fieldSetFlags()[1];
       }
-      if (isValidValue(fields()[2], other.predictionBasedOnTimestamp)) {
-        this.predictionBasedOnTimestamp = data().deepCopy(fields()[2].schema(), other.predictionBasedOnTimestamp);
+      if (isValidValue(fields()[2], other.triggerTimestamp)) {
+        this.triggerTimestamp = data().deepCopy(fields()[2].schema(), other.triggerTimestamp);
         fieldSetFlags()[2] = other.fieldSetFlags()[2];
       }
-      if (isValidValue(fields()[3], other.valueInW)) {
-        this.valueInW = data().deepCopy(fields()[3].schema(), other.valueInW);
+      if (isValidValue(fields()[3], other.forecastInW)) {
+        this.forecastInW = data().deepCopy(fields()[3].schema(), other.forecastInW);
         fieldSetFlags()[3] = other.fieldSetFlags()[3];
       }
     }
@@ -258,12 +258,12 @@ public class ForecastPowerRecord extends org.apache.avro.specific.SpecificRecord
         this.forecastTimestamp = data().deepCopy(fields()[1].schema(), other.forecastTimestamp);
         fieldSetFlags()[1] = true;
       }
-      if (isValidValue(fields()[2], other.predictionBasedOnTimestamp)) {
-        this.predictionBasedOnTimestamp = data().deepCopy(fields()[2].schema(), other.predictionBasedOnTimestamp);
+      if (isValidValue(fields()[2], other.triggerTimestamp)) {
+        this.triggerTimestamp = data().deepCopy(fields()[2].schema(), other.triggerTimestamp);
         fieldSetFlags()[2] = true;
       }
-      if (isValidValue(fields()[3], other.valueInW)) {
-        this.valueInW = data().deepCopy(fields()[3].schema(), other.valueInW);
+      if (isValidValue(fields()[3], other.forecastInW)) {
+        this.forecastInW = data().deepCopy(fields()[3].schema(), other.forecastInW);
         fieldSetFlags()[3] = true;
       }
     }
@@ -356,87 +356,87 @@ public class ForecastPowerRecord extends org.apache.avro.specific.SpecificRecord
     }
 
     /**
-      * Gets the value of the 'predictionBasedOnTimestamp' field.
+      * Gets the value of the 'triggerTimestamp' field.
       * Timestamp of the record on which this prediction is based.
       * @return The value.
       */
-    public long getPredictionBasedOnTimestamp() {
-      return predictionBasedOnTimestamp;
+    public long getTriggerTimestamp() {
+      return triggerTimestamp;
     }
 
 
     /**
-      * Sets the value of the 'predictionBasedOnTimestamp' field.
+      * Sets the value of the 'triggerTimestamp' field.
       * Timestamp of the record on which this prediction is based.
-      * @param value The value of 'predictionBasedOnTimestamp'.
+      * @param value The value of 'triggerTimestamp'.
       * @return This builder.
       */
-    public titan.ccp.model.records.ForecastPowerRecord.Builder setPredictionBasedOnTimestamp(long value) {
+    public titan.ccp.model.records.ForecastPowerRecord.Builder setTriggerTimestamp(long value) {
       validate(fields()[2], value);
-      this.predictionBasedOnTimestamp = value;
+      this.triggerTimestamp = value;
       fieldSetFlags()[2] = true;
       return this;
     }
 
     /**
-      * Checks whether the 'predictionBasedOnTimestamp' field has been set.
+      * Checks whether the 'triggerTimestamp' field has been set.
       * Timestamp of the record on which this prediction is based.
-      * @return True if the 'predictionBasedOnTimestamp' field has been set, false otherwise.
+      * @return True if the 'triggerTimestamp' field has been set, false otherwise.
       */
-    public boolean hasPredictionBasedOnTimestamp() {
+    public boolean hasTriggerTimestamp() {
       return fieldSetFlags()[2];
     }
 
 
     /**
-      * Clears the value of the 'predictionBasedOnTimestamp' field.
+      * Clears the value of the 'triggerTimestamp' field.
       * Timestamp of the record on which this prediction is based.
       * @return This builder.
       */
-    public titan.ccp.model.records.ForecastPowerRecord.Builder clearPredictionBasedOnTimestamp() {
+    public titan.ccp.model.records.ForecastPowerRecord.Builder clearTriggerTimestamp() {
       fieldSetFlags()[2] = false;
       return this;
     }
 
     /**
-      * Gets the value of the 'valueInW' field.
+      * Gets the value of the 'forecastInW' field.
       * *
       * @return The value.
       */
-    public double getValueInW() {
-      return valueInW;
+    public double getForecastInW() {
+      return forecastInW;
     }
 
 
     /**
-      * Sets the value of the 'valueInW' field.
+      * Sets the value of the 'forecastInW' field.
       * *
-      * @param value The value of 'valueInW'.
+      * @param value The value of 'forecastInW'.
       * @return This builder.
       */
-    public titan.ccp.model.records.ForecastPowerRecord.Builder setValueInW(double value) {
+    public titan.ccp.model.records.ForecastPowerRecord.Builder setForecastInW(double value) {
       validate(fields()[3], value);
-      this.valueInW = value;
+      this.forecastInW = value;
       fieldSetFlags()[3] = true;
       return this;
     }
 
     /**
-      * Checks whether the 'valueInW' field has been set.
+      * Checks whether the 'forecastInW' field has been set.
       * *
-      * @return True if the 'valueInW' field has been set, false otherwise.
+      * @return True if the 'forecastInW' field has been set, false otherwise.
       */
-    public boolean hasValueInW() {
+    public boolean hasForecastInW() {
       return fieldSetFlags()[3];
     }
 
 
     /**
-      * Clears the value of the 'valueInW' field.
+      * Clears the value of the 'forecastInW' field.
       * *
       * @return This builder.
       */
-    public titan.ccp.model.records.ForecastPowerRecord.Builder clearValueInW() {
+    public titan.ccp.model.records.ForecastPowerRecord.Builder clearForecastInW() {
       fieldSetFlags()[3] = false;
       return this;
     }
@@ -448,8 +448,8 @@ public class ForecastPowerRecord extends org.apache.avro.specific.SpecificRecord
         ForecastPowerRecord record = new ForecastPowerRecord();
         record.identifier = fieldSetFlags()[0] ? this.identifier : (java.lang.String) defaultValue(fields()[0]);
         record.forecastTimestamp = fieldSetFlags()[1] ? this.forecastTimestamp : (java.lang.Long) defaultValue(fields()[1]);
-        record.predictionBasedOnTimestamp = fieldSetFlags()[2] ? this.predictionBasedOnTimestamp : (java.lang.Long) defaultValue(fields()[2]);
-        record.valueInW = fieldSetFlags()[3] ? this.valueInW : (java.lang.Double) defaultValue(fields()[3]);
+        record.triggerTimestamp = fieldSetFlags()[2] ? this.triggerTimestamp : (java.lang.Long) defaultValue(fields()[2]);
+        record.forecastInW = fieldSetFlags()[3] ? this.forecastInW : (java.lang.Double) defaultValue(fields()[3]);
         return record;
       } catch (org.apache.avro.AvroMissingFieldException e) {
         throw e;
@@ -486,9 +486,9 @@ public class ForecastPowerRecord extends org.apache.avro.specific.SpecificRecord
 
     out.writeLong(this.forecastTimestamp);
 
-    out.writeLong(this.predictionBasedOnTimestamp);
+    out.writeLong(this.triggerTimestamp);
 
-    out.writeDouble(this.valueInW);
+    out.writeDouble(this.forecastInW);
 
   }
 
@@ -501,9 +501,9 @@ public class ForecastPowerRecord extends org.apache.avro.specific.SpecificRecord
 
       this.forecastTimestamp = in.readLong();
 
-      this.predictionBasedOnTimestamp = in.readLong();
+      this.triggerTimestamp = in.readLong();
 
-      this.valueInW = in.readDouble();
+      this.forecastInW = in.readDouble();
 
     } else {
       for (int i = 0; i < 4; i++) {
@@ -517,11 +517,11 @@ public class ForecastPowerRecord extends org.apache.avro.specific.SpecificRecord
           break;
 
         case 2:
-          this.predictionBasedOnTimestamp = in.readLong();
+          this.triggerTimestamp = in.readLong();
           break;
 
         case 3:
-          this.valueInW = in.readDouble();
+          this.forecastInW = in.readDouble();
           break;
 
         default:
