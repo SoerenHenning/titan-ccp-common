@@ -1,0 +1,22 @@
+{
+  "type" : "record",
+  "name" : "ForecastPowerRecord",
+  "namespace" : "titan.ccp.model.records",
+  "fields" : [ {
+    "name" : "identifier",
+    "type" : "string",
+    "doc" : "*"
+  }, {
+    "name" : "forecastTimestamp",
+    "type" : "long",
+    "doc" : "predicted timestamp"
+  }, {
+    "name" : "triggerTimestamp",
+    "type" : "long",
+    "doc" : "Timestamp of the record on which this prediction is based."
+  }, {
+    "name" : "forecastInW",
+    "type" : "double",
+    "doc" : "*"
+  } ]
+}
