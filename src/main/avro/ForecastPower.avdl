@@ -1,0 +1,25 @@
+@namespace("titan.ccp.model.records")
+protocol ForecastPower {
+
+  record ForecastPowerRecord {
+    /**
+     *
+     */
+    string identifier;
+    /**
+     predicted timestamp
+     */
+    long forecastTimestamp;
+	
+	/**
+     Timestamp of the record on which this prediction is based. 
+     */
+    long predictionBasedOnTimestamp;
+
+    /**
+     *
+     */
+    double valueInW;
+  }
+
+}
