@@ -15,15 +15,6 @@ public class MutableSensorRegistryTest {
   }
 
   @Test
-  public void testEqualsIdentity() {
-    final MutableSensorRegistry sensorRegistry1 = this.getSensorRegistry();
-    final MutableSensorRegistry sensorRegistry2 = sensorRegistry1;
-    assertTrue(sensorRegistry1 == sensorRegistry2);
-    assertTrue(sensorRegistry1.equals(sensorRegistry2));
-    assertTrue(sensorRegistry2.equals(sensorRegistry1));
-  }
-
-  @Test
   public void testEquals() {
     final MutableSensorRegistry sensorRegistry1 = this.getSensorRegistry();
     final MutableSensorRegistry sensorRegistry2 = this.getSensorRegistry();
@@ -48,14 +39,6 @@ public class MutableSensorRegistryTest {
     assertFalse(sensorRegistry1 == sensorRegistry2);
     assertFalse(sensorRegistry1.equals(sensorRegistry2));
     assertFalse(sensorRegistry2.equals(sensorRegistry1));
-  }
-
-  @Test
-  public void testHashCodeIdentity() {
-    final MutableSensorRegistry sensorRegistry1 = this.getSensorRegistry();
-    final MutableSensorRegistry sensorRegistry2 = sensorRegistry1;
-    assertTrue(sensorRegistry1 == sensorRegistry2);
-    assertTrue(sensorRegistry1.hashCode() == sensorRegistry2.hashCode());
   }
 
   @Test

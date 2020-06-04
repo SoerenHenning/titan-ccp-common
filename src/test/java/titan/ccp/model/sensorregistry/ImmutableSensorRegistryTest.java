@@ -7,16 +7,6 @@ import org.junit.Test;
 public class ImmutableSensorRegistryTest {
 
   @Test
-  public void testEqualsIdentity() {
-    final ImmutableSensorRegistry sensorRegistry1 =
-        ImmutableSensorRegistry.copyOf(this.getSensorRegistry());
-    final ImmutableSensorRegistry sensorRegistry2 = sensorRegistry1;
-    assertTrue(sensorRegistry1 == sensorRegistry2);
-    assertTrue(sensorRegistry1.equals(sensorRegistry2));
-    assertTrue(sensorRegistry2.equals(sensorRegistry1));
-  }
-
-  @Test
   public void testEquals() {
     final ImmutableSensorRegistry sensorRegistry1 =
         ImmutableSensorRegistry.copyOf(this.getSensorRegistry());
@@ -47,15 +37,6 @@ public class ImmutableSensorRegistryTest {
     assertFalse(sensorRegistry1 == sensorRegistry2);
     assertFalse(sensorRegistry1.equals(sensorRegistry2));
     assertFalse(sensorRegistry2.equals(sensorRegistry1));
-  }
-
-  @Test
-  public void testHashCodeIdentity() {
-    final ImmutableSensorRegistry sensorRegistry1 =
-        ImmutableSensorRegistry.copyOf(this.getSensorRegistry());
-    final ImmutableSensorRegistry sensorRegistry2 = sensorRegistry1;
-    assertTrue(sensorRegistry1 == sensorRegistry2);
-    assertTrue(sensorRegistry1.hashCode() == sensorRegistry2.hashCode());
   }
 
   @Test
