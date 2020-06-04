@@ -9,6 +9,9 @@ import org.apache.kafka.common.serialization.Serde;
 import org.apache.kafka.common.serialization.Serdes;
 import org.apache.kafka.common.serialization.Serializer;
 
+/**
+ * Provides factory methods for creating Kafka serializers and deserializers for {@link Event}s.
+ */
 public final class EventSerde {
 
   private EventSerde() {}

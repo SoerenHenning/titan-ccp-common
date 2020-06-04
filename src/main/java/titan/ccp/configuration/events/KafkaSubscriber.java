@@ -36,7 +36,7 @@ public class KafkaSubscriber {
 
   private final Map<Event, List<Consumer<String>>> subscriptions = new EnumMap<>(Event.class);
 
-  private volatile boolean terminationRequested = false;
+  private volatile boolean terminationRequested; // false until set
   private final CompletableFuture<Void> terminationRequestResult = new CompletableFuture<>();
 
   public KafkaSubscriber(final String bootstrapServers, final String groupId,

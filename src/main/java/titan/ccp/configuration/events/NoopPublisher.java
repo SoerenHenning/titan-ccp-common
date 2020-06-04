@@ -1,5 +1,8 @@
 package titan.ccp.configuration.events;
 
+/**
+ * {@link EventPublisher} that does nothing.
+ */
 public class NoopPublisher implements EventPublisher {
 
   @Override

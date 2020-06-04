@@ -1,9 +1,12 @@
 package titan.ccp.configuration.events;
 
+/**
+ * Interface representing something that can publish Events.
+ */
 public interface EventPublisher {
 
-  public void publish(final Event event, final String value);
+  void publish(final Event event, final String value);
 
-  public void close();
+  void close();
 
 }
