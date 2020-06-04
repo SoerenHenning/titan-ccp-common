@@ -12,6 +12,9 @@ import titan.ccp.model.sensorregistry.serialization.AggregatedSensorSerializer;
 import titan.ccp.model.sensorregistry.serialization.MachineSensorSerializer;
 import titan.ccp.model.sensorregistry.serialization.SensorRegistrySerializer;
 
+/**
+ * A {@link SensorRegistry} to which sensors can be added.
+ */
 public class MutableSensorRegistry implements SensorRegistry {
 
   private static final Gson GSON = new GsonBuilder()

@@ -4,6 +4,12 @@ import java.util.Collection;
 import java.util.Optional;
 
 // TODO need to handle synchronization?
+/**
+ * {@link SensorRegistry} redirecting all calls to another {@link SensorRegistry}.
+ *
+ * @deprecated Will no longer be supported.
+ */
+@Deprecated
 public class ProxySensorRegistry implements SensorRegistry {
 
   private SensorRegistry backingSensorRegisty;

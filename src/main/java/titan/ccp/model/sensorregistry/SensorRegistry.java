@@ -3,6 +3,11 @@ package titan.ccp.model.sensorregistry;
 import java.util.Collection;
 import java.util.Optional;
 
+/**
+ * Hierarchical data structure (i.e. a tree) for organizing sensors. A {@link SensorRegistry} has
+ * one top-level sensor which can have multiple child sensors. These sensors can either be real
+ * {@link MachineSensor}s or {@link AggregatedSensor}s, having child sensors.
+ */
 public interface SensorRegistry {
 
   Optional<MachineSensor> getSensorForIdentifier(final String identifier);
