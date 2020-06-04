@@ -8,11 +8,15 @@ import com.google.gson.JsonObject;
 import com.google.gson.JsonParseException;
 import com.google.gson.JsonPrimitive;
 import java.lang.reflect.Type;
+import titan.ccp.model.sensorregistry.AggregatedSensor;
 import titan.ccp.model.sensorregistry.ImmutableSensorRegistry;
 import titan.ccp.model.sensorregistry.MutableAggregatedSensor;
 import titan.ccp.model.sensorregistry.MutableSensorRegistry;
 import titan.ccp.model.sensorregistry.SensorRegistry;
 
+/**
+ * {@link JsonDeserializer} for {@link AggregatedSensor}s.
+ */
 public final class SensorRegistryDeserializer implements JsonDeserializer<SensorRegistry> {
 
   private static final String IDENTIFIER_KEY = "identifier";
@@ -94,8 +98,7 @@ public final class SensorRegistryDeserializer implements JsonDeserializer<Sensor
     if (parentJsonObject.has(CHILDREN_KEY)) {
       final JsonElement childrenJsonElement = parentJsonObject.get(CHILDREN_KEY);
       if (childrenJsonElement.isJsonArray()) {
-        final JsonArray childrenJsonArray = childrenJsonElement.getAsJsonArray();
-        return childrenJsonArray;
+        return childrenJsonElement.getAsJsonArray();
       }
     }
     return null;
@@ -103,11 +106,12 @@ public final class SensorRegistryDeserializer implements JsonDeserializer<Sensor
   }
 
   private static class SensorParseResult {
-    public final String identifier;
-    public final String name;
-    public final JsonArray children;
+    private final String identifier;
+    private final String name;
+    private final JsonArray children;
 
-    public SensorParseResult(final String identifier, final String name, final JsonArray children) {
+    private SensorParseResult(final String identifier, final String name,
+        final JsonArray children) {
       this.identifier = identifier;
       this.children = children;
       this.name = name;

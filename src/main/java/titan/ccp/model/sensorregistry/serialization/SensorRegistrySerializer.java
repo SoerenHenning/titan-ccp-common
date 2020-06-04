@@ -6,6 +6,9 @@ import com.google.gson.JsonSerializer;
 import java.lang.reflect.Type;
 import titan.ccp.model.sensorregistry.SensorRegistry;
 
+/**
+ * {@link JsonSerializer} for {@link SensorRegistry}s.
+ */
 public final class SensorRegistrySerializer implements JsonSerializer<SensorRegistry> {
 
   @Override

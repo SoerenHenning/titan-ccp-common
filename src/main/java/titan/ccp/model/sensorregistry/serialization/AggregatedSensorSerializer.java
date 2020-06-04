@@ -7,6 +7,9 @@ import com.google.gson.JsonSerializer;
 import java.lang.reflect.Type;
 import titan.ccp.model.sensorregistry.AggregatedSensor;
 
+/**
+ * {@link JsonSerializer} for {@link AggregatedSensor}s.
+ */
 public final class AggregatedSensorSerializer implements JsonSerializer<AggregatedSensor> {
 
   @Override
