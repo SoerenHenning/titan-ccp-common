@@ -43,7 +43,7 @@ test-except-cassandra:
       junit:
         - "build/test-results/test/TEST-*.xml"
         - "**/build/test-results/test/TEST-*.xml"
-    expire_in: 1 day
+    expire_in: 28 day
 
 # Own test for cassandra, because it requires java 8
 test-cassandra:
@@ -55,7 +55,7 @@ test-cassandra:
   artifacts:
     reports:
       junit: titanccp-common-cassandra/build/test-results/test/TEST-*.xml
-    expire_in: 1 day
+    expire_in: 28 days
 
 # Checks
 checkstyle:
@@ -69,7 +69,7 @@ checkstyle:
       - build/reports/checkstyle/main.html
       - "*/build/reports/checkstyle/main.html"
     when: on_failure
-    expire_in: 1 day
+    expire_in: 28 days
 
 pmd:
   stage: check
@@ -82,7 +82,7 @@ pmd:
       - build/reports/pmd/*.html
       - "*/build/reports/pmd/*.html"
     when: on_failure
-    expire_in: 1 day
+    expire_in: 28 days
 
 spotbugs:
   stage: check
@@ -95,7 +95,7 @@ spotbugs:
       - build/reports/spotbugs/*.html
       - "*/build/reports/spotbugs/*.html"
     when: on_failure
-    expire_in: 1 day
+    expire_in: 28 days
 
 # Deploy
 deploy:
