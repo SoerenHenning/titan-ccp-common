@@ -7,17 +7,27 @@ import java.util.stream.IntStream;
 import org.apache.avro.specific.SpecificRecord;
 import titan.ccp.common.cassandra.DataAdapter;
 
+/**
+ * A {@link DataAdapter} for Avro {@link SpecificRecord}s.
+ */
 public class AvroDataAdapter implements DataAdapter<SpecificRecord> {
 
   @Override
   public List<String> getFieldNames(final SpecificRecord record) {
-    return record.getSchema().getFields().stream().map(f -> f.name()).collect(Collectors.toList());
+    return record
+        .getSchema()
+        .getFields()
+        .stream()
+        .map(f -> f.name())
+        .collect(Collectors.toList());
   }
 
   @Override
   public List<Class<?>> getFieldTypes(final SpecificRecord record) {
     final int numberOfFields = record.getSchema().getFields().size();
-    return IntStream.range(0, numberOfFields).mapToObj(i -> record.get(i).getClass())
+    return IntStream
+        .range(0, numberOfFields)
+        .mapToObj(i -> record.get(i).getClass())
         .collect(Collectors.toList());
   }
 

@@ -2,14 +2,17 @@ package titan.ccp.common.cassandra;
 
 import java.util.function.Function;
 
+/**
+ * Some functions mapping arbitrary objects to a table name.
+ */
 public enum PredefinedTableNameMappers implements Function<Object, String> {
-  CLASS_NAME(t -> t.getClass().getName()), SIMPLE_CLASS_NAME(
-      t -> t.getClass().getSimpleName()), CANONICAL_CLASS_NAME(
-          t -> t.getClass().getCanonicalName());
+  CLASS_NAME(t -> t.getClass().getName()), // source formatting
+  SIMPLE_CLASS_NAME(t -> t.getClass().getSimpleName()), // source formatting
+  CANONICAL_CLASS_NAME(t -> t.getClass().getCanonicalName());
 
   private final Function<Object, String> mapper;
 
-  private PredefinedTableNameMappers(final Function<Object, String> mapper) {
+  PredefinedTableNameMappers(final Function<Object, String> mapper) {
     this.mapper = mapper;
 
   }

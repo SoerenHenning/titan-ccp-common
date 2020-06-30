@@ -2,9 +2,18 @@ package titan.ccp.common.cassandra;
 
 import com.datastax.driver.core.DataType;
 
+/**
+ * Utility class providing a method for mapping a Java {@link Class} object to a Cassandra
+ * {@link DataType}.
+ */
 public final class JavaTypeMapper {
 
-  public static DataType map(final Class<?> type) {
+  private JavaTypeMapper() {}
+
+  /**
+   * Map a Java {@link Class} object to a Cassandra {@link DataType}.
+   */
+  public static DataType map(final Class<?> type) { // NOCS // NOPMD
     if (type == boolean.class) {
       return DataType.cboolean();
     } else if (type == Boolean.class) {

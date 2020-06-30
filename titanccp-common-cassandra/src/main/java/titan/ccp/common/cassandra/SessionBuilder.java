@@ -14,14 +14,17 @@ import org.slf4j.LoggerFactory;
 
 public class SessionBuilder {
 
+  private static final String CASSANDRA_DEFAULT_HOST = "localhost";
+  private static final int CASSANDRA_DEFAULT_PORT = 9160;
   private static final long WAITING_SLEEP_MILLIS = 1_000;
+  private static final int DEFAULT_TIMEOUT = 30_000;
 
   private static final Logger LOGGER = LoggerFactory.getLogger(SessionBuilder.class);
 
-  private String contactPoint = "localhost";
-  private int port = 9160;
-  private String keyspace = null;
-  private int timeoutInMillis = 30_000;
+  private String contactPoint = CASSANDRA_DEFAULT_HOST;
+  private int port = CASSANDRA_DEFAULT_PORT;
+  private String keyspace; // null per default
+  private int timeoutInMillis = DEFAULT_TIMEOUT;
 
   public SessionBuilder() {}
 

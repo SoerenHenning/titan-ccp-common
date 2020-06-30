@@ -2,12 +2,18 @@ package titan.ccp.common.cassandra;
 
 import java.util.List;
 
+/**
+ * Adapter interface providing methods for making a record type writable by a
+ * {@link CassandraWriter}.
+ *
+ * @param <T> Type of record to be written
+ */
 public interface DataAdapter<T> {
 
-  public List<String> getFieldNames(T record);
+  List<String> getFieldNames(T record);
 
-  public List<Class<?>> getFieldTypes(T record);
+  List<Class<?>> getFieldTypes(T record);
 
-  public List<Object> getValues(T record);
+  List<Object> getValues(T record);
 
 }

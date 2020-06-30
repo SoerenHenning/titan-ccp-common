@@ -20,6 +20,12 @@ import java.util.stream.Collectors;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+/**
+ * Writes records to a Cassandra table. Determining the respective table as well as possibly
+ * required creation of the table is handled by this class.
+ *
+ * @param <T> Type of records to be written to Cassandra.
+ */
 public class CassandraWriter<T> {
 
   private static final Logger LOGGER = LoggerFactory.getLogger(CassandraWriter.class);
@@ -36,9 +42,15 @@ public class CassandraWriter<T> {
 
   private final Set<String> existingTables = new HashSet<>();
 
-  public CassandraWriter(final Session session, final DataAdapter<T> dataAdapter,
+  /**
+   * Create a {@link CassandraWriter} using the passed parameters. Using the
+   * {@link CassandraWriter#builder(Session, DataAdapter)} method is preferred.
+   */
+  public CassandraWriter(final Session session,
+      final DataAdapter<T> dataAdapter,
       final Function<? super T, String> tableNameMapper,
-      final PrimaryKeySelectionStrategy primaryKeySelectionStrategy, final boolean executeAsync) {
+      final PrimaryKeySelectionStrategy primaryKeySelectionStrategy,
+      final boolean executeAsync) {
     this.session = session;
     this.dataAdapter = dataAdapter;
     this.tableNameMapper = tableNameMapper;
@@ -46,6 +58,9 @@ public class CassandraWriter<T> {
     this.executeAsync = executeAsync;
   }
 
+  /**
+   * Write a record to Cassandra. Creates the corresponding table if not exists.
+   */
   public void write(final T record) {
     final String tableName = this.tableNameMapper.apply(record);
 
@@ -147,6 +162,11 @@ public class CassandraWriter<T> {
     return new Builder<>(session, dataAdapter);
   }
 
+  /**
+   * Builder class for a {@link CassandraWriter}.
+   *
+   * @param <T> Type parameter of the {@link CassandraWriter} to be created.
+   */
   public static class Builder<T> {
 
     private final Session session;
@@ -158,7 +178,7 @@ public class CassandraWriter<T> {
     private PrimaryKeySelectionStrategy primaryKeySelectionStrategy =
         new TakeLoggingTimestampStrategy();
 
-    private boolean executeAsync = false;
+    private boolean executeAsync; // false per default
 
     public Builder(final Session session, final DataAdapter<T> dataAdapter) {
       this.session = session;
@@ -189,10 +209,10 @@ public class CassandraWriter<T> {
 
   private static final class RecordField {
 
-    public final String name;
-    public final Class<?> type;
+    private final String name;
+    private final Class<?> type;
 
-    public RecordField(final String name, final Class<?> type) {
+    private RecordField(final String name, final Class<?> type) {
       this.name = name;
       this.type = type;
     }
