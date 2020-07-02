@@ -21,7 +21,10 @@ import org.slf4j.LoggerFactory;
  * Implementation is currently not thread-safe. Once the {@code run()} method is called, further
  * calls to {@code subscribe()} will result in errors.
  *
+ * @deprecated No replacement is planned
+ *
  */
+@Deprecated
 public class KafkaSubscriber {
 
   private static final Duration DEFAULT_POLL_TIMEOUT = Duration.ofSeconds(5);
@@ -44,14 +47,14 @@ public class KafkaSubscriber {
     this(bootstrapServers, groupId, topicName, DEFAULT_POLL_TIMEOUT);
   }
 
+  /**
+   * Create a {@link KafkaSubscriber} using the given parameters.
+   */
   public KafkaSubscriber(final String bootstrapServers, final String groupId,
       final String topicName, final Duration pollTimeout) {
     final Properties properties = new Properties();
     properties.put("bootstrap.servers", bootstrapServers);
     properties.put("group.id", groupId);
-    // properties.put("enable.auto.commit", this.enableAutoCommit);
-    // properties.put("auto.commit.interval.ms", this.autoCommitIntervalMs);
-    // properties.put("session.timeout.ms", this.sessionTimeoutMs);
 
     this.consumer =
         new KafkaConsumer<>(properties, EventSerde.deserializer(), new StringDeserializer());
@@ -59,6 +62,9 @@ public class KafkaSubscriber {
     this.pollTimeout = pollTimeout;
   }
 
+  /**
+   * Start this subscriber in a new thread.
+   */
   public void run() {
     new Thread(() -> {
       this.consumer.subscribe(Arrays.asList(this.topicName));
@@ -80,7 +86,7 @@ public class KafkaSubscriber {
   }
 
   public void subscribe(final Event event, final Consumer<String> action) {
-    this.subscriptions.computeIfAbsent(event, x -> new ArrayList<>(4)).add(action);
+    this.subscriptions.computeIfAbsent(event, x -> new ArrayList<>(4)).add(action); // NOCS
   }
 
   public CompletableFuture<Void> requestTermination() {

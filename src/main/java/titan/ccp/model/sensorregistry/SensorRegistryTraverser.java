@@ -1,5 +1,9 @@
 package titan.ccp.model.sensorregistry;
 
+/**
+ * Class for traversing a {@link SensorRegistry}. That is, it executes a given function for each
+ * Sensor.
+ */
 public class SensorRegistryTraverser {
 
   public void traverseAggregated(final SensorRegistry registry,

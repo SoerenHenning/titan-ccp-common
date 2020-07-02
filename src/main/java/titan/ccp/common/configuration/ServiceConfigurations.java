@@ -10,6 +10,9 @@ import org.apache.commons.configuration2.ex.ConfigurationException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+/**
+ * Helper class for creating {@link Configuration}s.
+ */
 public final class ServiceConfigurations {
 
   private static final Logger LOGGER = LoggerFactory.getLogger(ServiceConfigurations.class);
@@ -31,6 +34,9 @@ public final class ServiceConfigurations {
     return new Builder();
   }
 
+  /**
+   * Builder class for a {@link Configuration} for a microservice.
+   */
   public static class Builder {
 
     private final CompositeConfiguration configuration = new CompositeConfiguration();
@@ -42,6 +48,9 @@ public final class ServiceConfigurations {
       return this;
     }
 
+    /**
+     * Add a properties file from the user's file system to the {@link Configuration}.
+     */
     public Builder withUserConfigurationFile(final String userPropertiesLocation) {
       final Path path = Paths.get(userPropertiesLocation);
       LOGGER.info("Looking for user configuration at {}", userPropertiesLocation);
@@ -59,6 +68,9 @@ public final class ServiceConfigurations {
       return this;
     }
 
+    /**
+     * Add a properties file from the class path to the {@link Configuration}.
+     */
     public Builder withDefaultConfigurationFile(final String defaultPropertiesLocation) {
       if (resourceExists(defaultPropertiesLocation)) {
         try {
