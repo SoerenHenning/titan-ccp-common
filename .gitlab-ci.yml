@@ -45,6 +45,7 @@ deploy:
   only:
     refs:
       - master
+      - v0.0
     variables:
       - $OSSRH_JIRA_PASSWORD
       - $OSSRH_JIRA_USERNAME
