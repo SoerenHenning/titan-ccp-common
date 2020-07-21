@@ -97,7 +97,6 @@ spotbugs:
     when: on_failure
     expire_in: 28 days
 
-# Deploy
 deploy:
   stage: deploy
   tags:
@@ -106,6 +105,7 @@ deploy:
   only:
     refs:
       - master
+      - v0.0
     variables:
       - $OSSRH_JIRA_PASSWORD
       - $OSSRH_JIRA_USERNAME
