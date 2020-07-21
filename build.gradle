@@ -30,7 +30,7 @@ allprojects {
 
 dependencies {
     // These dependencies is exported to consumers, that is to say found on their compile classpath.
-    api 'net.kieker-monitoring:kieker:1.14-SNAPSHOT'
+    api 'net.kieker-monitoring:kieker:1.14'
     api 'org.apache.kafka:kafka-streams:2.4.0'
     api 'com.datastax.cassandra:cassandra-driver-core:3.4.0'
     api 'org.apache.avro:avro:1.9.1'
