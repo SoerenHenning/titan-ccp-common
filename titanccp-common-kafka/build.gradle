@@ -15,8 +15,8 @@ apply plugin: 'maven-publish'
 apply plugin: 'eclipse'
 
 
-sourceCompatibility = "1.11"
-targetCompatibility = "1.11"
+sourceCompatibility = "1.8"
+targetCompatibility = "1.8"
 
 allprojects { 
 	repositories {
