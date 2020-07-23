@@ -45,7 +45,7 @@ public class TopicsExistsWaiter {
 
   private CompletableFuture<Void> retry(final Throwable throwable, final int retry) {
     if (retry >= this.retryOptions.maxRetries()) {
-      return CompletableFuture.failedFuture(throwable);
+      return CompletableFutures.failedFuture(throwable);
     }
     return CompletableFuture
         .supplyAsync(
@@ -70,7 +70,7 @@ public class TopicsExistsWaiter {
   }
 
   private Executor buildExecutor() {
-    return CompletableFuture.delayedExecutor(
+    return CompletableFutures.delayedExecutor(
         this.retryOptions.retryDelay().toMillis(),
         TimeUnit.MILLISECONDS);
   }
