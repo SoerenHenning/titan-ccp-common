@@ -1,0 +1,22 @@
+{
+  "type" : "record",
+  "name" : "AnomalyPowerRecord",
+  "namespace" : "titan.ccp.model.records",
+  "fields" : [ {
+    "name" : "identifier",
+    "type" : "string",
+    "doc" : "*"
+  }, {
+    "name" : "timestamp",
+    "type" : "long",
+    "doc" : "*"
+  }, {
+    "name" : "valueInW",
+    "type" : "double",
+    "doc" : "*"
+  }, {
+    "name" : "anomalyScore",
+    "type" : "double",
+    "doc" : "*"
+  } ]
+}

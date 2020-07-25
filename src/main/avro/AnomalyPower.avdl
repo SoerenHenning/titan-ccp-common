@@ -1,0 +1,23 @@
+@namespace("titan.ccp.model.records")
+protocol AnomalyPower {
+
+  record AnomalyPowerRecord {
+    /**
+     *
+     */
+    string identifier;
+    /**
+     *
+     */
+    long timestamp;
+    /**
+     * 
+     */
+    double valueInW;
+    /**
+     *
+     */
+    double anomalyScore;
+  }
+
+}
