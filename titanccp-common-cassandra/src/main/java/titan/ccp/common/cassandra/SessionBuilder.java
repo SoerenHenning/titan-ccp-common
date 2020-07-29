@@ -57,7 +57,8 @@ public class SessionBuilder {
   public ClusterSession build() {
     final Instant start = Instant.now();
     if (this.keyspace == null) {
-      LOGGER.info("Try to connect to Cassandra on '{}:{}' without keyspace.");
+      LOGGER.info("Try to connect to Cassandra on '{}:{}' without keyspace.", this.contactPoint,
+          this.port);
     } else {
       LOGGER.info("Try to connect to Cassandra on '{}:{}' with keyspace '{}'.", this.contactPoint,
           this.port, this.keyspace);
