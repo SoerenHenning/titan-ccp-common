@@ -47,7 +47,7 @@ public class TopicsExistsWaiter {
         // mimic missing exceptionallyAsync() from JDK 12
         .thenApply(CompletableFuture::completedFuture)
         .exceptionally(t -> {
-          LOGGER.info("Topics '{}' do not exists.", this.topics, t); // NOCS
+          LOGGER.info("Topics '{}' do not exists.", this.topics, t); // NOCS // NPMD
           return this.retry(t, 0);
         })
         .thenCompose(Function.identity());
@@ -65,7 +65,7 @@ public class TopicsExistsWaiter {
         // mimic missing exceptionallyAsync() from JDK 12
         .thenApply(CompletableFuture::completedFuture)
         .exceptionally(t -> {
-          LOGGER.info("Topics '{}' do not exists.", this.topics, t); // NOCS
+          LOGGER.info("Topics '{}' do not exists.", this.topics, t); // NOCS // NPMD
           t.addSuppressed(throwable);
           return this.retry(t, retry + 1);
         })
