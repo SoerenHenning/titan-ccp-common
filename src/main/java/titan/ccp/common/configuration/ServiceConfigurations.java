@@ -22,6 +22,16 @@ public final class ServiceConfigurations {
 
   private ServiceConfigurations() {}
 
+  /**
+   * Create a {@link Configuration} as it typically used by microservices. More precisely, this
+   * means when trying to access value with a particular key, this configuration first looks for
+   * this key in the current environment variables, then in a properties file located in
+   * {@code config/application.properties}, and finally for a properties file in the classpath at
+   * {@code META-INF/application.properties}.
+   *
+   * @see NameResolvingEnvironmentConfiguration for details regarding the environemnt variable
+   *      lookup.
+   */
   public static Configuration createWithDefaults() {
     return builder()
         .withEnvironmentVariables()

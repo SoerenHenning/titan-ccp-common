@@ -12,6 +12,9 @@ import java.time.Instant;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+/**
+ * Builder for creating a Cassandra {@link Session}.
+ */
 public class SessionBuilder {
 
   private static final String CASSANDRA_DEFAULT_HOST = "localhost";
@@ -21,12 +24,10 @@ public class SessionBuilder {
 
   private static final Logger LOGGER = LoggerFactory.getLogger(SessionBuilder.class);
 
-  private String contactPoint = CASSANDRA_DEFAULT_HOST;
-  private int port = CASSANDRA_DEFAULT_PORT;
-  private String keyspace; // null per default
-  private int timeoutInMillis = DEFAULT_TIMEOUT;
-
-  public SessionBuilder() {}
+  private String contactPoint = CASSANDRA_DEFAULT_HOST; // NOPMD
+  private int port = CASSANDRA_DEFAULT_PORT;// NOPMD
+  private String keyspace; // null per default//NOPMD
+  private int timeoutInMillis = DEFAULT_TIMEOUT;// NOPMD
 
   public SessionBuilder contactPoint(final String contactPoint) {
     this.contactPoint = contactPoint;
@@ -48,6 +49,11 @@ public class SessionBuilder {
     return this;
   }
 
+  /**
+   * Creates a Cassandra {@link Session} from the configuration of this {@link SessionBuilder}.
+   *
+   * @return The created Cassandra session wrapped in a {@link ClusterSession}.
+   */
   public ClusterSession build() {
     final Instant start = Instant.now();
     if (this.keyspace == null) {
@@ -117,6 +123,10 @@ public class SessionBuilder {
     }
   }
 
+  /**
+   * Wrapping class for a Cassandra {@link Cluster} and {@link Session} since the {@link Session} is
+   * not enough in some cases.
+   */
   public static class ClusterSession {
 
     private final Cluster cluster;

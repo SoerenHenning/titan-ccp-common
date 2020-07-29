@@ -5,6 +5,9 @@ import java.util.Collection;
 import java.util.List;
 import java.util.Objects;
 
+/**
+ * A {@link MutableAggregatedSensor} which can child sensors be added to.
+ */
 public class MutableAggregatedSensor extends AbstractSensor implements AggregatedSensor {
 
   private final List<Sensor> children = new ArrayList<>();
@@ -27,10 +30,16 @@ public class MutableAggregatedSensor extends AbstractSensor implements Aggregate
     return this.children;
   }
 
+  /**
+   * Create a new {@link MutableAggregatedSensor} as child of this sensor.
+   */
   public MutableAggregatedSensor addChildAggregatedSensor(final String identifier) {
     return this.addChildAggregatedSensor(identifier, "");
   }
 
+  /**
+   * Create a new {@link MutableAggregatedSensor} as child of this sensor.
+   */
   public MutableAggregatedSensor addChildAggregatedSensor(final String identifier,
       final String name) {
     final MutableAggregatedSensor aggregatedSensor =
@@ -39,10 +48,16 @@ public class MutableAggregatedSensor extends AbstractSensor implements Aggregate
     return aggregatedSensor;
   }
 
+  /**
+   * Create a new {@link MachineSensor} as child of this sensor.
+   */
   public MachineSensor addChildMachineSensor(final String identifier) {
     return this.addChildMachineSensor(identifier, "");
   }
 
+  /**
+   * Create a new {@link MachineSensor} as child of this sensor.
+   */
   public MachineSensor addChildMachineSensor(final String identifier, final String name) {
     final MachineSensorImpl machineSensor = new MachineSensorImpl(this, identifier, name);
     final boolean registerResult = this.sensorRegistry.register(machineSensor);

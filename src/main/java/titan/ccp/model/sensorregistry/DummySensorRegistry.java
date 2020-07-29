@@ -6,7 +6,15 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.Optional;
 
+/**
+ * A {@link SensorRegistry} containing no real sensors. Will be removed with next release.
+ *
+ * @deprecated Create a corresponding {@link SensorRegistry} manually if required.
+ */
+@Deprecated
 public class DummySensorRegistry implements SensorRegistry {
+
+  private static final AggregatedSensor EMPTY_TOP_LEVEL_SENSOR = new EmptyTopLevelSensor();
 
   private final Map<String, DummyMachineSensor> dummySensors = new HashMap<>();
 
@@ -25,8 +33,6 @@ public class DummySensorRegistry implements SensorRegistry {
   public Collection<MachineSensor> getMachineSensors() {
     return Collections.emptyList();
   }
-
-  private static final AggregatedSensor EMPTY_TOP_LEVEL_SENSOR = new EmptyTopLevelSensor();
 
   // TODO move
   private static class EmptyTopLevelSensor implements AggregatedSensor {

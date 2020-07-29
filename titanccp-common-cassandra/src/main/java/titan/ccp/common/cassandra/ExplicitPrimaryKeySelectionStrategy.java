@@ -6,6 +6,10 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+/**
+ * {@link PrimaryKeySelectionStrategy} that requires explicit registration of partition keys and
+ * clustering columns.
+ */
 public class ExplicitPrimaryKeySelectionStrategy implements PrimaryKeySelectionStrategy {
 
   private final Map<String, List<String>> partitionKeys = new HashMap<>();

@@ -173,9 +173,10 @@ public class CassandraWriter<T> {
 
     private final DataAdapter<T> dataAdapter;
 
-    private Function<? super T, String> tableNameMapper = PredefinedTableNameMappers.CLASS_NAME;
+    private Function<? super T, String> tableNameMapper = // NOPMD
+        PredefinedTableNameMappers.CLASS_NAME;
 
-    private PrimaryKeySelectionStrategy primaryKeySelectionStrategy =
+    private PrimaryKeySelectionStrategy primaryKeySelectionStrategy = // NOPMD
         new TakeLoggingTimestampStrategy();
 
     private boolean executeAsync; // false per default

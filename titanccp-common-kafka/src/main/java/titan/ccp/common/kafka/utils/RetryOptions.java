@@ -15,15 +15,24 @@ public class RetryOptions {
   private Duration retryDelay; // NOPMD
   private Duration kafkaTimeout; // NOPMD
 
+  /**
+   * Returns the number of maximal retries.
+   */
   public int maxRetries() {
     return this.maxRetries;
   }
 
+  /**
+   * Sets the duration between retrying actions.
+   */
   public RetryOptions maxRetries(final int maxRetries) {
     this.maxRetries = maxRetries;
     return this;
   }
 
+  /**
+   * Returns the duration between retrying actions.
+   */
   public Duration retryDelay() {
     if (this.retryDelay == null) {
       return RETRY_DELAY_DEFAULT;
@@ -36,6 +45,9 @@ public class RetryOptions {
     return this;
   }
 
+  /**
+   * Returns the timeout for calls to Kafka.
+   */
   public Duration kafkaTimeout() {
     if (this.kafkaTimeout == null) {
       return KAFKA_TIMEOUT_DEFAULT;
@@ -43,6 +55,9 @@ public class RetryOptions {
     return this.kafkaTimeout;
   }
 
+  /**
+   * Sets the timeout for calls to Kafka.
+   */
   public RetryOptions kafkaTimeout(final Duration kafkaTimeout) {
     this.kafkaTimeout = kafkaTimeout;
     return this;

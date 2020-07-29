@@ -4,6 +4,10 @@ import com.google.common.collect.ImmutableList;
 import java.util.Collections;
 import java.util.List;
 
+/**
+ * {@link PrimaryKeySelectionStrategy} that used a column {@code loggingTimestamp} as partition key
+ * and has no clustering columns.
+ */
 public class TakeLoggingTimestampStrategy implements PrimaryKeySelectionStrategy {
 
   private static final String LOGGING_TIMESTAMP_COLUMN = "loggingTimestamp";

@@ -15,6 +15,9 @@ import org.slf4j.LoggerFactory;
 import titan.ccp.common.kafka.utils.KafkaFutures;
 import titan.ccp.common.kafka.utils.RetryOptions;
 
+/**
+ * Allows to wait for a Kafka topic to exist.
+ */
 public class TopicsExistsWaiter {
 
   private static final Logger LOGGER = LoggerFactory.getLogger(TopicsExistsWaiter.class);
@@ -23,6 +26,9 @@ public class TopicsExistsWaiter {
   private final Collection<String> topics;
   private final RetryOptions retryOptions;
 
+  /**
+   * Create a {@link TopicsExistsWaiter} based on the given parameters.
+   */
   public TopicsExistsWaiter(
       final Admin kafkaAdmin,
       final Collection<String> topics,
@@ -32,12 +38,16 @@ public class TopicsExistsWaiter {
     this.retryOptions = retryOptions;
   }
 
+  /**
+   * Returns a void {@link CompletableFuture} which completes when all provided topics exist and
+   * fails exceptionally if the provided topics do not exist after a fixed amount of retries.
+   */
   public CompletableFuture<Void> awaitTopics() {
     return this.doCheck()
         // mimic missing exceptionallyAsync() from JDK 12
         .thenApply(CompletableFuture::completedFuture)
         .exceptionally(t -> {
-          LOGGER.info("Topics '{}' do not exists.", this.topics, t);
+          LOGGER.info("Topics '{}' do not exists.", this.topics, t); // NOCS
           return this.retry(t, 0);
         })
         .thenCompose(Function.identity());
@@ -55,7 +65,7 @@ public class TopicsExistsWaiter {
         // mimic missing exceptionallyAsync() from JDK 12
         .thenApply(CompletableFuture::completedFuture)
         .exceptionally(t -> {
-          LOGGER.info("Topics '{}' do not exists.", this.topics, t);
+          LOGGER.info("Topics '{}' do not exists.", this.topics, t); // NOCS
           t.addSuppressed(throwable);
           return this.retry(t, retry + 1);
         })
