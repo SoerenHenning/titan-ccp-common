@@ -63,7 +63,6 @@ checkstyle:
   tags:
     - dockerex
   script: ./gradlew --continue checkstyle
-  allow_failure: true
   artifacts:
     paths:
       - build/reports/checkstyle/main.html
@@ -76,7 +75,6 @@ pmd:
   tags:
     - dockerex
   script: ./gradlew --continue pmd
-  allow_failure: true
   artifacts:
     paths:
       - build/reports/pmd/*.html
@@ -89,7 +87,6 @@ spotbugs:
   tags:
     - dockerex
   script: ./gradlew --continue spotbugs
-  allow_failure: true
   artifacts:
     paths:
       - build/reports/spotbugs/*.html
