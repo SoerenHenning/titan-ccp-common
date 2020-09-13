@@ -38,6 +38,8 @@ public class CassandraWriter<T> {
 
   private final PrimaryKeySelectionStrategy primaryKeySelectionStrategy;
 
+  private final Optional<Integer> ttl;
+
   private final boolean executeAsync;
 
   private final Set<String> existingTables = new HashSet<>();
@@ -50,11 +52,13 @@ public class CassandraWriter<T> {
       final DataAdapter<T> dataAdapter,
       final Function<? super T, String> tableNameMapper,
       final PrimaryKeySelectionStrategy primaryKeySelectionStrategy,
+      final Optional<Integer> ttl,
       final boolean executeAsync) {
     this.session = session;
     this.dataAdapter = dataAdapter;
     this.tableNameMapper = tableNameMapper;
     this.primaryKeySelectionStrategy = primaryKeySelectionStrategy;
+    this.ttl = ttl;
     this.executeAsync = executeAsync;
   }
 
@@ -120,9 +124,14 @@ public class CassandraWriter<T> {
     final List<String> fieldNames = this.dataAdapter.getFieldNames(record);
     final List<Object> values = this.dataAdapter.getValues(record);
 
-    final Insert insertStatement = QueryBuilder.insertInto(table).values(fieldNames, values);
+    final Insert insertStatement =
+        QueryBuilder.insertInto(table).values(fieldNames, values);
 
-    this.executeStatement(insertStatement);
+    if (this.ttl.isPresent()) {
+      this.executeStatement(insertStatement.using(QueryBuilder.ttl(this.ttl.get())));
+    } else {
+      this.executeStatement(insertStatement);
+    }
   }
 
   /**
@@ -179,6 +188,8 @@ public class CassandraWriter<T> {
     private PrimaryKeySelectionStrategy primaryKeySelectionStrategy = // NOPMD
         new TakeLoggingTimestampStrategy();
 
+    private Optional<Integer> ttl = Optional.empty(); // NOPMD
+
     private boolean executeAsync; // false per default
 
     public Builder(final Session session, final DataAdapter<T> dataAdapter) {
@@ -196,6 +207,19 @@ public class CassandraWriter<T> {
       return this;
     }
 
+    /**
+     * Takes a TTL that should be added to the cassandra records.
+     *
+     * @param ttl The ttl in seconds of a cassandra record.
+     * @return
+     */
+    public Builder<T> ttl(final int ttl) {
+      if (ttl > 0) {
+        this.ttl = Optional.of(ttl);
+      }
+      return this;
+    }
+
     public Builder<T> async() {
       this.executeAsync = true;
       return this;
@@ -203,7 +227,7 @@ public class CassandraWriter<T> {
 
     public CassandraWriter<T> build() {
       return new CassandraWriter<>(this.session, this.dataAdapter, this.tableNameMapper,
-          this.primaryKeySelectionStrategy, this.executeAsync);
+          this.primaryKeySelectionStrategy, this.ttl, this.executeAsync);
     }
 
   }
