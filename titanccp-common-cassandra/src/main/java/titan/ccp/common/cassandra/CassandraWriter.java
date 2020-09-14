@@ -4,11 +4,13 @@ import com.datastax.driver.core.Session;
 import com.datastax.driver.core.Statement;
 import com.datastax.driver.core.exceptions.NoHostAvailableException;
 import com.datastax.driver.core.exceptions.QueryExecutionException;
+import com.datastax.driver.core.querybuilder.BuiltStatement;
 import com.datastax.driver.core.querybuilder.Insert;
 import com.datastax.driver.core.querybuilder.QueryBuilder;
 import com.datastax.driver.core.schemabuilder.Create;
 import com.datastax.driver.core.schemabuilder.SchemaBuilder;
 import com.google.common.collect.Streams;
+import java.time.Duration;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
@@ -38,7 +40,7 @@ public class CassandraWriter<T> {
 
   private final PrimaryKeySelectionStrategy primaryKeySelectionStrategy;
 
-  private final Optional<Integer> ttl;
+  private final Duration ttl;
 
   private final boolean executeAsync;
 
@@ -52,7 +54,7 @@ public class CassandraWriter<T> {
       final DataAdapter<T> dataAdapter,
       final Function<? super T, String> tableNameMapper,
       final PrimaryKeySelectionStrategy primaryKeySelectionStrategy,
-      final Optional<Integer> ttl,
+      final Duration ttl,
       final boolean executeAsync) {
     this.session = session;
     this.dataAdapter = dataAdapter;
@@ -127,11 +129,14 @@ public class CassandraWriter<T> {
     final Insert insertStatement =
         QueryBuilder.insertInto(table).values(fieldNames, values);
 
-    if (this.ttl.isPresent()) {
-      this.executeStatement(insertStatement.using(QueryBuilder.ttl(this.ttl.get())));
-    } else {
-      this.executeStatement(insertStatement);
+    BuiltStatement stm = insertStatement;
+
+    if (this.ttl != null) {
+      final int sec = (int) this.ttl.getSeconds();
+      stm = insertStatement.using(QueryBuilder.ttl(sec));
     }
+
+    this.executeStatement(stm);
   }
 
   /**
@@ -188,7 +193,7 @@ public class CassandraWriter<T> {
     private PrimaryKeySelectionStrategy primaryKeySelectionStrategy = // NOPMD
         new TakeLoggingTimestampStrategy();
 
-    private Optional<Integer> ttl = Optional.empty(); // NOPMD
+    private Duration ttl; // NOPMD
 
     private boolean executeAsync; // false per default
 
@@ -213,10 +218,9 @@ public class CassandraWriter<T> {
      * @param ttl The ttl in seconds of a cassandra record.
      * @return
      */
-    public Builder<T> ttl(final int ttl) {
-      if (ttl > 0) {
-        this.ttl = Optional.of(ttl);
-      }
+    public Builder<T> ttl(final Duration ttl) {
+      this.ttl = ttl;
+
       return this;
     }
 
