@@ -4,7 +4,6 @@ import com.datastax.driver.core.Session;
 import com.datastax.driver.core.Statement;
 import com.datastax.driver.core.exceptions.NoHostAvailableException;
 import com.datastax.driver.core.exceptions.QueryExecutionException;
-import com.datastax.driver.core.querybuilder.BuiltStatement;
 import com.datastax.driver.core.querybuilder.Insert;
 import com.datastax.driver.core.querybuilder.QueryBuilder;
 import com.datastax.driver.core.schemabuilder.Create;
@@ -129,7 +128,7 @@ public class CassandraWriter<T> {
     final Insert insertStatement =
         QueryBuilder.insertInto(table).values(fieldNames, values);
 
-    BuiltStatement stm = insertStatement;
+    Statement stm = insertStatement; // NOPMD
 
     if (this.ttl != null) {
       final int sec = (int) this.ttl.getSeconds();
