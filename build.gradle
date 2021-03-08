@@ -89,7 +89,7 @@ allprojects {
 // Local avro creation
 avro {
     fieldVisibility = "PRIVATE"
-    createSetters = false
+    createSetters = true
 }
 
 task("generateAvroProtocol", type: com.commercehub.gradle.plugin.avro.GenerateAvroProtocolTask) {
