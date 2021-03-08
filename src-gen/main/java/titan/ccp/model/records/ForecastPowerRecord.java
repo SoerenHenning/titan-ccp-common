@@ -135,6 +135,14 @@ public class ForecastPowerRecord extends org.apache.avro.specific.SpecificRecord
   }
 
 
+  /**
+   * Sets the value of the 'identifier' field.
+   * *
+   * @param value the value to set.
+   */
+  public void setIdentifier(java.lang.String value) {
+    this.identifier = value;
+  }
 
   /**
    * Gets the value of the 'forecastTimestamp' field.
@@ -145,6 +153,14 @@ public class ForecastPowerRecord extends org.apache.avro.specific.SpecificRecord
   }
 
 
+  /**
+   * Sets the value of the 'forecastTimestamp' field.
+   * predicted timestamp
+   * @param value the value to set.
+   */
+  public void setForecastTimestamp(long value) {
+    this.forecastTimestamp = value;
+  }
 
   /**
    * Gets the value of the 'triggerTimestamp' field.
@@ -155,6 +171,14 @@ public class ForecastPowerRecord extends org.apache.avro.specific.SpecificRecord
   }
 
 
+  /**
+   * Sets the value of the 'triggerTimestamp' field.
+   * Timestamp of the record on which this prediction is based.
+   * @param value the value to set.
+   */
+  public void setTriggerTimestamp(long value) {
+    this.triggerTimestamp = value;
+  }
 
   /**
    * Gets the value of the 'forecastInW' field.
@@ -165,6 +189,14 @@ public class ForecastPowerRecord extends org.apache.avro.specific.SpecificRecord
   }
 
 
+  /**
+   * Sets the value of the 'forecastInW' field.
+   * *
+   * @param value the value to set.
+   */
+  public void setForecastInW(double value) {
+    this.forecastInW = value;
+  }
 
   /**
    * Creates a new ForecastPowerRecord RecordBuilder.

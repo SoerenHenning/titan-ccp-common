@@ -151,6 +151,13 @@ public class WindowedActivePowerRecord extends org.apache.avro.specific.Specific
   }
 
 
+  /**
+   * Sets the value of the 'identifier' field.
+   * @param value the value to set.
+   */
+  public void setIdentifier(java.lang.String value) {
+    this.identifier = value;
+  }
 
   /**
    * Gets the value of the 'startTimestamp' field.
@@ -161,6 +168,13 @@ public class WindowedActivePowerRecord extends org.apache.avro.specific.Specific
   }
 
 
+  /**
+   * Sets the value of the 'startTimestamp' field.
+   * @param value the value to set.
+   */
+  public void setStartTimestamp(long value) {
+    this.startTimestamp = value;
+  }
 
   /**
    * Gets the value of the 'endTimestamp' field.
@@ -171,6 +185,13 @@ public class WindowedActivePowerRecord extends org.apache.avro.specific.Specific
   }
 
 
+  /**
+   * Sets the value of the 'endTimestamp' field.
+   * @param value the value to set.
+   */
+  public void setEndTimestamp(long value) {
+    this.endTimestamp = value;
+  }
 
   /**
    * Gets the value of the 'count' field.
@@ -181,6 +202,13 @@ public class WindowedActivePowerRecord extends org.apache.avro.specific.Specific
   }
 
 
+  /**
+   * Sets the value of the 'count' field.
+   * @param value the value to set.
+   */
+  public void setCount(long value) {
+    this.count = value;
+  }
 
   /**
    * Gets the value of the 'mean' field.
@@ -191,6 +219,13 @@ public class WindowedActivePowerRecord extends org.apache.avro.specific.Specific
   }
 
 
+  /**
+   * Sets the value of the 'mean' field.
+   * @param value the value to set.
+   */
+  public void setMean(double value) {
+    this.mean = value;
+  }
 
   /**
    * Gets the value of the 'populationVariance' field.
@@ -201,6 +236,13 @@ public class WindowedActivePowerRecord extends org.apache.avro.specific.Specific
   }
 
 
+  /**
+   * Sets the value of the 'populationVariance' field.
+   * @param value the value to set.
+   */
+  public void setPopulationVariance(double value) {
+    this.populationVariance = value;
+  }
 
   /**
    * Gets the value of the 'min' field.
@@ -211,6 +253,13 @@ public class WindowedActivePowerRecord extends org.apache.avro.specific.Specific
   }
 
 
+  /**
+   * Sets the value of the 'min' field.
+   * @param value the value to set.
+   */
+  public void setMin(double value) {
+    this.min = value;
+  }
 
   /**
    * Gets the value of the 'max' field.
@@ -221,6 +270,13 @@ public class WindowedActivePowerRecord extends org.apache.avro.specific.Specific
   }
 
 
+  /**
+   * Sets the value of the 'max' field.
+   * @param value the value to set.
+   */
+  public void setMax(double value) {
+    this.max = value;
+  }
 
   /**
    * Creates a new WindowedActivePowerRecord RecordBuilder.

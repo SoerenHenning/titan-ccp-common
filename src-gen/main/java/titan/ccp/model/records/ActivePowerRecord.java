@@ -129,6 +129,14 @@ public class ActivePowerRecord extends org.apache.avro.specific.SpecificRecordBa
   }
 
 
+  /**
+   * Sets the value of the 'identifier' field.
+   * *
+   * @param value the value to set.
+   */
+  public void setIdentifier(java.lang.String value) {
+    this.identifier = value;
+  }
 
   /**
    * Gets the value of the 'timestamp' field.
@@ -139,6 +147,14 @@ public class ActivePowerRecord extends org.apache.avro.specific.SpecificRecordBa
   }
 
 
+  /**
+   * Sets the value of the 'timestamp' field.
+   * *
+   * @param value the value to set.
+   */
+  public void setTimestamp(long value) {
+    this.timestamp = value;
+  }
 
   /**
    * Gets the value of the 'valueInW' field.
@@ -149,6 +165,14 @@ public class ActivePowerRecord extends org.apache.avro.specific.SpecificRecordBa
   }
 
 
+  /**
+   * Sets the value of the 'valueInW' field.
+   * *
+   * @param value the value to set.
+   */
+  public void setValueInW(double value) {
+    this.valueInW = value;
+  }
 
   /**
    * Creates a new ActivePowerRecord RecordBuilder.

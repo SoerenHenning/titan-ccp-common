@@ -135,6 +135,14 @@ public class AnomalyPowerRecord extends org.apache.avro.specific.SpecificRecordB
   }
 
 
+  /**
+   * Sets the value of the 'identifier' field.
+   * *
+   * @param value the value to set.
+   */
+  public void setIdentifier(java.lang.String value) {
+    this.identifier = value;
+  }
 
   /**
    * Gets the value of the 'timestamp' field.
@@ -145,6 +153,14 @@ public class AnomalyPowerRecord extends org.apache.avro.specific.SpecificRecordB
   }
 
 
+  /**
+   * Sets the value of the 'timestamp' field.
+   * *
+   * @param value the value to set.
+   */
+  public void setTimestamp(long value) {
+    this.timestamp = value;
+  }
 
   /**
    * Gets the value of the 'valueInW' field.
@@ -155,6 +171,14 @@ public class AnomalyPowerRecord extends org.apache.avro.specific.SpecificRecordB
   }
 
 
+  /**
+   * Sets the value of the 'valueInW' field.
+   * *
+   * @param value the value to set.
+   */
+  public void setValueInW(double value) {
+    this.valueInW = value;
+  }
 
   /**
    * Gets the value of the 'anomalyScore' field.
@@ -165,6 +189,14 @@ public class AnomalyPowerRecord extends org.apache.avro.specific.SpecificRecordB
   }
 
 
+  /**
+   * Sets the value of the 'anomalyScore' field.
+   * *
+   * @param value the value to set.
+   */
+  public void setAnomalyScore(double value) {
+    this.anomalyScore = value;
+  }
 
   /**
    * Creates a new AnomalyPowerRecord RecordBuilder.
