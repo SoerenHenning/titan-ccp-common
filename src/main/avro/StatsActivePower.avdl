@@ -37,5 +37,29 @@ protocol StatsActivePower {
     double min;
     double max;
   }
+  
+  record MonthOfYearActivePowerRecord {
+    string identifier;
+    int monthOfYear;
+    long periodStart;
+    long periodEnd;
+    long count;
+    double mean;
+    double populationVariance;
+    double min;
+    double max;
+  }
+
+  record YearActivePowerRecord {
+    string identifier;
+    int year;
+    long periodStart;
+    long periodEnd;
+    long count;
+    double mean;
+    double populationVariance;
+    double min;
+    double max;
+  }
 
 }
